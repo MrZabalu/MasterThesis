@@ -1,0 +1,229 @@
+%============================ MAIN DOCUMENT ================================
+% define document class
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[
+  a4paper,
+  BCOR=15mm,            % Binding correction
+  twoside,
+% openright,
+%  headings=openright,
+  bibliography=totoc,   % If enabled add bibliography to TOC
+  listof=totoc,         % If enabled add lists to TOC
+  monolingual,
+% bilingual,
+  invert-title,
+]{bfhthesis}
+
+\usepackage[
+top=25mm,
+bottom=25mm,
+footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
+]{geometry}
+
+
+\LoadBFHModule{listings,terminal,boxes}
+%---------------------------------------------------------------------------
+% Documents paths
+%---------------------------------------------------------------------------
+\makeatletter
+\def\input@path{{content/}}
+%or: \def\input@path{{/path/to/folder/}{/path/to/other/folder/}}
+\makeatother
+%-----------------  Base packages     --------------------------------------
+% Include Packages
+\usepackage[french,ngerman,main=english]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
+%% To disable the french list setting you can add -- see https://gitlab.ti.bfh.ch/bfh-latex/bfh-ci/-/issues/166
+%\frenchsetup{StandardLists=true}
+
+\usepackage{amsmath}          % various features to facilitate writing math formulas
+\usepackage{amsthm}           % enhanced version of latex's newtheorem
+\usepackage{amsfonts}         % set of miscellaneous TeX fonts that augment the standard CM
+\usepackage{amssymb}          % mathematical special characters
+
+\usepackage{siunitx}
+
+\usepackage{graphicx}         % integration of images
+\usepackage{float}            % floating objects
+
+\usepackage{caption}          % for captions of figures and tables
+\usepackage{subcaption}       % for subcaptions in subfigures
+\usepackage{cite}             % use bibtex
+\usepackage{wrapfig}
+
+\usepackage{exscale}          % mathematical size corresponds to textsize
+\usepackage{multirow}         % multirow emables combining rows in tables
+\usepackage{multicol}
+\usepackage{makecell}
+
+\usepackage{longtable}
+
+\usepackage{parskip}
+
+\usepackage{tabularx}
+
+%---------------------------------------------------------------------------
+% Graphics paths
+%---------------------------------------------------------------------------
+\graphicspath{{pictures/}{figures/}}
+%---------------------------------------------------------------------------
+% Blind text -> for dummy text
+%---------------------------------------------------------------------------
+\usepackage{blindtext}    
+\usepackage{letltxmacro}   
+\LetLtxMacro{\blindtextblindtext}{\blindtext}
+
+\RenewDocumentCommand{\blindtext}{O{\value{blindtext}}}{
+	\begingroup\color{BFH-Gray}\blindtextblindtext[#1]\endgroup
+}
+%---------------------------------------------------------------------------
+% Glossary Package
+%---------------------------------------------------------------------------
+% the glossaries package uses makeindex
+% if you use TeXnicCenter do the following steps:
+%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
+%  - Select the profile "LaTeX => PDF"
+%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
+%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
+%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
+%
+% for futher informations go to http://ewus.de/tipp-1029.html
+%---------------------------------------------------------------------------
+\usepackage[nonumberlist]{glossaries-extra}
+\makeglossaries
+\input{content/glossary}
+%---------------------------------------------------------------------------
+% Makeindex Package
+%---------------------------------------------------------------------------
+\usepackage{makeidx}
+\makeindex
+%\usepackage{imakeidx}          % To produce index
+%\makeindex[columns=2,intoc]    % Index-Initialisation
+%\makeindex[columns=3,columnseprule,columnsep,intoc]
+%---------------------------------------------------------------------------
+% Hyperref Package (Create links in a pdf)
+%---------------------------------------------------------------------------
+\usepackage[
+	,bookmarks
+	,plainpages=false
+	,pdfpagelabels
+    ,pdfusetitle
+	,backref = {false}          % No index backreference
+	,colorlinks = {true}        % Color links in a PDF
+	,hypertexnames = {true}     % no failures "same page(i)"
+	,bookmarksopen = {true}     % opens the bar on the left side
+	,bookmarksopenlevel = {0}   % depth of opened bookmarks
+	,linkcolor=.
+	,filecolor=.
+	,urlcolor=.
+	,citecolor=.
+]{hyperref}
+%---------------------------------------------------------------------------
+
+%% %% Customize Footer and Headers in Document
+%% \KOMAoptions{headsepline,plainheadsepline,footsepline,plainfootsepline}%
+%% \setkomafont{headsepline}{\color{BFH-DarkBlue}}% BFH-DarkBlue required bfhcolors
+%% \setkomafont{footsepline}{\color{BFH-DarkBlue}}%
+%% \lehead*{lehead} % the * character does replace the header on the first chapter page as well
+%% \cehead*{cehead}
+%% \rehead*{rehead}
+%% \lohead*{lohead}
+%% \cohead*{cohead}
+%% \rohead*{rohead}
+
+%% \lefoot*{lefoot}
+%% \cefoot*{cefoot}
+%% \refoot*{refoot}
+%% \lofoot*{lofoot}
+%% \cofoot*{cofoot}
+%% \rofoot*{rofoot}
+%---------------------------------------------------------------------------
+\begin{document}
+
+%% Snippet do redefine German babel translations -- see FAQ latex.ti.bfh.ch for further information or
+%% the package documentation https://www.ctan.org/pkg/translations
+%% \redefinetranslation{German}{Advisor}{Dozentin}
+%% \redefinetranslation{German}{advisor}{Dozentin} %  just for consistency
+%% \redefinetranslation{German}{Author}{Autorin}
+%% \redefinetranslation{German}{author}{Autorin} %  just for consistency
+%% \redefinetranslation{German}{Co-advisor}{Mitbetreuerin}
+%% \redefinetranslation{German}{co-advisor}{Mitbetreuerin} %  just for consistency
+%% \redefinetranslation{German}{Expert}{Expertin}
+%% \redefinetranslation{German}{expert}{Expertin} %  just for consistency
+%% \redefinetranslation{German}{Project partner}{Projektpartnerin}
+%% \redefinetranslation{German}{project partner}{Projektpartnerin} %  just for consistency
+
+%------------ START FRONT PART ------------
+\frontmatter
+
+\title{MSE-Master-Thesis}
+\subtitle{Skillbasierter Robotereinsatz für Industrieaufgaben}
+\author{Spatz Yannick}
+\institution{Bern University of Applied Sciences}
+\department{Technik und Informatik}
+\institute{Automation und Mechatronik}
+\version{1.0}
+\titlegraphic*{\includegraphics{somePicture}}
+\advisor{Prof. Borer Melchiort}
+\expert{Prof. Dr. Norman Urs Baier}
+\degreeprogram{Master of Science in Engineering}
+\setupSignature{
+	A. Muster={\includegraphics[width=.5\linewidth]{sig_muster}},
+	C. Example={\includegraphics[width=.5\linewidth]{sig_example}}
+}
+
+
+%----------------  BFH tile page   -----------------------------------------
+\maketitle
+%------------ ABSTRACT        ----------------
+\addchap{Abstract}
+\input{content/abstract}
+
+%------------ TABLEOFCONTENTS ----------------
+\tableofcontents
+
+%------------ START MAIN PART ------------
+\mainmatter
+
+\chapter{Rahmen der Arbeit} \label{Rahmen der Arbeit}
+\input{content/01_Rahmen_der_Arbeit/Rahmen der Arbeit}
+
+\chapter{Einarbeitung in Thematik} \label{Einarbeitung in Thematik}
+\input{content/02_Einfuehrung_in_Thematik/Analyse}
+\input{content/02_Einfuehrung_in_Thematik/System- und Kontextgrenzen des Projektes}
+\input{content/02_Einfuehrung_in_Thematik/Projektanforderungen}
+
+\chapter{Vorgehen} \label{Vorgehen}
+\input{content/03_Vorgehen_fuer_die_Thesis/Arbeitspakete}
+\input{content/03_Vorgehen_fuer_die_Thesis/GatePlan}
+
+\chapter{Referenzseite für Latex-Funktionen} 
+\input{content/expl_fragments}
+
+%------------ Authorship declaration translated to main language ------------
+\declarationOfAuthorship
+
+%----------- Bibliography ----------------
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{project}      % the project.bib file gets loaded
+
+%------------ List of Figures ------------
+\listoffigures
+ 
+%------------ List of Tables -------------
+\listoftables
+ 
+%------------ List of Listings -----------
+\lstlistoflistings 
+ 
+%------------ Glossary -------------------
+\printglossary
+
+%------------ Index ----------------------
+\clearpage
+\printindex
+%------------ Appendix ----------------	
+\appendix
+\chapter{First Appendix Chapter}
+
+\end{document}

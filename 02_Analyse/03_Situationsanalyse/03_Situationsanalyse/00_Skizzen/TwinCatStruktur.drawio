@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.14">
+  <diagram name="Seite-1" id="8da9_LP2FkJ1vjHLOa3G">
+    <mxGraphModel dx="1434" dy="772" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-18" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="404" y="155" width="220" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-17" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7EA6E0;" parent="1" vertex="1">
+          <mxGeometry x="150" y="155" width="220" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QR7zllLOtHKoW_Iz4l9W-2" target="QR7zllLOtHKoW_Iz4l9W-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-2" value="Rezept (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#7EA6E0;fillColor=#A9C4EB;" parent="1" vertex="1">
+          <mxGeometry x="160" y="170" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QR7zllLOtHKoW_Iz4l9W-3" target="QR7zllLOtHKoW_Iz4l9W-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-3" value="Operation (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#7EA6E0;fillColor=#A9C4EB;" parent="1" vertex="1">
+          <mxGeometry x="160" y="230" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=none;startFill=0;dashed=1;" parent="1" source="QR7zllLOtHKoW_Iz4l9W-4" target="QR7zllLOtHKoW_Iz4l9W-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-4" value="Funktion (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#7EA6E0;fillColor=#A9C4EB;" parent="1" vertex="1">
+          <mxGeometry x="160" y="290" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-5" value="&lt;b&gt;Anlage (CFC)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="414" y="290" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-6" value="&lt;i&gt;Instanziierte Feldgeräte&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="414" y="320" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-7" value="&lt;b&gt;Objektklasse (ST)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="414" y="200" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QR7zllLOtHKoW_Iz4l9W-8" target="QR7zllLOtHKoW_Iz4l9W-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-8" value="&lt;i&gt;Objektorientierter Aufbau&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="414" y="230" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-19" value="Prozessmodell" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;align=left;fontColor=#7EA6E0;" parent="1" vertex="1">
+          <mxGeometry x="150" y="125" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QR7zllLOtHKoW_Iz4l9W-20" value="Anlagenmodell" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;align=left;fontColor=#FFB570;" parent="1" vertex="1">
+          <mxGeometry x="404" y="125" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="404" y="450" width="220" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="150" y="450" width="220" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yUDjupn9Os7isPtN_a9M-4" target="yUDjupn9Os7isPtN_a9M-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-4" value="Arbeitsplan (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="160" y="465" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yUDjupn9Os7isPtN_a9M-6" target="yUDjupn9Os7isPtN_a9M-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-6" value="Sequenz (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="160" y="525" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=none;startFill=0;dashed=1;" edge="1" parent="1" source="yUDjupn9Os7isPtN_a9M-8" target="yUDjupn9Os7isPtN_a9M-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-8" value="Skill (AS)" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="160" y="585" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-9" value="&lt;b&gt;Anlage (CFC)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="414" y="585" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-10" value="&lt;i&gt;Instanziierte Feldgeräte&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="414" y="615" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-11" value="&lt;b&gt;Objektklasse (ST)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="414" y="495" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yUDjupn9Os7isPtN_a9M-13" target="yUDjupn9Os7isPtN_a9M-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-13" value="&lt;i&gt;Objektorientierter Aufbau&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCE9F;strokeColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="414" y="525" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-14" value="Prozessmodell" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;align=left;fontColor=#EA6B66;" vertex="1" parent="1">
+          <mxGeometry x="150" y="420" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yUDjupn9Os7isPtN_a9M-15" value="Anlagenmodell" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;align=left;fontColor=#FFB570;" vertex="1" parent="1">
+          <mxGeometry x="404" y="420" width="220" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
