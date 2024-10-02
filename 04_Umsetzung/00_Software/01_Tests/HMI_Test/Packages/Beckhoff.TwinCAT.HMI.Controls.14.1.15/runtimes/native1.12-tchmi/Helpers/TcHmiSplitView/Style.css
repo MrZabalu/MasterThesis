@@ -1,0 +1,6 @@
+tchmi-split-view {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: auto 1fr;
+}
