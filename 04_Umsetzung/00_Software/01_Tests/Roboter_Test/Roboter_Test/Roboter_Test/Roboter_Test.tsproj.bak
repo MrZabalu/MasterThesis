@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.10">
+	<Project ProjectGUID="{2B0D1B6D-C4B7-4417-AF27-EB6DECE48AB8}" Target64Bit="true" ShowHideConfigurations="#x6">
+		<System>
+			<Settings MaxCpus="20" NonWinCpus="1">
+				<Cpu CpuId="19"/>
+			</Settings>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{785AD561-48C7-4E72-A861-BA1BF106BBBF}" Name="UR5_Test" PrjFilePath="UR5_Test\UR5_Test.plcproj" TmcFilePath="UR5_Test\UR5_Test.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1F34C860-65B3-B9E7-9AF1-4C1677BED538}" TmcPath="UR5_Test\UR5_Test.tmc">
+					<Name>UR5_Test Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io>
+			<Device Id="1" DevType="109" DevFlags="#x0004">
+				<Name>Gerät 1 (RT-Ethernet Adapter)</Name>
+				<AddressInfo>
+					<Pnp>
+						<DeviceDesc>Ethernet 5 (Realtek USB GbE Family Controller #2)</DeviceDesc>
+						<DeviceName>\DEVICE\{B435C36D-45F2-409A-9BA4-6BC72DBFA662}</DeviceName>
+						<DeviceData>144fd7c71f38</DeviceData>
+					</Pnp>
+				</AddressInfo>
+				<Ethernet DeviceDesc="Ethernet 5 (Realtek USB GbE Family Controller #2)" Ports="1" VLanIds="0a0014001e00280032003c00460050005a0064006e00780082008c009600a000aa00b400be00c800d200dc00e600f000fa0004010e01180122012c01360140014a0154015e01680172017c01860190019a01a401ae01b801c201cc01d601e001ea01f401fe01080212021c02260230023a0244024e02580262026c0276028002">
+					<Esl SyncSlaveProtocolPort="-1"/>
+				</Ethernet>
+			</Device>
+		</Io>
+	</Project>
+</TcSmProject>

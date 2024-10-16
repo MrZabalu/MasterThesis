@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{a2ce5618-7741-4802-b2db-ef7c09f8393d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	remotePort		:UDINT := 30003;
+	remoteHost		:T_IPv4Addr := '192.168.50.100';
+	
+	data 		:T_MaxString := 'get_actual_joint_positions()'; 
+	
+END_VAR
+
+VAR_INPUT
+	socket				:T_HSOCKET;
+	hListener_OUT 		:T_HSOCKET;
+	hListener_IN 		:T_HSOCKET;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+Kommunikation();
+
+hListener_IN.handle := hListener_OUT.handle;
+hListener_IN.localAddr.sAddr := '192.168.50.10';
+hListener_IN.localAddr.nPort := 53828;
+hListener_IN.remoteAddr.sAddr := remoteHost;
+hListener_IN.remoteAddr.nPort := remotePort;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

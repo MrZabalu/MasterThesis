@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="GVL" Id="{de62ff09-79c8-43fb-a58a-ca6ad9d3c66b}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Request
+		Header			:UINT;			// Must be 0x1234
+		Command			:UINT;			// Value according to the command table
+		Data			:UINT;			// Value according to the command table
+	
+	// Response
+		HS_sequence		:UINT;			// The sequence number of the current UDP record
+		FT_sequence		:UINT;			// The internal sample counter of the Compute Box
+		Status			:UINT;			// Status word of the sensor and Compute Box
+		Fx				:UINT;			// X-axis force in 32 bit Counts*
+		Fy				:UINT;			// Y-axis force in 32 bit Counts*
+		Fz				:UINT;			// Z-axis force in 32 bit Counts*
+		Tx				:UINT;			// X-axis torque in 32 bit Counts* (0 if not available)
+		Ty				:UINT;			// Y-axis torque in 32 bit Counts* (0 if not available)
+		Tz				:UINT;			// Z-axis torque in 32 bit Counts* (0 if not available)
+		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

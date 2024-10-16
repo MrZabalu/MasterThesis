@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{fa9a7d3f-7680-4f68-b389-d3b61bc63c9e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	remotePort		:UDINT := 49151;
+	remoteHost		:T_IPv4Addr := '192.168.1.1';
+	
+	stRemoteAddr 	: ST_SockAddr;
+	
+	Request			:REQUEST;
+	Response		:RESPONSE;
+	Request_		:REQUEST_;
+	Response_		:RESPONSE_;
+	
+END_VAR
+VAR_INPUT
+	socket			:T_HSOCKET;
+	
+	Connect_busy	:BOOL;
+	Connect_Done	:BOOL;
+	
+	Send_busy		:BOOL;
+	Send_Done		:BOOL;
+	
+	Receive_busy	:BOOL;
+	Receive_Done	:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[stRemoteAddr.sAddr := remoteHost;
+stRemoteAddr.nPort := remotePort;
+
+Request.Header 	:= 4660;
+Request.Command	:= 2;
+Request.Data := 1000;
+
+Request_.Command := 0;
+
+
+
+Kommunikation_UDP();
+
+IF Connect_busy THEN
+	Connect_Done := TRUE;
+END_IF
+
+IF Send_busy THEN
+	Send_Done := TRUE;
+END_IF
+
+IF Receive_busy THEN
+	Receive_Done := TRUE;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

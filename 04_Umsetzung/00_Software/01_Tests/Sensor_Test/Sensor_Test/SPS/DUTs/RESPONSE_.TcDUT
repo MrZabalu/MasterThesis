@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="RESPONSE_" Id="{c0be3489-897c-4c73-8539-70e0d1ff9d63}">
+    <Declaration><![CDATA[TYPE RESPONSE_ :
+STRUCT
+	Header				:UINT;			// Fixed 0x1234
+	Status				:UINT;			// Status word of the sensor and Compute Box
+	Fx					:UINT;			// X-axis force in 32 bit Counts*
+	Fy					:UINT;			// Y-axis force in 32 bit Counts*
+	Fz					:UINT;			// Z-axis force in 32 bit Counts*
+	Tx					:UINT;			// X-axis torque in 32 bit Counts* (0 if not available)
+	Ty					:UINT;			// Y-axis torque in 32 bit Counts* (0 if not available)
+	Tz					:UINT;			// Z-axis torque in 32 bit Counts* (0 if not available)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

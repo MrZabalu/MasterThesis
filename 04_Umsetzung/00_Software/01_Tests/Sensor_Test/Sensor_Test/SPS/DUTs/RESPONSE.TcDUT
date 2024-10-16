@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="RESPONSE" Id="{8e8b6454-5ad9-49ca-971c-cfab77c2d0a4}">
+    <Declaration><![CDATA[TYPE RESPONSE :
+STRUCT
+	HS_sequence			:UDINT;			// The sequence number of the current UDP record
+	FT_sequence			:UDINT;			// The internal sample counter of the Compute Box
+	Status				:UDINT;			// Status word of the sensor and Compute Box
+	Fx					:UDINT;			// X-axis force in 32 bit Counts*
+	Fy					:UDINT;			// Y-axis force in 32 bit Counts*
+	Fz					:UDINT;			// Z-axis force in 32 bit Counts*
+	Tx					:UDINT;			// X-axis torque in 32 bit Counts* (0 if not available)
+	Ty					:UDINT;			// Y-axis torque in 32 bit Counts* (0 if not available)
+	Tz					:UDINT;			// Z-axis torque in 32 bit Counts* (0 if not available)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

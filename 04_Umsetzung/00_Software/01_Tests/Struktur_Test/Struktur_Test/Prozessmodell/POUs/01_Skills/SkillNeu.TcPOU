@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SkillNeu" Id="{2cead17c-3d2a-4594-834a-efc0218ed1e6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SkillNeu EXTENDS SkillBAsisGeruest
+VAR_INPUT
+	b_Test			:BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

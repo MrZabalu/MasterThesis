@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SkillBasisGeruest" Id="{cced860d-b3a9-461e-acf4-1715824587ad}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SkillBasisGeruest
+VAR_INPUT
+	bExecute			:BOOL;				// Trigger für Ausführung von Skill
+	iSysState			:INT;				// Systemübergreifender Zustand
+END_VAR
+
+VAR_OUTPUT
+	iMode				:INT;				// Steuerungsvariable für Anlagenmodell
+	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
+	bBusy				:BOOL;				// Information ob Skill im Moment ausgeführt wird
+	bError				:BOOL;				// Information ob sich Skill in Fehlerzustand befindet
+	iErrorID			:INT;				// Information um welchen Fehler es sich handelt
+END_VAR
+
+VAR
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Der Skill ist nur für den Ablauf zuständig und nicht für die Verwaltung des Komponenten wie das Stoppen oder das Resetten.
+// ]]></ST>
+    </Implementation>
+    <Property Name="P_Laufzeit" Id="{869d67be-433e-461b-8b02-bc445d6c9458}">
+      <Declaration><![CDATA[PROPERTY P_Laufzeit : TIME]]></Declaration>
+      <Get Name="Get" Id="{f7341659-dae7-4f9f-b798-bc9d170ee853}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{2efae208-ec7c-47ca-9907-a8d40649c47b}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : INT]]></Declaration>
+      <Get Name="Get" Id="{063b4702-12c8-47a8-8cee-a8d56943728e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[// State = 0: Leerlauf
+// State = 1: Bereit
+// State = 2: Laufend
+// State = 3: Gestoppt
+// State = 4: Abgebrochen
+// State = 5: Abgeschlossen]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>
