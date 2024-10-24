@@ -16,7 +16,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{32C9B618-11EE-4AA5-86C9-5E32022DB589}" Name="Prozessmodell" PrjFilePath="Prozessmodell\Prozessmodell.plcproj" TmcFilePath="Prozessmodell\Prozessmodell.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{CE812A3A-7FFB-6156-6C52-935613A04407}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{FDA8BF19-8B85-E8A7-473F-833358CD6A4F}" TmcPath="Prozessmodell\Prozessmodell.tmc">
 					<Name>Prozessmodell Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

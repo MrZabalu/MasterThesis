@@ -1,0 +1,107 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.0">
+  <diagram name="Seite-1" id="2L5DqudpywOfvNQAuBPQ">
+    <mxGraphModel dx="1687" dy="908" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RystidRe_D0jXBce-SV0-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-1" target="RystidRe_D0jXBce-SV0-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-2" value="Position anfahren" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-3" target="RystidRe_D0jXBce-SV0-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-4" value="Kontrollierte Bewegung" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-5" target="RystidRe_D0jXBce-SV0-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-6" value="Bild aufnehmen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-7" target="RystidRe_D0jXBce-SV0-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="520" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-8" value="Objekt erkennen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="520" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-9" target="RystidRe_D0jXBce-SV0-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-9" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-10" value="Greifposition ermitteln" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-15" target="RystidRe_D0jXBce-SV0-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-15" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="740" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-16" value="Backenposition anfahren" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="740" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-18" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-19" value="Roboter" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F19C99;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-20" target="RystidRe_D0jXBce-SV0-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="340" />
+              <mxPoint x="800" y="40" />
+              <mxPoint x="40" y="40" />
+              <mxPoint x="40" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-20" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="280" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-21" value="Kraftsensor&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F19C99;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="280" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-22" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="440" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-23" value="VisionSystem" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F19C99;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="440" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RystidRe_D0jXBce-SV0-24" target="RystidRe_D0jXBce-SV0-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="950" />
+              <mxPoint x="40" y="950" />
+              <mxPoint x="40" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-24" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="600" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RystidRe_D0jXBce-SV0-25" value="Greifer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F19C99;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="520" y="600" width="200" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

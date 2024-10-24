@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_State" Id="{c9f25642-45e6-46ba-9b60-272faa0dde20}">
+    <Declaration><![CDATA[INTERFACE I_State
+]]></Declaration>
+    <Property Name="P_State" Id="{d32fab83-0766-4ce0-8cc8-38f2daa7745e}">
+      <Declaration><![CDATA[PROPERTY P_State : INT]]></Declaration>
+      <Get Name="Get" Id="{58c5b2c3-ef63-4a33-a60e-64381cd02dc7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Kraftsensor" Id="{53694e5f-bab1-41cf-be57-463e8bf620d9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Kraftsensor EXTENDS GrundstrukturObjekt
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

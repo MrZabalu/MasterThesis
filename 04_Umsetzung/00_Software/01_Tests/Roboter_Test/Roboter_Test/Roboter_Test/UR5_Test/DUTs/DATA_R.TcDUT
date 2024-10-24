@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DATA_R" Id="{e26544bc-38c3-4fe8-916a-30c465369529}">
+    <Declaration><![CDATA[TYPE DATA_R :
+UNION
+  stTest : STRING;
+  arTest : ARRAY[0..1219] OF BYTE;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

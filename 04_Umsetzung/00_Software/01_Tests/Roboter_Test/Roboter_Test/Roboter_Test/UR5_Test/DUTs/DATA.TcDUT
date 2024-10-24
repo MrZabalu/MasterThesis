@@ -3,8 +3,8 @@
   <DUT Name="DATA" Id="{c603f045-6ee1-49a5-addd-ba03e2a4bd67}">
     <Declaration><![CDATA[TYPE DATA :
 UNION
-stTest : STRING;
-  arTest : ARRAY[0..79] OF BYTE;
+  stTest : STRING;
+  arTest : ARRAY[0..255] OF BYTE;
 END_UNION
 END_TYPE
 ]]></Declaration>

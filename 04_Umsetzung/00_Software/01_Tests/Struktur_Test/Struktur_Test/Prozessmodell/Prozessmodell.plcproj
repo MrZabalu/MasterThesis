@@ -18,28 +18,49 @@
     <LibraryReferences>{46728eeb-2c3e-46c8-8188-df96dff08311}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ObjectMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ObjectState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\SkillState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\SystemState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Skills\SkillBasisGeruest.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\01_Skills\SkillBasisGeruest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Skills\SkillNeu.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\01_Skills\SkillNeu.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Skills\TestSkill.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\01_Skills\TestSkill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\02_Skillprozess\Skill_1.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\02_Skillprozess\Skill_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\03_Sequenz\Sequenz_1.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\03_Sequenz\Sequenz_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Arbeitsplan.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\Arbeitsplan.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Instanziierne.TcPOU">
+    <Compile Include="POUs\01_Versuch_1\Instanziierne.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Versuch_2\BasisSkill.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Versuch_2\Instanziierung.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Versuch_2\TestSkill_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -49,9 +70,11 @@
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
-    <Folder Include="POUs\01_Skills" />
-    <Folder Include="POUs\02_Skillprozess" />
-    <Folder Include="POUs\03_Sequenz" />
+    <Folder Include="POUs\01_Versuch_1\01_Skills" />
+    <Folder Include="POUs\01_Versuch_1\02_Skillprozess" />
+    <Folder Include="POUs\01_Versuch_1\03_Sequenz" />
+    <Folder Include="POUs\01_Versuch_1" />
+    <Folder Include="POUs\02_Versuch_2" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
@@ -78,8 +101,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -140,14 +163,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

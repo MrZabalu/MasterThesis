@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Visionsystem" Id="{e5f2d963-b309-4d67-95ab-ab99bcfdaf83}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Visionsystem EXTENDS GrundstrukturObjekt
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

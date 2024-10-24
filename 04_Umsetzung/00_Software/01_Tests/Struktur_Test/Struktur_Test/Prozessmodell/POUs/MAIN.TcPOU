@@ -6,7 +6,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Arbeitsplan();]]></ST>
+      <ST><![CDATA[Instanziierung();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

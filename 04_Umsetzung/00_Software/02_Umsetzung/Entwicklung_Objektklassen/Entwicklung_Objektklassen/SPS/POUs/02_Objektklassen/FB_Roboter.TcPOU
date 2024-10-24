@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Roboter" Id="{b3336451-2f79-4a9f-969c-e7cbe82c2874}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Roboter EXTENDS GrundstrukturObjekt
+VAR_INPUT
+	// Kommunikationsvariablen
+	sIP			:T_IPv4Addr;
+	iPort		:UINT;
+END_VAR
+
+VAR_OUTPUT
+END_VAR
+
+VAR
+	// Instanziierung von Kommunikationsbausteine
+	Connect			:FB_SocketConnect;
+	Disconnect		:FB_SocketCloseAll;
+	Send			:FB_SocketSend;
+	Receive			:FB_SocketReceive;
+	
+	// Kommunikationsvariablen
+	sSrvNetId   : T_AmsNetId := '';
+	tTimeout    : TIME := T#45S;(*!!!*)
+	hSocket    : T_HSOCKET;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE iState OF 
+	0: // AUS
+		// DO
+		
+		// TRANSITION
+	
+	1: // BEREIT
+		// DO
+		
+		// TRANSITION
+	
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	3: // LAUFEND
+		// DO
+		
+		// TRANSITION
+	
+	4: // ABGESCHLOSSEN
+		// DO
+		
+		// TRANSITION
+	
+	5: // GESTOPPT
+		// DO
+		
+		// TRANSITION
+	
+	6: // FEHLER
+		// DO
+		
+		// TRANSITION
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Methoden" Id="{1aa946ee-754d-4b9a-827e-c2d8360194ef}">
+      <Folder Name="01_Nicht-Funktional" Id="{dba25a55-927e-456a-8761-8632b877b9de}" />
+      <Folder Name="02_Funktional" Id="{c0be9bff-a129-4d21-a449-75936cff3ce2}" />
+    </Folder>
+    <Folder Name="02_Eigenschaften" Id="{678e1a2f-8921-40a4-99a9-2a17bd9f9add}" />
+    <Method Name="Trennen" Id="{8e6a9714-f7e2-472f-95e7-19c575ef290b}" FolderPath="01_Methoden\01_Nicht-Funktional\">
+      <Declaration><![CDATA[METHOD Trennen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Verbinden" Id="{6eda4363-4e3b-4ff9-8ce0-b02d70060188}" FolderPath="01_Methoden\01_Nicht-Funktional\">
+      <Declaration><![CDATA[METHOD Verbinden : BOOL
+VAR_INPUT
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

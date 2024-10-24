@@ -6,8 +6,16 @@ VAR
 	remotePort		:UDINT := 30003;
 	remoteHost		:T_IPv4Addr := '192.168.50.100';
 	
-	data 		:T_MaxString := 'get_actual_joint_positions()'; 
+	data 			:T_MaxString := 'get_actual_joint_positions()';
+	receivedData	:DATA_R;
+
+	stTest			:DATA; 
+	test3			:T_MaxString := 'movej([0,1.57,-1.57,3.14,-1.57,1.57],a=0.2,v=0.2,t=0,r=0)\n';
 	
+	actualLength : UDINT;                  // Tatsächliche Länge des Strings
+    i            : UDINT;                  // Schleifenvariabl
+	byteArray    : POINTER TO ARRAY[0..255] OF BYTE;
+	newArray    : POINTER TO ARRAY[0..51] OF BYTE;
 END_VAR
 
 VAR_INPUT
@@ -19,7 +27,15 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-Kommunikation();
+Kommunikation_Server();
+Kommunikation_Client();
+
+//stTest.stTest := 'force()';
+stTest.stTest := 'movej([0,1.57,-1.57,3.14,-1.57,1.57],a=0.2,v=0.2,t=0,r=0)';
+
+actualLength := LEN(stTest.stTest);
+stTest.arTest[actualLength] := 10;
+
 
 hListener_IN.handle := hListener_OUT.handle;
 hListener_IN.localAddr.sAddr := '192.168.50.10';

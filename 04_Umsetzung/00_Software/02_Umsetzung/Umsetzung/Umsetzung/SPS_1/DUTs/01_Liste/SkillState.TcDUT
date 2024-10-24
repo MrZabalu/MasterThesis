@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="SkillState" Id="{7b220517-89a9-4aeb-bb0b-ebb83017a382}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE SkillState :
+(
+	BEREIT	 		:= 0,				// Der Skill ist bereit einen Prozess auszuführen (Startzustand)
+	LAUFEND 		:= 1,				// Der Skill führt einen Prozess aus
+	ABGESCHLOSSEN 	:= 2,				// Der Prozess wurde abgeschlossen (Durch Objekt abgeschlossen)
+	ERREICHT		:= 3,				// Prozessziel wurde erreicht und Prozess wurde durch Skill beendet  
+	LIMITE			:= 4,				// Grenzwert wurde überschritten und Prozess wurde abgebrochen
+	FEHLER			:= 5				// Es gibt einen Fehler bezüglich des Prozesses 
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

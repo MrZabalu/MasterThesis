@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="BasisSkill" Id="{0b9b6d48-e0a3-4fb7-88d6-9599afb008a8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK BasisSkill
+VAR_INPUT
+	bExecute			:BOOL;				// Trigger für Ausführung von Skill
+	bReset				:BOOL;				// Trigger für Reset von Skill
+	iObjState			:ObjectState;		// Information über Zustand von Objekt
+	iSysState			:SystemState;		// Information über Zustand von System
+END_VAR
+VAR_OUTPUT
+	iMode				:ObjectMode;		// Steuerungsvariable für Anlagenmodell
+	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
+	bBusy				:BOOL;				// Information ob Skill im Moment ausgeführt wird
+	bLimit				:BOOL;				// Information ob Skill an einem Limit angekommen ist
+	bError				:BOOL;				// Information ob sich Skill in Fehlerzustand befindet
+	iErrorID			:INT;				// Information um welchen Fehler es sich handelt
+END_VAR
+VAR
+	iState				:SkillState;		// Information über Zustand von Skill
+	bTargetReached		:BOOL;				// Information ob Prozessziel erreicht wurde
+	bLimitReached		:BOOL;				// Information ob Limit erreicht wurde
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE iState OF 
+	0: // BEREIT
+			// DO
+			IF bExecute THEN
+					iMode := 1;										// Starten des Objektes 
+			END_IF	
+				
+			// TRANSITION	
+			IF iObjState = 2 THEN
+					iState := 1;									// Objekt wurde gestartet
+				END_IF
+// _________________________________________________________________________________________________________________________
+
+	1: // LAUFEND
+			// DO
+				bBusy := TRUE;										// Skill wird ausgeführt
+				
+				IF bTargetReached OR bLimitReached THEN				// Prüfen ob Prozessziel erreicht wurde
+					iMode := 2;
+				END_IF
+				
+			// TRANSITION 
+				IF iObjState = 3 THEN								// Transition zu ABGESCHLOSSEN
+					bBusy := FALSE;									// Skill wird nicht mehr ausgeführt
+					iState := 2;									// Objekt ist fertig und wieder bereit
+				END_IF
+				
+				IF iObjState = 4 AND bTargetReached THEN			// Transition zu ERREICHT
+					bTargetReached := FALSE;						// Zurücksetzen von Information
+					bBusy := FALSE;									// Skill wird nicht mehr ausgeführt
+					iState := 3;
+				END_IF
+				
+				IF iObjState = 4  AND bLimitReached THEN			// Transition zu LIMIT
+					bLimitReached := FALSE;							// Zurücksetzen von Information
+					bBusy := FALSE;									// Skill wird nicht mehr ausgeführt
+					iState := 4;
+				END_IF
+				
+				IF iSysState = 3 THEN								// Transition wenn System das Orbjekt stopps
+ 					bBusy := FALSE;									// Skill wird nicht mehr ausgeführt
+					iState := 0;
+				END_IF
+				
+// _________________________________________________________________________________________________________________________
+			
+	2: // ABGESCHLOSSEN
+			// DO
+				bDone := TRUE;										// Skill wurde erfolgreich ausgeführt
+				
+			//  TRANSITION
+				IF bDone THEN
+					bDone := FALSE;									// Zurücksetzen von Skill
+					iMode := 3;										// Resetten von Objekt
+					iState := 0;
+				END_IF
+// _________________________________________________________________________________________________________________________
+
+	3: // ERREICHT		
+			// DO 
+				bDone := TRUE;										// Skill wurde erfolgreich ausgeführt
+				
+				IF bDone THEN
+					bDone := FALSE;									// Zurücksetzen von Output-Variable
+					iMode := 3;										// Resetten von Objekt
+					iState := 0;
+				END_IF
+			
+			// TRANSITION
+// _________________________________________________________________________________________________________________________
+
+	4: // LIMIT
+			// DO 
+				bLimit := TRUE;										// Limit wurde erreicht
+		
+			// TRANSITION
+				IF bLimit THEN
+					bLimit := FALSE;								// Zurücksetzen von Output-Variable
+					iMode := 3;										// Resetten von Objekt 
+					iState := 0;
+				END_IF
+// _________________________________________________________________________________________________________________________
+
+	5: // FEHLER
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Property Name="P_Runtime" Id="{35250215-df36-4305-a3ec-43b4e7c5c3e6}">
+      <Declaration><![CDATA[PROPERTY P_Runtime : TIME]]></Declaration>
+      <Get Name="Get" Id="{e0b670d9-da5f-48ca-a3b4-dc4249f60eab}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{ab077b70-b79b-4461-95c2-6e480a041090}">
+      <Declaration><![CDATA[PROPERTY P_State : INT]]></Declaration>
+      <Get Name="Get" Id="{64cecd0a-e02c-40d0-a7b0-3fed237ccb77}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>
