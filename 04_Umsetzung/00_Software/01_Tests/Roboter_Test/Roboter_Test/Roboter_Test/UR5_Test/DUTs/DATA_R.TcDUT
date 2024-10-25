@@ -3,8 +3,8 @@
   <DUT Name="DATA_R" Id="{e26544bc-38c3-4fe8-916a-30c465369529}">
     <Declaration><![CDATA[TYPE DATA_R :
 UNION
-  stTest : STRING;
-  arTest : ARRAY[0..1219] OF BYTE;
+  arrByte :		 ARRAY[0..3] OF BYTE;
+  rReal		 	:REAL;
 END_UNION
 END_TYPE
 ]]></Declaration>

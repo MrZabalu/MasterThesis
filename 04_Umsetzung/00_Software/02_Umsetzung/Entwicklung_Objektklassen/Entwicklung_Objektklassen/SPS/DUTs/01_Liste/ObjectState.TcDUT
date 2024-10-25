@@ -8,10 +8,11 @@ TYPE ObjectState :
 (
 	AUS 			:= 0,				// Das Objekt ist ausgeschalten
 	BEREIT 			:= 1,				// Das Objekt ist eingeschalten und bereit
-	LAUFEND 		:= 2,				// Das Objekt ist aktiv
-	ABGESCHLOSSEN 	:= 3,				// Das Objekt hat den Prozess durchgeführt und hat selbständig gestoppt
-	GESTOPPT 		:= 4,				// Das Objekt wurde gestoppt durch externe Einwirkung gestoppt
-	FEHLER			:= 5				// Es gibt einen Fehler bezüglich des Objektes
+	MANUELL			:= 2,				// Das Objekt befindet sich im Manuell-Modus
+	LAUFEND 		:= 3,				// Das Objekt ist aktiv
+	ABGESCHLOSSEN 	:= 4,				// Das Objekt hat den Prozess durchgeführt und hat selbständig gestoppt
+	GESTOPPT 		:= 5,				// Das Objekt wurde gestoppt durch externe Einwirkung gestoppt
+	FEHLER			:= 6				// Es gibt einen Fehler bezüglich des Objektes
 );
 END_TYPE
 ]]></Declaration>

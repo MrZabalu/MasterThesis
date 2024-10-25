@@ -4,8 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Roboter EXTENDS GrundstrukturObjekt
 VAR_INPUT
 	// Kommunikationsvariablen
-	sIP			:T_IPv4Addr;
-	iPort		:UINT;
+	sIP					:T_IPv4Addr;
+	iPort				:UINT;
 END_VAR
 
 VAR_OUTPUT
@@ -13,50 +13,96 @@ END_VAR
 
 VAR
 	// Instanziierung von Kommunikationsbausteine
-	Connect			:FB_SocketConnect;
-	Disconnect		:FB_SocketCloseAll;
-	Send			:FB_SocketSend;
-	Receive			:FB_SocketReceive;
+	Connect				:FB_SocketConnect;
+	Disconnect			:FB_SocketCloseAll;
+	Send				:FB_SocketSend;
+	Receive				:FB_SocketReceive;
 	
 	// Kommunikationsvariablen
-	sSrvNetId   : T_AmsNetId := '';
-	tTimeout    : TIME := T#45S;(*!!!*)
-	hSocket    : T_HSOCKET;
+	sSrvNetId   		:T_AmsNetId := '';
+	tTimeout    		:TIME := T#45S;(*!!!*)
+	hSocket    			:T_HSOCKET;
+	
+	// Managementvariablen
+	Connect_State		:BOOL;
+	Disconnect_State	:BOOL;
+	Switch				:BOOL;
+	
+	// Testvariable
+	test				:BOOL;
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE iState OF 
+      <ST><![CDATA[// Input-Command-Verwaltung
+IF iSysCommand = 2 AND iState = 0 THEN			// System schaltet Objekt ein
+	Connect_State := TRUE;
+END_IF
+
+IF iSysCommand = 1 AND iState = 1 THEN			// System schaltet Objekt aus
+	Disconnect_State := TRUE;				
+END_IF
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+IF Connect_State THEN
+	Switch := Verbinden();
+END_IF
+
+IF Disconnect_State THEN
+	Switch := Trennen();
+END_IF
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
 	0: // AUS
 		// DO
 		
 		// TRANSITION
-	
+			IF Switch THEN							// Verbindung wird aufgebaut
+				Connect_State := FALSE;
+				Switch := FALSE;
+				iState := 1;
+			END_IF
+			
+	//____________________________________________________________________________________________
 	1: // BEREIT
 		// DO
 		
 		// TRANSITION
+			IF Switch THEN							// Verbindung wird getrennt
+				Disconnect_State := FALSE;
+				Switch := FALSE;
+				iState := 0;
+			END_IF
+			
+			
 	
+	//____________________________________________________________________________________________
 	2: // MANUELL
 		// DO
 		
 		// TRANSITION
 	
+	//____________________________________________________________________________________________
 	3: // LAUFEND
 		// DO
 		
 		// TRANSITION
 	
+	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN
 		// DO
 		
 		// TRANSITION
 	
+	//____________________________________________________________________________________________
 	5: // GESTOPPT
 		// DO
 		
 		// TRANSITION
 	
+	//____________________________________________________________________________________________
 	6: // FEHLER
 		// DO
 		
@@ -75,17 +121,43 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Ausführen von Funktionalitäten
+	Disconnect(sSrvNetId := sSrvNetId,
+			bExecute := TRUE,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID);
+	
+	IF NOT bBusy AND NOT bError THEN
+		Trennen := TRUE;
+		Disconnect(bExecute := FALSE);
+	END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Verbinden" Id="{6eda4363-4e3b-4ff9-8ce0-b02d70060188}" FolderPath="01_Methoden\01_Nicht-Funktional\">
-      <Declaration><![CDATA[METHOD Verbinden : BOOL
-VAR_INPUT
+      <Declaration><![CDATA[METHOD Verbinden : BOOL 
+VAR
 	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Ausführen von Funktionalitäten
+	Connect(sSrvNetId := sSrvNetId,
+			sRemoteHost := sIP,
+			nRemotePort := iPort,
+			bExecute := TRUE,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID,
+			hSocket => hSocket);
+	
+	IF hSocket.handle <> 0 THEN
+		Verbinden := TRUE;
+		Connect(bExecute := FALSE);
+	END_IF
+				]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="RealTimeData" Id="{818b5a8e-dae6-4d12-87c6-4611a2651f70}">
+    <Declaration><![CDATA[TYPE RealTimeData :
+STRUCT
+	messageSize 				: ARRAY[0..3] OF BYTE;
+	timestamp 					: ARRAY[0..7] OF BYTE;
+	qTarget 					: ARRAY[0..47] OF BYTE;
+	qdTarget 					: ARRAY[0..47] OF BYTE;
+	qddTarget 					: ARRAY[0..47] OF BYTE;
+	iTarget 					: ARRAY[0..47] OF BYTE;
+	mTarget 					: ARRAY[0..47] OF BYTE;
+	qActual 					: ARRAY[0..47] OF BYTE;
+	qdActual 					: ARRAY[0..47] OF BYTE;
+	iActual 					: ARRAY[0..47] OF BYTE;
+	toolAccelerometerValues 	: ARRAY[0..23] OF BYTE;
+	unused 						: ARRAY[0..119] OF BYTE;
+	tcpForce 					: ARRAY[0..47] OF BYTE;
+	toolVector 					: ARRAY[0..47] OF BYTE;
+	tcpSpeed 					: ARRAY[0..47] OF BYTE;
+	digitalInputBits 			: ARRAY[0..7] OF BYTE;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

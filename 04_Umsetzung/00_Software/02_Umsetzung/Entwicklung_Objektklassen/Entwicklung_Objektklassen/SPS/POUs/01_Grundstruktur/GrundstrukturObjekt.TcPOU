@@ -13,10 +13,10 @@ VAR_OUTPUT
 	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
 	bBusy				:BOOL;				// Information ob Skill im Moment ausgeführt wird
 	bError				:BOOL;				// Information ob sich Skill in Fehlerzustand befindet
-	iErrorID			:INT;				// Information um welchen Fehler es sich handelt	
+	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
 END_VAR
 VAR
-	iState				:SkillState;		// Information über Zustand von Skill
+	iState				:ObjectState;		// Information über Zustand von Skill
 END_VAR
 ]]></Declaration>
     <Implementation>

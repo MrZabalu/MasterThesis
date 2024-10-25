@@ -7,7 +7,13 @@ VAR
 	remoteHost		:T_IPv4Addr := '192.168.50.100';
 	
 	data 			:T_MaxString := 'get_actual_joint_positions()';
-	receivedData	:DATA_R;
+	receivedData	:RealTimeData;
+	testR			:DATA_R;
+	
+	rMyRealValue	:INT;
+	pReal 			:POINTER TO INT;
+	testArray1:		ARRAY[0..3] OF BYTE := [0, 0, 3, 44];
+	testArray2:		ARRAY[0..3] OF BYTE := [44, 3, 0, 0];
 
 	stTest			:DATA; 
 	test3			:T_MaxString := 'movej([0,1.57,-1.57,3.14,-1.57,1.57],a=0.2,v=0.2,t=0,r=0)\n';
@@ -31,10 +37,17 @@ Kommunikation_Server();
 Kommunikation_Client();
 
 //stTest.stTest := 'force()';
-stTest.stTest := 'movej([0,1.57,-1.57,3.14,-1.57,1.57],a=0.2,v=0.2,t=0,r=0)';
+stTest.stTest := 'force()';
 
 actualLength := LEN(stTest.stTest);
 stTest.arTest[actualLength] := 10;
+
+testR.arrByte := receivedData.messageSize;
+//pReal := ADR(receivedData.messageSize);
+//rMyRealValue := pReal^;
+
+pReal := ADR(testArray2);
+rMyRealValue := pReal^;
 
 
 hListener_IN.handle := hListener_OUT.handle;
