@@ -19,22 +19,49 @@
     <CompilerDefines>VISU_USEPROPERTYINFO</CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\01_Liste\ObjectMode.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\ObjectState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\ObjectState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\SkillState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\SkillState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\SystemState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\SystemCommand.TcDUT">
+    <Compile Include="DUTs\01_Liste\02_Commands\ObjectMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\SystemState.TcDUT">
+    <Compile Include="DUTs\01_Liste\02_Commands\SystemCommand.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\01_Liste\03_Konfiguration\Bewegungsart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\01_Liste\03_Konfiguration\Positionsart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\02_Schnittstellen\I_State.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\PositionValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\Prozessvariablen.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\RealTimeData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\ValueArray.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Array4Byte.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Array8Byte.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\String2Byte.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
@@ -58,11 +85,23 @@
     <Compile Include="Visualization Manager.TcVMO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="VISUs\Test.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="VISU_TASK.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="DUTs\01_Liste" />
+    <Folder Include="DUTs\01_Liste\01_Zustände" />
+    <Folder Include="DUTs\01_Liste\02_Commands" />
+    <Folder Include="DUTs\01_Liste\03_Konfiguration" />
     <Folder Include="DUTs\02_Schnittstellen" />
+    <Folder Include="DUTs\03_Struktur" />
+    <Folder Include="DUTs\04_Union" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\01_Grundstruktur" />
     <Folder Include="POUs\02_Objektklassen" />
@@ -130,6 +169,10 @@
       <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_TcpIp</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
@@ -153,8 +196,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -226,14 +269,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

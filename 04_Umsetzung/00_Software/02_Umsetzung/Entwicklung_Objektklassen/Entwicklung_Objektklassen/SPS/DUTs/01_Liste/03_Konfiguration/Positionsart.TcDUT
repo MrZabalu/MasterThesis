@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Positionsart" Id="{35f9b09b-7b5a-4e15-98c4-6285b63bc70b}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE Positionsart :
+(
+	Absolut := 0,			// Absolute Bewegung bezogen auf Basis-Koordinatensystem
+	Relativ := 1			// Relative Bewegung bezogen auf aktuelle Position
+	
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

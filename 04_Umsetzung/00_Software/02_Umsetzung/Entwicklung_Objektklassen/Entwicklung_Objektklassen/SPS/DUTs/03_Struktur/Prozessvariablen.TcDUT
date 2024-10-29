@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Prozessvariablen" Id="{49970fae-9394-400d-bf68-faab23befb20}">
+    <Declaration><![CDATA[TYPE Prozessvariablen :
+STRUCT
+	x					:LREAL;				// X-Koordinate
+	y					:LREAL;				// Y-Koordinate
+	z					:LREAL;				// Z-Koordinate
+	rx					:LREAL;				// Orintierung um X-Achse
+	ry					:LREAL;				// Orientierung um Y-Achse
+	rz					:LREAL;				// Orientierung um Z-Achse
+	v					:LREAL;				// Geschwindigkeit
+	a					:LREAL;				// Beschleunigung
+	PosTyp				:Positionsart;		// Position-Typ definieren (Absolut / Relativ)		
+	MoveTyp				:Bewegungsart;		// Bewegungsart definieren (Linear / Circular etc.)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

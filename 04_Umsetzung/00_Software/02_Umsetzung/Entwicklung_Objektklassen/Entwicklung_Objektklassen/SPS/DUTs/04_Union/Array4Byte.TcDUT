@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Array4Byte" Id="{23a7f7d2-5e01-472c-b54e-623da5011b29}">
+    <Declaration><![CDATA[TYPE Array4Byte :
+UNION
+	arrByte			:ARRAY[0..3] OF BYTE;
+	rValue			:INT;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

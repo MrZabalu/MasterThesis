@@ -6,6 +6,7 @@ VAR_INPUT
 	// Kommunikationsvariablen
 	sIP					:T_IPv4Addr;
 	iPort				:UINT;
+	Prozessvariablen: 	Prozessvariablen;
 END_VAR
 
 VAR_OUTPUT
@@ -27,10 +28,13 @@ VAR
 	Connect_State		:BOOL;
 	Disconnect_State	:BOOL;
 	Switch				:BOOL;
+	Delay				:TON;
 	
-	// Testvariable
-	test				:BOOL;
-	
+	// RealTimeDaten
+	ReceivedData		:RealTimedata;
+	nRecBytes			:UDINT;
+	JointPositions		:PositionValues;
+	ToolPosition		:PositionValues;	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -51,6 +55,18 @@ END_IF
 IF Disconnect_State THEN
 	Switch := Trennen();
 END_IF
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+	IF iState = 1 OR iState = 3 THEN
+		Delay(IN := TRUE, PT := T#0.002S);
+		
+		IF Delay.Q THEN
+			A_DatenLesen();
+			Delay(IN := FALSE);
+		END_IF
+		
+	END_IF
 
 //____________________________________________________________________________________________
 // Zustandsmanagement
@@ -75,6 +91,10 @@ CASE iState OF
 				Switch := FALSE;
 				iState := 0;
 			END_IF
+			
+													// Manuell-Modus wird eingeschalten
+													
+													// Objekt führt Prozessdurch
 			
 			
 	
@@ -112,9 +132,228 @@ END_CASE]]></ST>
     </Implementation>
     <Folder Name="01_Methoden" Id="{1aa946ee-754d-4b9a-827e-c2d8360194ef}">
       <Folder Name="01_Nicht-Funktional" Id="{dba25a55-927e-456a-8761-8632b877b9de}" />
-      <Folder Name="02_Funktional" Id="{c0be9bff-a129-4d21-a449-75936cff3ce2}" />
+      <Folder Name="02_Funktional" Id="{c0be9bff-a129-4d21-a449-75936cff3ce2}">
+        <Folder Name="01_Manuell" Id="{5446f96e-eec6-42cc-a50a-52e3aea41b86}" />
+        <Folder Name="02_Automatik" Id="{dc640de9-b1af-4a50-9890-db6e6bebe055}" />
+      </Folder>
     </Folder>
     <Folder Name="02_Eigenschaften" Id="{678e1a2f-8921-40a4-99a9-2a17bd9f9add}" />
+    <Method Name="A_BewegungZuPosition" Id="{ae273d58-b027-42f0-9b62-44c4d2724a45}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
+      <Declaration><![CDATA[METHOD A_BewegungZuPosition : BOOL
+VAR 
+	
+	x					:LREAL;				// X-Koordinate
+	y					:LREAL;				// Y-Koordinate
+	z					:LREAL;				// Z-Koordinate
+	rx					:LREAL;				// Orintierung um X-Achse
+	ry					:LREAL;				// Orientierung um Y-Achse
+	rz					:LREAL;				// Orientierung um Z-Achse
+
+	stringFormat   : FB_FormatString;		// Funktion für Stringerstellung
+
+	pose			:T_MaxString;			// Positionsstring
+	Command			:T_MaxString;			// Commandstring
+	
+	CommandArray	:String2Byte;			// Byte-Array für Kommunikation mit Roboter
+	
+END_VAR
+VAR_INPUT
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Einfluss von Positionart
+	IF Prozessvariablen.PosTyp = 1 THEN
+		// Koordinaten so anpassen, dass sich relativ zu momentaner Position bewegt wird
+	END_IF
+	
+	stringFormat(sFormat := 'p[%.3f,%.3f,%.3f,%.3f,%.3f,%.3f]',
+			arg1 := F_LREAL(Prozessvariablen.x),
+			arg2 := F_LREAL(Prozessvariablen.y),
+			arg3 := F_LREAL(Prozessvariablen.z),
+			arg4 := F_LREAL(Prozessvariablen.rx),
+			arg5 := F_LREAL(Prozessvariablen.ry),
+			arg6 := F_LREAL(Prozessvariablen.rz),
+			bError => bError,
+			nErrId => iErrorID,
+			sOut => pose);
+
+// Einlfuss von Bewegungsart
+	IF Prozessvariablen.MoveTyp = 0 THEN			// Move to position (linear in tool-space)
+													// movel(pose, a=1.2, v=0.25, t=0, r=0)
+		stringFormat(sFormat := 'movel(%s, a=%.2f, v=%.2f)',
+							arg1 := F_STRING(pose),
+							arg2 := F_LREAL(Prozessvariablen.a),
+							arg3 := F_LREAL(Prozessvariablen.v),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);											
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 1 THEN			// Move to position (linear in joint-space)
+													// movej(q, a=1.4, v=1.05, t=0, r =0)
+													
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 2 THEN			// Move Circular: Move to position (circular in tool-space)
+													//movec(pose_via, pose_to, a=1.2, v=0.25, r =0, mode=0)
+													
+		
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 3 THEN			// Move Process
+													// movep(pose, a=1.2, v=0.25, r=0)
+		stringFormat(sFormat := 'movep(%s, a=%.2f, v=%.2f)',
+							arg1 := F_STRING(pose),
+							arg2 := F_LREAL(Prozessvariablen.a),
+							arg3 := F_LREAL(Prozessvariablen.v),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);												
+	END_IF
+
+// Senden von Command
+	CommandArray.sValue := Command;
+	CommandArray.arrByte[LEN(CommandArray.sValue)] := 10;
+	
+	// Auslesen von Daten
+	Send(sSrvNetId := sSrvNetId,
+			hSocket := hSocket,
+			cbLen := LEN(CommandArray.sValue),
+			pSrc := ADR(CommandArray.arrByte),
+			bExecute := TRUE,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID);
+			
+	IF NOT bBusy THEN
+		Send(bExecute := FALSE);
+		A_BewegungZuPosition := TRUE;
+	END_IF
+	
+	
+						]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="A_DatenLesen" Id="{24c48799-bba1-4301-9bd1-d09a91105b53}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
+      <Declaration><![CDATA[METHOD A_DatenLesen : BOOL
+VAR_INPUT
+END_VAR
+VAR	
+	TempJointPosRev		:ValueArray;
+	TempToolPosRev		:ValueArray;
+	
+	Joint				:Array8Byte;
+	Tool				:Array8Byte;
+	
+	n					:INT;
+	m					:INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Auslesen von Daten
+	Receive(sSrvNetId := sSrvNetId,
+			hSocket := hSocket,
+			cbLen := SIZEOF(ReceivedData),
+			pDest := ADR(ReceivedData),
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID,
+			nRecBytes => nRecBytes);
+	
+	IF nRecBytes <> 0 THEN
+		
+		// Reverse Array
+		FOR m := 0 TO 7 DO
+			TempJointPosRev.q1[m] := ReceivedData.qActualQ1[7 - m];
+			TempJointPosRev.q2[m] := ReceivedData.qActualQ2[7 - m];
+			TempJointPosRev.q3[m] := ReceivedData.qActualQ3[7 - m];
+			TempJointPosRev.q4[m] := ReceivedData.qActualQ4[7 - m];
+			TempJointPosRev.q5[m] := ReceivedData.qActualQ5[7 - m];
+			TempJointPosRev.q6[m] := ReceivedData.qActualQ6[7 - m];
+			
+			TempToolPosRev.q1[m] := ReceivedData.toolVectorQ1[7 - m];
+			TempToolPosRev.q2[m] := ReceivedData.toolVectorQ2[7 - m];
+			TempToolPosRev.q3[m] := ReceivedData.toolVectorQ3[7 - m];
+			TempToolPosRev.q4[m] := ReceivedData.toolVectorQ4[7 - m];
+			TempToolPosRev.q5[m] := ReceivedData.toolVectorQ5[7 - m];
+			TempToolPosRev.q6[m] := ReceivedData.toolVectorQ6[7 - m];
+		END_FOR
+	
+		
+		Joint.arrByte := TempJointPosRev.q1;
+		JointPositions.q1 := RAD_TO_DEG(Joint.rValue);
+		Joint.arrByte := TempJointPosRev.q2;
+		JointPositions.q2 := RAD_TO_DEG(Joint.rValue);
+		Joint.arrByte := TempJointPosRev.q3;
+		JointPositions.q3 := RAD_TO_DEG(Joint.rValue);
+		Joint.arrByte := TempJointPosRev.q4;
+		JointPositions.q4 := RAD_TO_DEG(Joint.rValue);
+		Joint.arrByte := TempJointPosRev.q5;
+		JointPositions.q5 := RAD_TO_DEG(Joint.rValue);
+		Joint.arrByte := TempJointPosRev.q6;
+		JointPositions.q6 := RAD_TO_DEG(Joint.rValue);
+		
+		Tool.arrByte := TempToolPosRev.q1;
+		ToolPosition.q1 := Tool.rValue;
+		Tool.arrByte := TempToolPosRev.q2;
+		ToolPosition.q2 := Tool.rValue;
+		Tool.arrByte := TempToolPosRev.q3;
+		ToolPosition.q3 := Tool.rValue;
+		Tool.arrByte := TempToolPosRev.q4;
+		ToolPosition.q4 := RAD_TO_DEG(Tool.rValue);
+		Tool.arrByte := TempToolPosRev.q5;
+		ToolPosition.q5 := RAD_TO_DEG(Tool.rValue);
+		Tool.arrByte := TempToolPosRev.q6;
+		ToolPosition.q6 := RAD_TO_DEG(Tool.rValue);
+		
+		Receive(bExecute := FALSE);
+		A_DatenLesen := TRUE;
+	END_IF
+	
+	IF NOT Receive.bBusy THEN
+		Receive(bExecute := TRUE);
+	END_IF
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_JointPosition" Id="{ac4bb86b-eff3-406a-b366-5ed6a015ec6c}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_JointPosition : PositionValues]]></Declaration>
+      <Get Name="Get" Id="{2f60e7c4-7eee-4b24-94c0-8aca4d89e6e4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_JointPosition := JointPositions;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{2adf9ddb-172c-486a-953a-6f9cff263d2f}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : INT]]></Declaration>
+      <Get Name="Get" Id="{f8d12014-b11e-4ab7-aa7b-f2075b5a6bc4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_ToolPosition" Id="{231c57b4-95e7-4979-9f10-be4dadff4716}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_ToolPosition : PositionValues]]></Declaration>
+      <Get Name="Get" Id="{88eed5bb-c4cb-4533-9ba8-62edd39c9393}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ToolPosition := ToolPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Trennen" Id="{8e6a9714-f7e2-472f-95e7-19c575ef290b}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD Trennen : BOOL
 VAR_INPUT
