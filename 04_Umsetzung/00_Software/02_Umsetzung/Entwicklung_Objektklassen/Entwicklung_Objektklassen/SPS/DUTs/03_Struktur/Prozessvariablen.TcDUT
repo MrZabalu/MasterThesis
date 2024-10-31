@@ -3,12 +3,12 @@
   <DUT Name="Prozessvariablen" Id="{49970fae-9394-400d-bf68-faab23befb20}">
     <Declaration><![CDATA[TYPE Prozessvariablen :
 STRUCT
-	x					:LREAL;				// X-Koordinate
-	y					:LREAL;				// Y-Koordinate
-	z					:LREAL;				// Z-Koordinate
-	rx					:LREAL;				// Orintierung um X-Achse
-	ry					:LREAL;				// Orientierung um Y-Achse
-	rz					:LREAL;				// Orientierung um Z-Achse
+	q1					:LREAL;				// X-Koordinate oder Gelenkwinkel 1
+	q2					:LREAL;				// Y-Koordinate oder Gelenkwinkel 2
+	q3					:LREAL;				// Z-Koordinate oder Gelenkwinkel 3
+	q4					:LREAL;				// Orintierung um X-Achse oder Gelenkwinkel 4
+	q5					:LREAL;				// Orientierung um Y-Achse oder Gelenkwinkel 5
+	q6					:LREAL;				// Orientierung um Z-Achse oder Gelenkwinkel 6
 	v					:LREAL;				// Geschwindigkeit
 	a					:LREAL;				// Beschleunigung
 	PosTyp				:Positionsart;		// Position-Typ definieren (Absolut / Relativ)		

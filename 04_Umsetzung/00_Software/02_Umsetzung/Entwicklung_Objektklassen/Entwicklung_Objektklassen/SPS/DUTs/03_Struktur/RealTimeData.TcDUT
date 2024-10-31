@@ -5,7 +5,13 @@
 STRUCT
 	messageSize 				: ARRAY[0..3] OF BYTE;
 	timestamp 					: ARRAY[0..7] OF BYTE;
-	qTarget 					: ARRAY[0..47] OF BYTE;
+	//qTarget 					: ARRAY[0..47] OF BYTE;
+	qTargetQ1 					: ARRAY[0..7] OF BYTE;
+	qTargetQ2 					: ARRAY[0..7] OF BYTE;
+	qTargetQ3 					: ARRAY[0..7] OF BYTE;
+	qTargetQ4 					: ARRAY[0..7] OF BYTE;
+	qTargetQ5 					: ARRAY[0..7] OF BYTE;
+	qTargetQ6 					: ARRAY[0..7] OF BYTE;
 	qdTarget 					: ARRAY[0..47] OF BYTE;
 	qddTarget 					: ARRAY[0..47] OF BYTE;
 	iTarget 					: ARRAY[0..47] OF BYTE;
@@ -17,7 +23,13 @@ STRUCT
 	qActualQ4 					: ARRAY[0..7] OF BYTE;
 	qActualQ5 					: ARRAY[0..7] OF BYTE;
 	qActualQ6 					: ARRAY[0..7] OF BYTE;
-	qdActual 					: ARRAY[0..47] OF BYTE;
+	//qdActual 					: ARRAY[0..47] OF BYTE;
+	qdActualQ1 					: ARRAY[0..7] OF BYTE;
+	qdActualQ2 					: ARRAY[0..7] OF BYTE;
+	qdActualQ3 					: ARRAY[0..7] OF BYTE;
+	qdActualQ4 					: ARRAY[0..7] OF BYTE;
+	qdActualQ5 					: ARRAY[0..7] OF BYTE;
+	qdActualQ6 					: ARRAY[0..7] OF BYTE;
 	iActual 					: ARRAY[0..47] OF BYTE;
 	toolAccelerometerValues 	: ARRAY[0..23] OF BYTE;
 	unused_1					: ARRAY[0..119] OF BYTE;

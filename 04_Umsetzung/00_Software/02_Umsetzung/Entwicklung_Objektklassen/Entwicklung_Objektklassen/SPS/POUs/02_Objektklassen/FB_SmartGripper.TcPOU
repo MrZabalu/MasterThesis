@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SmartGripper" Id="{35840996-72e9-4e57-ab7f-da4985d9fd20}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGripper EXTENDS GrundstrukturObjekt
+VAR_INPUT
+	sIP					:T_IPv4Addr;
+	iPort				:UINT;
+END_VAR
+VAR_OUTPUT
+	
+END_VAR
+VAR
+	// Instanziierung von Kommunikationsbausteine
+	Communication_send		:ModbusRtuMasterV2_PcCOM;
+	Communication_receive	:ModbusRtuMasterV2_PcCOM;
+	
+	// Kommunikationsvariablen
+	UnitID      		:BYTE := 9;
+    Quantity    		:WORD := 16;
+    MBAddr      		:WORD := 1000;
+    Execute     		:BOOL;
+    Timeout     		:TIME := T#5S;
+	
+	cbRead				:UINT;
+	State				:INT;
+	
+	Senddaten 			:ARRAY[0..15] OF BYTE;
+
+	
+	Modbusdaten: BYTE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Senddaten[0] := 9;
+Senddaten[1] := 16;
+Senddaten[2] := 3;
+Senddaten[3] := 232;
+Senddaten[4] := 0;
+Senddaten[5] := 3;
+Senddaten[6] := 6;
+Senddaten[7] := 1;
+Senddaten[8] := 0;
+Senddaten[9] := 0;
+Senddaten[10] := 0;
+Senddaten[11] := 0;
+Senddaten[12] := 0; 
+Senddaten[13] := 114;
+Senddaten[14] := 225;
+Senddaten[15] := 0;
+
+// Instanziierungen
+
+IF STATE = 1 THEN
+	State := 2;
+	Communication_send(UnitID := UnitID,
+				Quantity := Quantity,
+				MBAddr := MBAddr,
+				cbLength := SIZEOF(Senddaten),
+				pMemoryAddr := ADR(Senddaten),
+				Execute := Execute,
+				Timeout := Timeout,
+				BUSY => bBusy,
+				Error => bError,
+				ErrorId => iErrorID,
+				cbRead => cbRead);
+				
+Communication_send.WriteSingleRegister();
+END_IF
+				
+
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+	CASE iState OF 
+		0: // AUS
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		1: // BEREIT
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		2: // MANUELL
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		3: // LAUFEND
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		4: // ABGESCHLOSSEN
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		5: // GESTOPPT
+			// DO
+		
+			// TRANSITION
+		
+		//____________________________________________________________________________________________
+		6: // FEHLER
+			// DO
+		
+			// TRANSITION
+		
+		
+	END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Methoden" Id="{7d669dd2-3272-4c05-9652-b24101f6a60c}">
+      <Folder Name="01_Nicht_Funktional" Id="{ad9c4ca0-e515-4ee4-b2d1-299ee97cb244}" />
+      <Folder Name="02_Funktional" Id="{b676063b-86a0-4d98-9f10-67cb64c180e0}" />
+    </Folder>
+    <Folder Name="02_Eigenschaften" Id="{06046150-532d-40ac-ab56-fa8157a0bff3}" />
+    <Method Name="DoSomething" Id="{866858fa-1fed-4bb7-8ac4-4ce20c82c07d}" FolderPath="01_Methoden\02_Funktional\">
+      <Declaration><![CDATA[METHOD DoSomething : BOOL
+VAR_INPUT
+	
+END_VAR
+VAR
+	
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Trennen" Id="{cfb8b5e8-647a-492b-85b8-243233eaa6b0}" FolderPath="01_Methoden\01_Nicht_Funktional\">
+      <Declaration><![CDATA[METHOD Trennen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Verbinden" Id="{dd15742f-3230-453e-96b7-d7eeac293a9d}" FolderPath="01_Methoden\01_Nicht_Funktional\">
+      <Declaration><![CDATA[METHOD Verbinden : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -8,7 +8,8 @@ TYPE SystemCommand :
 (
 	AUSCHALTEN := 1,
 	EINSCHALTEN := 2,
-	RESETTEN	:= 3
+	STOPPEN		:= 3,
+	RESETTEN	:= 4
 );
 END_TYPE
 ]]></Declaration>

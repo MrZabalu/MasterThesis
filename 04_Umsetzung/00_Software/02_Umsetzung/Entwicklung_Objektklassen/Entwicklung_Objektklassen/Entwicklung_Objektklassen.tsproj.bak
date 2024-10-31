@@ -1,5 +1,57 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.10">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_PcComInData</Name>
+			<BitSize>528</BitSize>
+			<SubItem>
+				<Name>SerStatus</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>D</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>64</Elements>
+				</ArrayInfo>
+				<BitSize>512</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<Properties>
+				<Property>
+					<Name>hide</Name>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_PcComOutData</Name>
+			<BitSize>528</BitSize>
+			<SubItem>
+				<Name>SerCtrl</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>D</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>64</Elements>
+				</ArrayInfo>
+				<BitSize>512</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<Properties>
+				<Property>
+					<Name>hide</Name>
+				</Property>
+			</Properties>
+		</DataType>
+	</DataTypes>
 	<Project ProjectGUID="{42285A4E-16A2-4FA3-97F7-6F0F7F1688AE}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="20" NonWinCpus="1">
@@ -7,6 +59,7 @@
 			</Settings>
 			<Licenses>
 				<Target>
+					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<ManualSelect>{FF62EEAB-E450-4F79-A9C7-0515B82AB10C}</ManualSelect>
 					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
 				</Target>
@@ -22,9 +75,31 @@
 		</System>
 		<Plc>
 			<Project GUID="{2F59D77C-3911-49BA-8AD5-3B544174CECD}" Name="SPS" PrjFilePath="SPS\SPS.plcproj" TmcFilePath="SPS\SPS.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{D86765A5-F4B8-5CEC-FBE3-4294B0D1DD50}" TmcPath="SPS\SPS.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{6AFA9BF8-507D-5981-7DA7-397B05CAA922}" TmcPath="SPS\SPS.tmc">
 					<Name>SPS Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>Anlage.Gripper.Communication_send.OutData</Name>
+							<Type GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}" Namespace="Tc2_ModbusRTU">MB_PcComOutData</Type>
+						</Var>
+						<Var>
+							<Name>Anlage.Gripper.Communication_receive.OutData</Name>
+							<Type GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}" Namespace="Tc2_ModbusRTU">MB_PcComOutData</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>Anlage.Gripper.Communication_send.InData</Name>
+							<Type GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}" Namespace="Tc2_ModbusRTU">MB_PcComInData</Type>
+						</Var>
+						<Var>
+							<Name>Anlage.Gripper.Communication_receive.InData</Name>
+							<Type GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}" Namespace="Tc2_ModbusRTU">MB_PcComInData</Type>
+						</Var>
+					</Vars>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
@@ -52,5 +127,43 @@
 				</Instance>
 			</Project>
 		</Plc>
+		<Io>
+			<Device Id="1" DevType="11" AmsPort="28673">
+				<Name>Gerät 1 (COM Port)</Name>
+				<AddressInfo>
+					<Io>
+						<Port>1000</Port>
+					</Io>
+				</AddressInfo>
+				<Image Id="1" ImageFlags="#x00000014" AddrType="1" ImageType="3">
+					<Name>Prozessabbild</Name>
+				</Image>
+				<Serial Baud="115200" Port="1000" StopBit="1" RsType="2" UPSDisableSysShutdown="true" WaitTimeToShutdown="60" DataSize="16" BufSize="4096" DataBit="8" SyncMode="true" FifoSize="32" ComPortNo="3" Timeout="300"/>
+			</Device>
+		</Io>
 	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
+		<OwnerA Name="TIPC^SPS^SPS Instance">
+			<OwnerB Name="TIID^Device 1 (COM Port)">
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[0]" VarB="Outputs^Data1"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[10]" VarB="Outputs^Data11"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[11]" VarB="Outputs^Data12"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[12]" VarB="Outputs^Data13"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[13]" VarB="Outputs^Data14"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[14]" VarB="Outputs^Data15"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[15]" VarB="Outputs^Data16"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[1]" VarB="Outputs^Data2"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[2]" VarB="Outputs^Data3"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[3]" VarB="Outputs^Data4"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[4]" VarB="Outputs^Data5"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[5]" VarB="Outputs^Data6"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[6]" VarB="Outputs^Data7"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[7]" VarB="Outputs^Data8"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[8]" VarB="Outputs^Data9"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^D[9]" VarB="Outputs^Data10"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication_send.OutData^SerCtrl" VarB="Outputs^Ctrl"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
 </TcSmProject>

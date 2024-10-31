@@ -21,6 +21,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"697"</v>
+              <v n="TextDefault">"Do"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"779"</v>
               <v n="TextDefault">"Erhaltene Daten"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -43,6 +48,11 @@
             <o>
               <v n="TextID">"162"</v>
               <v n="TextDefault">"Länge von Message:"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"68"</v>
+              <v n="TextDefault">"Stopp"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

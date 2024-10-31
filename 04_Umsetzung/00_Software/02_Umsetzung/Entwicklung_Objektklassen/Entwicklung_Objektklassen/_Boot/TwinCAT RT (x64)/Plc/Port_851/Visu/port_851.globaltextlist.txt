@@ -2,10 +2,12 @@ Id;Default
 372;%s
 997;Befehl
 724;Daten lesen
+697;Do
 779;Erhaltene Daten
 166;Erhaltene Daten:
 32;Länge von Array:
 525;Länge von Message
 162;Länge von Message:
+68;Stopp
 320;Test
 1;Verbinden
