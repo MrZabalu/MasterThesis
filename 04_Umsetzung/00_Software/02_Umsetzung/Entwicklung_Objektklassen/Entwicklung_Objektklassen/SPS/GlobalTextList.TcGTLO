@@ -11,6 +11,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"874"</v>
+              <v n="TextDefault">"AUSCHALTEN"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"997"</v>
               <v n="TextDefault">"Befehl"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -26,6 +31,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"468"</v>
+              <v n="TextDefault">"EINSCHALTEN"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"779"</v>
               <v n="TextDefault">"Erhaltene Daten"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -33,6 +43,11 @@
             <o>
               <v n="TextID">"166"</v>
               <v n="TextDefault">"Erhaltene Daten:"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"764"</v>
+              <v n="TextDefault">"KEINE"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -51,8 +66,38 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"303"</v>
+              <v n="TextDefault">"RESETTEN"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"707"</v>
+              <v n="TextDefault">"SkillCommand"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"955"</v>
+              <v n="TextDefault">"START"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"554"</v>
+              <v n="TextDefault">"STARTEN"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"68"</v>
               <v n="TextDefault">"Stopp"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"351"</v>
+              <v n="TextDefault">"STOPPEN"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"785"</v>
+              <v n="TextDefault">"SystemCommand"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

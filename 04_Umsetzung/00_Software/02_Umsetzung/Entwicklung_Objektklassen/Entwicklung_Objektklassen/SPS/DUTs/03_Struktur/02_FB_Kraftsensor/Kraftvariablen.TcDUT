@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Kraftvariablen" Id="{02ad4d97-762c-47de-a2f1-7a6877800f4b}">
+    <Declaration><![CDATA[TYPE Kraftvariablen :
+STRUCT
+	Fx					:LREAL;							// Kraft in X-Richtung 
+	Fy					:LREAL;							// Kraft in Y-Richtung 
+	Fz					:LREAL;							// Kraft in Z-Richtung 
+	Tx					:LREAL;							// Moment auf X-Achse 
+	Ty					:LREAL;							// Moment auf Y-Achse 
+	Tz					:LREAL;							// Moment auf Z-Achse 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

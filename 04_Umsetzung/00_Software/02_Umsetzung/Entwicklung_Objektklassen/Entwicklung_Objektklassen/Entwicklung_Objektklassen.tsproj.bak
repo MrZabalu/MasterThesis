@@ -75,7 +75,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{2F59D77C-3911-49BA-8AD5-3B544174CECD}" Name="SPS" PrjFilePath="SPS\SPS.plcproj" TmcFilePath="SPS\SPS.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{6AFA9BF8-507D-5981-7DA7-397B05CAA922}" TmcPath="SPS\SPS.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{C1AA9896-A33C-C8F3-4E52-0383D7BE8201}" TmcPath="SPS\SPS.tmc">
 					<Name>SPS Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -138,7 +138,7 @@
 				<Image Id="1" ImageFlags="#x00000014" AddrType="1" ImageType="3">
 					<Name>Prozessabbild</Name>
 				</Image>
-				<Serial Baud="115200" Port="1000" StopBit="1" RsType="2" UPSDisableSysShutdown="true" WaitTimeToShutdown="60" DataSize="16" BufSize="4096" DataBit="8" SyncMode="true" FifoSize="32" ComPortNo="3" Timeout="300"/>
+				<Serial Baud="115200" Port="1000" StopBit="1" RsType="2" UPSDisableSysShutdown="true" WaitTimeToShutdown="60" DataSize="16" BufSize="256" DataBit="8" SyncMode="true" FifoSize="256" ComPortNo="3" Timeout="300"/>
 			</Device>
 		</Io>
 	</Project>

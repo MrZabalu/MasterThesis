@@ -43,16 +43,31 @@
     <Compile Include="DUTs\02_Schnittstellen\I_State.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\03_Struktur\PositionValues.TcDUT">
+    <Compile Include="DUTs\03_Struktur\01_FB_Roboter\PositionValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\03_Struktur\Prozessvariablen.TcDUT">
+    <Compile Include="DUTs\03_Struktur\01_FB_Roboter\Prozessvariablen.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\03_Struktur\RealTimeData.TcDUT">
+    <Compile Include="DUTs\03_Struktur\01_FB_Roboter\RealTimeData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\03_Struktur\ValueArray.TcDUT">
+    <Compile Include="DUTs\03_Struktur\01_FB_Roboter\ValueArray.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\02_FB_Kraftsensor\Kraftvariablen.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\02_FB_Kraftsensor\Request.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\02_FB_Kraftsensor\Response_Parameters.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Struktur\02_FB_Kraftsensor\Response_Values.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Array2Byte.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\04_Union\Array4Byte.TcDUT">
@@ -61,7 +76,13 @@
     <Compile Include="DUTs\04_Union\Array8Byte.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\04_Union\INT2Byte.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\04_Union\String2Byte.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\TEST.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
@@ -71,6 +92,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Grundstruktur\GrundstrukturObjekt.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Objektklassen\FB_Kraftsensor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Objektklassen\FB_Roboter.TcPOU">
@@ -107,6 +131,8 @@
     <Folder Include="DUTs\01_Liste\03_Konfiguration" />
     <Folder Include="DUTs\02_Schnittstellen" />
     <Folder Include="DUTs\03_Struktur" />
+    <Folder Include="DUTs\03_Struktur\01_FB_Roboter" />
+    <Folder Include="DUTs\03_Struktur\02_FB_Kraftsensor" />
     <Folder Include="DUTs\04_Union" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\01_Grundstruktur" />

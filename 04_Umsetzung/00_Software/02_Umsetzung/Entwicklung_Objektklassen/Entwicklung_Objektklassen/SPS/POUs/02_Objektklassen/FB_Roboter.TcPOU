@@ -116,6 +116,7 @@ END_VAR
 							bError => bError,
 							nErrId => iErrorID);
 
+//____________________________________________________________________________________________
 // Input-Command-Verwaltung
 IF iSysCommand = 2 AND iState = 0 THEN			// System schaltet Objekt ein
 	Connect_State := TRUE;
@@ -392,7 +393,7 @@ CASE iState OF
 		END_IF
 		
 		// TRANSITION
-			IF bQ1 AND bQ2 AND bQ3 AND bQ4 AND bQ5 AND bQ6 THEN				// Abgeschlossener Prozess
+			IF bQ1 AND bQ2 AND bQ3 AND bQ4 AND bQ5 AND bQ6 THEN									// Abgeschlossener Prozess
 				bQ1 := FALSE;
 				bQ2 := FALSE;
 				bQ3 := FALSE;
@@ -417,19 +418,19 @@ CASE iState OF
 			bDone := TRUE;
 		
 		// TRANSITION
-			IF iSkillCommand = 3 OR iSysCommand = 3 THEN							// Objekt resetten											
+			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten											
 				bDone := FALSE;
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
 	5: // GESTOPPT
 		// DO
-			IF iSkillCommand = 3 THEN																// Durch Skill beendet
+			IF iSkillCommand = 2 THEN																// Durch Skill beendet
 				bDone := TRUE;
 			END_IF
 		
 		// TRANSITION
-			IF iSkillCommand = 3 OR iSysCommand = 3 THEN											// Objekt resetten
+			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten
 				bDone := FALSE;
 				iState := 1;
 			END_IF

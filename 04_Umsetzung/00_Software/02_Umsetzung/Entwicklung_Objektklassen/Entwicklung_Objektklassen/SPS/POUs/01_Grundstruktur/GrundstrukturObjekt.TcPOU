@@ -7,7 +7,6 @@ VAR_INPUT
 	iSkillCommand 		:INT;				// Steuerungsvariabel von Skill
 	iSysCommand			:INT;				// Steuerungsvariabel von System
 	iSysState			:INT;				// Information über Stand von System
-	bReset				:BOOL;				// Trigger für Resett von Objekt
 END_VAR
 VAR_OUTPUT
 	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde

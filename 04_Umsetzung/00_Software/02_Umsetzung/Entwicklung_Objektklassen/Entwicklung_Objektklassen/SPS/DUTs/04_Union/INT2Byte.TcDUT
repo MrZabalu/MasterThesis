@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="INT2Byte" Id="{876aa962-4fe9-43b7-94ee-08790519aa13}">
+    <Declaration><![CDATA[TYPE INT2Byte :
+UNION
+	sValue			:INT; 
+	arrByte 		:ARRAY[0..1] OF BYTE;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

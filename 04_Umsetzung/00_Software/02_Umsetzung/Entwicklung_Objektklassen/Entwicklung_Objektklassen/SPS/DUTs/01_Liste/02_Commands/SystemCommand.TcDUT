@@ -6,7 +6,8 @@
 {attribute 'to_string'}
 TYPE SystemCommand :
 (
-	AUSCHALTEN := 1,
+	KEINE		:= 0,
+	AUSCHALTEN 	:= 1,
 	EINSCHALTEN := 2,
 	STOPPEN		:= 3,
 	RESETTEN	:= 4

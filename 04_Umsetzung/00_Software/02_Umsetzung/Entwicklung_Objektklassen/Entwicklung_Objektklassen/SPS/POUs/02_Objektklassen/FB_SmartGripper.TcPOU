@@ -16,56 +16,57 @@ VAR
 	
 	// Kommunikationsvariablen
 	UnitID      		:BYTE := 9;
-    Quantity    		:WORD := 16;
-    MBAddr      		:WORD := 1000;
+    Quantity    		:WORD := 1;
+    MBAddr      		:WORD := 16#1000;
     Execute     		:BOOL;
     Timeout     		:TIME := T#5S;
 	
 	cbRead				:UINT;
 	State				:INT;
 	
+	
 	Senddaten 			:ARRAY[0..15] OF BYTE;
+	TEST				:TEST;
 
 	
 	Modbusdaten: BYTE;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Senddaten[0] := 9;
+      <ST><![CDATA[
+
+// Instanziierungen
+Senddaten[0] := 9;
 Senddaten[1] := 16;
 Senddaten[2] := 3;
 Senddaten[3] := 232;
 Senddaten[4] := 0;
 Senddaten[5] := 3;
 Senddaten[6] := 6;
-Senddaten[7] := 1;
+Senddaten[7] := 0;
 Senddaten[8] := 0;
 Senddaten[9] := 0;
 Senddaten[10] := 0;
 Senddaten[11] := 0;
 Senddaten[12] := 0; 
-Senddaten[13] := 114;
-Senddaten[14] := 225;
-Senddaten[15] := 0;
+Senddaten[13] := 115;
+Senddaten[14] := 48;
+Senddaten[15] := 0;	
+			
+TEST.arrByte := Senddaten;
 
-// Instanziierungen
-
-IF STATE = 1 THEN
-	State := 2;
-	Communication_send(UnitID := UnitID,
-				Quantity := Quantity,
-				MBAddr := MBAddr,
-				cbLength := SIZEOF(Senddaten),
-				pMemoryAddr := ADR(Senddaten),
-				Execute := Execute,
-				Timeout := Timeout,
-				BUSY => bBusy,
-				Error => bError,
-				ErrorId => iErrorID,
-				cbRead => cbRead);
-				
-Communication_send.WriteSingleRegister();
-END_IF
+//Communication_§end.WriteSingleRegister();
+Communication_send.WriteSingleRegister(UnitID := UnitID,
+										Quantity := Quantity,
+										MBAddr := MBAddr,
+										cbLength := SIZEOF(Senddaten),
+										pMemoryAddr := ADR(Senddaten),
+										Execute := Execute,
+										Timeout := Timeout,
+										BUSY => bBusy,
+										Error => bError,
+										ErrorId => iErrorID,
+										cbRead => cbRead);
 				
 
 //____________________________________________________________________________________________
@@ -89,7 +90,7 @@ END_IF
 		//____________________________________________________________________________________________
 		1: // BEREIT
 			// DO
-		
+
 			// TRANSITION
 		
 		//____________________________________________________________________________________________

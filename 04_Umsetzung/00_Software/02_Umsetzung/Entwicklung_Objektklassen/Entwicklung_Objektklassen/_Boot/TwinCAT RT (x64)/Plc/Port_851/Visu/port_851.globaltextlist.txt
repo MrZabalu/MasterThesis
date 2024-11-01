@@ -1,13 +1,22 @@
 Id;Default
 372;%s
+874;AUSCHALTEN
 997;Befehl
 724;Daten lesen
 697;Do
+468;EINSCHALTEN
 779;Erhaltene Daten
 166;Erhaltene Daten:
+764;KEINE
 32;Länge von Array:
 525;Länge von Message
 162;Länge von Message:
+303;RESETTEN
+707;SkillCommand
+955;START
+554;STARTEN
 68;Stopp
+351;STOPPEN
+785;SystemCommand
 320;Test
 1;Verbinden
