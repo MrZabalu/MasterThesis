@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Ablage" Id="{eeb8ce00-f051-4944-a4e7-7ea369298047}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Ablage
+VAR
+	hr							:HRESULT;
+	fbCamera					:FB_VN_SimpleCameraControl;
+	eState						:ETcVnCameraState; 
+	ipImageIn					:ITcVnImage;
+	ipFilteredImage				:ITcVnImage; 
+	ipProcessedImage			:ITcVnImage; 
+	ipImageInDisplay			:ITcVnDisplayableImage; 
+	ipFilteredImageToDisplay	:ITcVnDisplayableImage; 
+	ipProcessedImageToDisplay	:ITcVnDisplayableImage; 
+	
+	ipContainer  : ITcVnContainer;
+	
+	fThreshold					:LREAL := 140;
+	
+	aCenter    : TcVnPoint2_REAL;
+    fRadius    : REAL := 30;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Beispiel_FindContours();
+
+eState := fbCamera.GetState();
+
+IF eState = TCVN_CS_ERROR THEN
+	hr := fbCamera.Reset();
+	
+ELSIF eState < TCVN_CS_ACQUIRING THEN
+	hr := fbCamera.StartAcquisition();
+	
+ELSIF eState = TCVN_CS_ACQUIRING THEN
+	hr := fbCamera.GetCurrentImage(ipImageIn);
+	
+	IF SUCCEEDED(hr) AND ipImageIn <> 0 THEN
+		
+		hr := F_VN_GaussianFilter(
+			ipSrcImage 		:= ipImageIn,
+			ipDestImage 	:= ipFilteredImage,
+			nFilterWidth 	:= 3,
+			nFilterHeight 	:= 3,
+			hrPrev := hr);
+		
+		hr := F_VN_Threshold(
+			ipSrcImage 		:= ipFilteredImage,	
+			ipDestImage 	:= ipProcessedImage,
+			fThreshold 		:= fThreshold,
+			fMaxValue		:= 255,
+			eThresholdType 	:= TCVN_TT_Binary,
+			hrPrev 			:= hr);
+			
+		hr := F_VN_CreateContainer(ipContainer, ContainerType_Vector_ITcVnImage, 1, hr);
+			
+		hr := F_VN_AppendToContainer_ITcVnImage(
+			ipElement 		:= ipProcessedImage,
+			ipContainer 	:= ipContainer,
+			hrPrev 			:= hr);
+			
+		hr := F_VN_EnclosingCircle(
+				ipPointSet 	:= ipContainer,
+				aCenter 	:= aCenter,
+				fRadius 	:= fRadius,
+				hrPrev 		:= hr);
+				
+			
+		
+		//hr := F_VN_TransformIntoDisplayableImage(ipImageIn, ipImageInDisplay, hr);
+		//hr := F_VN_TransformIntoDisplayableImage(ipFilteredImage, ipFilteredImageToDisplay, hr);
+		//hr := F_VN_TransformIntoDisplayableImage(ipProcessedImage, ipProcessedImageToDisplay, hr);
+		
+		
+	END_IF
+
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

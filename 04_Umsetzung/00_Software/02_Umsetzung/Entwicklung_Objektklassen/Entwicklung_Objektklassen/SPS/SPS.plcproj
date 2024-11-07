@@ -28,7 +28,7 @@
     <Compile Include="DUTs\01_Liste\01_Zustände\SystemState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\02_Commands\ObjectMode.TcDUT">
+    <Compile Include="DUTs\01_Liste\02_Commands\SkillCommand.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\01_Liste\02_Commands\SystemCommand.TcDUT">
@@ -82,11 +82,12 @@
     <Compile Include="DUTs\04_Union\String2Byte.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\04_Union\TEST.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\GVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
@@ -118,9 +119,6 @@
     <Compile Include="VISUs\Test.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="VISU_TASK.TcTTO">
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +191,10 @@
       <DefaultResolution>Tc2_ModbusRTU, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_ModbusRTU</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_SerialCom">
+      <DefaultResolution>Tc2_SerialCom, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_SerialCom</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -223,11 +225,6 @@
     <None Include="SPS.tmc">
       <SubType>Content</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="System_VisuElems">
-      <Resolution>VisuElems, 4.6.0.0 (System)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

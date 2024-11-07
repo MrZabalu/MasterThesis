@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eSystemCommand" Id="{b681ae9b-183a-458d-837e-9a7c35584e58}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eSystemCommand :
+(
+	KEINE		:= 0,
+	AUSCHALTEN 	:= 1,
+	EINSCHALTEN := 2,
+	STOPPEN		:= 3,
+	RESETTEN	:= 4
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

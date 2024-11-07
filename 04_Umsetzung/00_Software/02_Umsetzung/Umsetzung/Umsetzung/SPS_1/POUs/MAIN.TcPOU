@@ -1,13 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="MAIN" Id="{3072df51-7c74-4910-9d79-1ee236673122}">
+  <POU Name="MAIN" Id="{3072df51-7c74-4910-9d79-1ee236673122}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	TestAblauf				:Seq_2;
+	
+	Execute					:BOOL;		
+	Position_1				:sRoboterProzessVariablen;
+	Position_DOWN			:sRoboterProzessVariablen;
+	Position_UP				:sRoboterProzessVariablen;
+	Position_2				:sRoboterProzessVariablen;
+		
 END_VAR
-]]>
-    </Declaration>
+]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[Systemparameter();
+Anlage();
+
+Position_1.q1 := 0.108;
+Position_1.q2 := 0.483;
+Position_1.q3 := 0.405;
+Position_1.q4 := 180;
+Position_1.q5 := 0;
+Position_1.q6 := 0;
+Position_1.v := 0.5;
+Position_1.a := 0.2;
+Position_1.MoveTyp := 3;
+Position_1.PosTyp:= 0;
+
+Position_DOWN.q1 := 0;
+Position_DOWN.q2 := 0;
+Position_DOWN.q3 := -0.2;
+Position_DOWN.q4 := 0;
+Position_DOWN.q5 := 0;
+Position_DOWN.q6 := 0;
+Position_DOWN.v := 0.5;
+Position_DOWN.a := 0.2;
+Position_DOWN.MoveTyp := 0;
+Position_DOWN.PosTyp:= 1;
+
+Position_UP.q1 := 0;
+Position_UP.q2 := 0;
+Position_UP.q3 := 0.2;
+Position_UP.q4 := 0;
+Position_UP.q5 := 0;
+Position_UP.q6 := 0;
+Position_UP.v := 0.5;
+Position_UP.a := 0.2;
+Position_UP.MoveTyp := 0;
+Position_UP.PosTyp:= 1;
+
+Position_2.q1 := -0.04;
+Position_2.q2 := 0.572;
+Position_2.q3 := 0.405;
+Position_2.q4 := 180;
+Position_2.q5 := 0;
+Position_2.q6 := 0;
+Position_2.v := 0.5;
+Position_2.a := 0.2;
+Position_2.MoveTyp := 3;
+Position_2.PosTyp:= 0;
+
+
+TestAblauf(
+	bExecute := Execute,
+	bReset	:= GVL.Reset,
+	Position_1 := Position_1,
+	Position_DOWN := Position_DOWN,
+	Position_UP := Position_UP,
+	Position_2 := Position_2);
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

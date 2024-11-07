@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eRobPosType" Id="{e7690974-672a-40ec-a33a-3474c076613c}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eRobPosType :
+(
+	Absolut := 0,			// Absolute Bewegung bezogen auf Basis-Koordinatensystem
+	Relativ := 1			// Relative Bewegung bezogen auf aktuelle Position
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

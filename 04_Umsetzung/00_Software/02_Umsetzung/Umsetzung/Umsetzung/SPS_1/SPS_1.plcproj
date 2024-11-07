@@ -16,90 +16,198 @@
     <Implicit_KindOfTask>{5d6ff1b1-57db-430d-9279-6f0b7cd7a33e}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{9d089edb-4e9e-47e3-9310-550e1754432d}</Implicit_Jitter_Distribution>
     <LibraryReferences>{c7372b16-fa55-4deb-bc54-c890f0b5df41}</LibraryReferences>
+    <CompilerDefines>VISU_USEPROPERTYINFO</CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\01_Liste\ObjectMode.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\eObjectState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\ObjectState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\eSequenceState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\SkillState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\eSkillState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Liste\SystemState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\eSystemState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_State.TcIO">
+    <Compile Include="DUTs\01_Liste\02_Commands\eSkillCommand.TcDUT">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\01_Liste\02_Commands\eSystemCommand.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\01_Liste\03_Konfiguration\eRobMoveType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\01_Liste\03_Konfiguration\eRobPosType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\02_Schnittstellen\I_State_Skill.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\02_Schnittstellen\I_State_Object.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\01_Schnittstellen\sRoboterProzessVariablen.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter\sPositionArrays.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter\sPositionValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter\sRealTimeData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Array8_LReal.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\String_Array256.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlobalTextList.TcGTLO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\GVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\01_Grundstruktur\GrundstrukturSkill.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_Grundstruktur\GrundstrukturSkill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Backenposition_anfahren.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\00_Referenz\Basis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Bild_aufnehmen.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\Skill_Position_anfahren.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Greiferposition_ermitteln.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP\Skill_Backenposition_anfahren.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Kontrolliert_bewegen.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP\Skill_Bild_aufnehmen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Objekt_erkennen.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP\Skill_Greiferposition_ermitteln.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\02_Skills\Skill_Position_anfahren.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP\Skill_Kontrolliert_bewegen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Skills\Prozesskomponenten.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP\Skill_Objekt_erkennen.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Grundstruktur\GrundstrukturObjekt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Greifer.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Kraftsensor.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Roboter.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Visionsystem.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\Anlage.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\03_Systemparameter\Systemparameter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Visualization Manager.TcVMO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VISUs\00_Debug\SystemState.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="VISU_TASK.TcTTO">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="DUTs\01_Liste" />
+    <Folder Include="DUTs\01_Liste\01_Zustände" />
+    <Folder Include="DUTs\01_Liste\02_Commands" />
+    <Folder Include="DUTs\01_Liste\03_Konfiguration" />
     <Folder Include="DUTs\02_Schnittstellen" />
+    <Folder Include="DUTs\03_Strukturen" />
+    <Folder Include="DUTs\03_Strukturen\01_Schnittstellen" />
+    <Folder Include="DUTs\03_Strukturen\02_Objektintern" />
+    <Folder Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter" />
+    <Folder Include="DUTs\04_Union" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\01_Prozessmodell" />
-    <Folder Include="POUs\01_Prozessmodell\01_Ablauf" />
-    <Folder Include="POUs\01_Prozessmodell\02_Skills" />
-    <Folder Include="POUs\01_Prozessmodell\02_Skills\01_Grundstruktur" />
-    <Folder Include="POUs\01_Prozessmodell\02_Skills\02_Skills" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_Grundstruktur" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_Skills" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_Skills\00_Referenz" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_WIP" />
+    <Folder Include="POUs\01_Prozessmodell\02_Sequenzen" />
     <Folder Include="POUs\02_Anlagenmodell" />
     <Folder Include="POUs\02_Anlagenmodell\01_Grundstruktur" />
     <Folder Include="POUs\02_Anlagenmodell\02_Objektklassen" />
+    <Folder Include="POUs\03_Systemparameter" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
     <Folder Include="VISUs\01_Bedien- und Beobachtung" />
+    <Folder Include="VISUs\00_Debug" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="System_VisuElemMeter">
+      <DefaultResolution>VisuElemMeter, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElemMeter</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuElems">
+      <DefaultResolution>VisuElems, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElems</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuElemsSpecialControls">
+      <DefaultResolution>VisuElemsSpecialControls, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElemsSpecialControls</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuElemsWinControls">
+      <DefaultResolution>VisuElemsWinControls, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElemsWinControls</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuElemTextEditor">
+      <DefaultResolution>VisuElemTextEditor, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElemTextEditor</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuElemXYChart">
+      <DefaultResolution>VisuElemXYChart, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuElemXYChart</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuInputs">
+      <DefaultResolution>VisuInputs, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuInputs</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="System_VisuNativeControl">
+      <DefaultResolution>VisuNativeControl, 4.6.0.0 (System)</DefaultResolution>
+      <Namespace>VisuNativeControl</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -108,10 +216,24 @@
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_TcpIp">
+      <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_TcpIp</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
       <SystemLibrary>true</SystemLibrary>
+    </PlaceholderReference>
+    <PlaceholderReference Include="UML State Chart Types">
+      <DefaultResolution>UML Statechart Types, 4.1.1.0 (3S - Smart Software Solutions GmbH)</DefaultResolution>
+      <Namespace>UML_SC</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>d9a6b70a-92f0-4827-8ca3-8ce8a61652d9</ResolverGuid>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
@@ -122,15 +244,29 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
         <o>
           <v n="Name">"{192FAD59-8248-4824-A8DE-9177C94C195A}"</v>
           <d n="SubKeys" t="Hashtable" />
-          <d n="Values" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="String">
+            <v>CurrentUmlCompilerVersion</v>
+            <v>4.2.2.0</v>
+          </d>
+        </o>
+        <v>{246001F4-279D-43AC-B241-948EB31120E1}</v>
+        <o>
+          <v n="Name">"{246001F4-279D-43AC-B241-948EB31120E1}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="Boolean">
+            <v>GeneralPropertySupport</v>
+            <v>True</v>
+            <v>UnicodeStrings</v>
+            <v>False</v>
+          </d>
         </o>
         <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
         <o>
@@ -184,14 +320,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Array8_LReal" Id="{ed274fc9-6308-4891-b7cf-a95f32782fb7}">
+    <Declaration><![CDATA[TYPE Array8_LReal :
+UNION
+	arrByte			:ARRAY[0..7] OF BYTE;
+	rValue			:LREAL;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

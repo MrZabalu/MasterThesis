@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="sPositionArrays" Id="{e0fec899-2577-47ee-832b-d46de8c3c35a}">
+    <Declaration><![CDATA[TYPE sPositionArrays :
+STRUCT
+	q1		: ARRAY[0..7] OF BYTE;
+	q2		: ARRAY[0..7] OF BYTE;
+	q3		: ARRAY[0..7] OF BYTE;
+	q4		: ARRAY[0..7] OF BYTE;
+	q5		: ARRAY[0..7] OF BYTE;
+	q6		: ARRAY[0..7] OF BYTE;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

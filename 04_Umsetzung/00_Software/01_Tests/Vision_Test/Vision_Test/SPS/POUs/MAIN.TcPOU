@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{3e55035e-be3e-4347-8375-631b5def0d1f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbCamera_2					:FB_VN_SimpleCameraControl;
+	eState_2					:ETcVnCameraState; 
+	
+	hr                    :    HRESULT; 
+	
+	ipImageIn             :    ITcVnImage;
+	ipImageInDisp         :    ITcVnDisplayableImage;
+	ipImageWork           :    ITcVnImage;
+	ipImageThresholdDisp  :    ITcVnDisplayableImage;
+	ipImageRes            :    ITcVnImage;
+	ipImageResDisp        :    ITcVnDisplayableImage;
+	
+	// Sample Specific Variables    
+	ipContourList         :    ITcVnContainer;
+	ipContourResultList   :    ITcVnContainer;
+	ipContour             :    ITcVnContainer;
+	ipIterator            :    ITcVnForwardIterator;
+	aOffset               :    TcVnPoint;
+	
+	fThreshold            :    LREAL := 70;
+	
+	fArea                 :    LREAL;
+	fAreaMin              :    LREAL := 100;
+	fAreaMax              :    LREAL := 100000;
+	
+	fCircularity          :    LREAL;
+	fCircularityMin       :    LREAL := 0.8;
+	
+	// Image Infos
+	stPixelFormat         :    TcVnPixelFormat;
+	
+	// COLORS
+	aColorGreen           :    TcVnVector4_LREAL    :=    [0, 255, 0];
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[eState_2 := fbCamera_2.GetState();
+
+IF eState_2 = TCVN_CS_ERROR THEN
+	hr := fbCamera_2.Reset();
+	
+ELSIF eState_2 < TCVN_CS_ACQUIRING THEN
+	hr := fbCamera_2.StartAcquisition();
+	
+ELSIF eState_2 = TCVN_CS_ACQUIRING THEN
+	hr := fbCamera_2.GetCurrentImage(ipImageIn);
+	
+	IF SUCCEEDED(hr) AND ipImageIn <> 0 THEN
+		// Image Segementation
+		hr := F_VN_Threshold(ipImageIn, ipImageWork, fThreshold, 255, TCVN_TT_Binary, hr);
+		
+		// Find Contours
+		hr := F_VN_FindContoursExp(
+				ipSrcImage             := ipImageWork, 
+				ipContours             := ipContourList, 
+				eRetrievalMode         := ETcVnContourRetrievalmode.TCVN_CRM_LIST, 
+				eApproximationMethod   := ETcVnContourApproximationMethod.TCVN_CAM_SIMPLE, 
+				aOffset                := aOffset, 
+				hrPrev                 := hr);
+				
+		// Filter Contours
+		hr := F_VN_GetForwardIterator(ipContourList, ipIterator, hr);
+		hr := F_VN_CreateContainer(ipContourResultList, ContainerType_Vector_Vector_TcVnPoint2_DINT, 0, hr);
+		
+		WHILE SUCCEEDED(hr) AND_THEN ipIterator.CheckIfEnd() <> S_OK DO
+		
+			hr := F_VN_GetContainer(ipIterator, ipContour, hr);
+			hr := F_VN_IncrementIterator(ipIterator, hr);
+		
+			// Filter by Area
+			hr := F_VN_ContourArea(ipContour, fArea, hr);
+		
+			IF fArea > fAreaMin AND fArea < fAreaMax THEN
+		
+				// Filter by Circularity
+				hr := F_VN_ContourCircularity(ipContour, fCircularity, hr);
+		
+				IF fCircularity > fCircularityMin THEN
+					// Add contour to the result contour container
+					hr := F_VN_AppendToContainer_ITcVnContainer(ipContour, ipContourResultList, hr);
+		
+				END_IF
+			END_IF
+		END_WHILE
+		
+		// Draw contours into the result image and display it
+		hr := F_VN_DrawContours(ipContourResultList, -1, ipImageRes, aColorGreen, 3, hr);
+		hr := F_VN_TransformIntoDisplayableImage(ipImageRes, ipImageResDisp, hr);
+	END_IF
+END_IF
+
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

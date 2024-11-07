@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eRobMoveType" Id="{4912dcde-a725-424f-9b1a-9f397ef58d80}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eRobMoveType :
+(
+	LinearToolSpace 			:= 0,		// Move to position (linear in tool-space)
+	LinearJointSpace 			:= 1,		// Move to position (linear in joint-space)
+	CircularToolSpace 			:= 2,		// Move Circular: Move to position (circular in tool-space)
+	BlendCircularMoveLinear		:= 3		// Move Process
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

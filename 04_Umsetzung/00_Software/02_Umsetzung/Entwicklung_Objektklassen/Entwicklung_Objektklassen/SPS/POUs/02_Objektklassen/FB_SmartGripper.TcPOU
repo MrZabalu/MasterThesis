@@ -11,62 +11,56 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Instanziierung von Kommunikationsbausteine
-	Communication_send		:ModbusRtuMasterV2_PcCOM;
-	Communication_receive	:ModbusRtuMasterV2_PcCOM;
+	Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
+	
+
 	
 	// Kommunikationsvariablen
 	UnitID      		:BYTE := 9;
-    Quantity    		:WORD := 1;
-    MBAddr      		:WORD := 16#1000;
-    Execute     		:BOOL;
+    Quantity    		:WORD := 3;
+    MBAddr      		:WORD := 1000;
+    Execute_1     		:BOOL;
     Timeout     		:TIME := T#5S;
 	
 	cbRead				:UINT;
-	State				:INT;
-	
-	
-	Senddaten 			:ARRAY[0..15] OF BYTE;
-	TEST				:TEST;
 
-	
-	Modbusdaten: BYTE;
+	Senddaten 			:ARRAY[0..2] OF INT;
+
+
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-// Instanziierungen
-Senddaten[0] := 9;
-Senddaten[1] := 16;
-Senddaten[2] := 3;
-Senddaten[3] := 232;
-Senddaten[4] := 0;
-Senddaten[5] := 3;
-Senddaten[6] := 6;
-Senddaten[7] := 0;
-Senddaten[8] := 0;
-Senddaten[9] := 0;
-Senddaten[10] := 0;
-Senddaten[11] := 0;
-Senddaten[12] := 0; 
-Senddaten[13] := 115;
-Senddaten[14] := 48;
-Senddaten[15] := 0;	
-			
-TEST.arrByte := Senddaten;
+      <ST><![CDATA[// Instanziierungen
+Senddaten[0] := 0;
+Senddaten[1] := 0;
+Senddaten[2] := 0;
 
 //Communication_§end.WriteSingleRegister();
-Communication_send.WriteSingleRegister(UnitID := UnitID,
-										Quantity := Quantity,
-										MBAddr := MBAddr,
-										cbLength := SIZEOF(Senddaten),
-										pMemoryAddr := ADR(Senddaten),
-										Execute := Execute,
-										Timeout := Timeout,
-										BUSY => bBusy,
-										Error => bError,
-										ErrorId => iErrorID,
-										cbRead => cbRead);
+	Communication.WriteRegs(
+		UnitID := UnitID,
+		Quantity := Quantity,
+		MBAddr := MBAddr,
+		cbLength := SIZEOF(Senddaten),
+		pMemoryAddr := ADR(Senddaten),
+		Execute := Execute_1,
+		Timeout := Timeout,
+		BUSY => bBusy,
+		Error => bError,
+		ErrorId => iErrorID,
+		cbRead => cbRead);
+		
+	//Communication.ReadRegs(
+	//UnitID := UnitID,
+	//Quantity := Quantity,
+	//MBAddr := MBAddr,
+	//cbLength := SIZEOF(Receivedaten),
+	//pMemoryAddr := ADR(Receivedaten),
+	//Execute := Execute_2,
+	//Timeout := Timeout,
+	//BUSY => bBusy,
+	//Error => bError,
+	//ErrorId => iErrorID,
+	//cbRead => cbRead);
 				
 
 //____________________________________________________________________________________________

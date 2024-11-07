@@ -4,11 +4,11 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR_INPUT
 	SysCommand			:SystemCommand;
-	SkillCommand		:ObjectMode;
+	SkillCommand		:Skillcommand;
 	testProcessValue	:Prozessvariablen; 
 	
 	Switch				:BOOL;
-	
+
 	
 END_VAR
 ]]></Declaration>

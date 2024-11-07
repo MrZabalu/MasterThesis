@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="GVL" Id="{60ef8ccc-00cf-4757-a644-383c87ef5c44}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Schnittstellenvariablen 
+		// System: 
+		SystemState					:eSystemState; 
+		SystemCommand				:eSystemCommand; 
+		Error						:BOOL;
+		
+		// Kontrollvariablen: 
+		Reset						:BOOL;
+
+		
+			
+		
+		
+		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

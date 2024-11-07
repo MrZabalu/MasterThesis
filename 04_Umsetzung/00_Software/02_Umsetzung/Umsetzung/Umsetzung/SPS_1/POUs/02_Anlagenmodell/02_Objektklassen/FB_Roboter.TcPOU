@@ -3,75 +3,742 @@
   <POU Name="FB_Roboter" Id="{b3336451-2f79-4a9f-969c-e7cbe82c2874}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Roboter EXTENDS GrundstrukturObjekt
 VAR_INPUT
+	// Kommunikationsvariablen
+	sIP						:T_IPv4Addr;
+	iPort_Prim				:UINT;
+	iPort_RT				:UINT;
+	
+	// Prozessvariablen
+	Prozessvariablen		:sRoboterProzessVariablen;
 END_VAR
 
 VAR_OUTPUT
 END_VAR
 
 VAR
+	// Instanziierung von Kommunikationsbausteine
+	Connect					:FB_SocketConnect;
+	Disconnect				:FB_SocketCloseALL;
+	Send_START				:FB_SocketSend;
+	Send_STOP				:FB_SocketSend;
+	Connect_RT				:FB_SocketConnect;
+	Receive_RT				:FB_SocketReceive;
+	Disconnect_RT			:FB_SocketClose;
+	
+	// Kommunikationsvariablen
+	sSrvNetId   			:T_AmsNetId := '';
+	tTimeout    			:TIME := T#45S;(*!!!*)
+	hSocket    				:T_HSOCKET;
+	hSocket_RT    			:T_HSOCKET;
+	
+	// Managementvariablen
+	Connect_State			:BOOL;
+	Disconnect_State		:BOOL;
+	bTurnedOn 				:BOOL;
+	
+	bVerbinden				:BOOL;
+	bTrennen				:BOOL;
+	bBewegungZuPosition		:BOOL;
+	bBewegungStoppen		:BOOL;
+	
+	Delay_1					:TON;
+	Delay_2					:TON;
+	
+	bQ1						:BOOL;
+	bQ2						:BOOL;
+	bQ3						:BOOL;
+	bQ4						:BOOL;
+	bQ5						:BOOL;
+	bQ6						:BOOL;
+	
+	bVQ1					:BOOL;
+	bVQ2					:BOOL;
+	bVQ3					:BOOL;
+	bVQ4					:BOOL;
+	bVQ5					:BOOL;
+	bVQ6					:BOOL;
+	
+	// RealTimeDatenerfassung
+	RT_State				:INT;							// RealTime-State-Variable
+	ReceivedData			:sRealTimedata;					// Erhaltene Daten von Roboter
+	nRecBytes				:UDINT;							// Anzahl der erhaltenen Bytes
+	
+	JointPositions			:sPositionValues;				// Ausgelesene aktuelle Joint-Positonen-Byte
+	JointSpeed				:sPositionValues;				// Ausgelesene aktuelle Joint-Geschwindigkeit-Byte
+	ToolPosition			:sPositionValues;				// Ausgelesene aktuelle Tool-Positonen-Byte
+	
+	TempJointPosRev			:sPositionArrays;				// Ausgelesene aktuelle Joint-Positonen-Byte (Reversed)
+	TempJointVRev			:sPositionArrays;				// Ausgelesene aktuelle Joint-Geschwindigkeit-Byte (Reversed)	
+	TempToolPosRev			:sPositionArrays;				// Ausgelesene aktuelle Tool-Positonen-Byte(Reversed)
+	
+	Joint					:Array8_LReal;					// Aktuelle Joint-Positonen
+	JSpeed					:Array8_LReal;					// Aktuelle Joint-Geschwindgeit
+	Tool					:Array8_LReal;					// Aktuelle Tool-Positionen
+	m						:INT;							// Loop-Variable
+	
+	// Prozessdaten
+	TargetPosition			:sPositionValues;				// Targetpositions
+	bSetValues				:BOOL;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE iState OF 
+      <ST><![CDATA[// Instanziierungen
+	Connect_RT(sSrvNetId := sSrvNetId,
+							sRemoteHost := sIP,
+							nRemotePort := iPort_RT,
+							tTimeout := tTimeout,
+							bBusy => bBusy,
+							bError => bError,
+							nErrId => iErrorID,
+							hSocket => hSocket_RT);	
+							
+	Send_START(sSrvNetId := sSrvNetId,
+			hSocket := hSocket,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID);
+	Send_STOP(sSrvNetId := sSrvNetId,
+			hSocket := hSocket,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID);
+							
+	Receive_RT(sSrvNetId := sSrvNetId,
+							hSocket := hSocket_RT,
+							cbLen := SIZEOF(ReceivedData),
+							pDest := ADR(ReceivedData),
+							tTimeout := tTimeout,
+							bBusy => bBusy,
+							bError => bError,
+							nErrId => iErrorID,
+							nRecBytes => nRecBytes);
+							
+	Disconnect_RT(sSrvNetId := sSrvNetId,
+							hSocket := hSocket_RT,
+							tTimeout := tTimeout,
+							bBusy => bBusy,
+							bError => bError,
+							nErrId => iErrorID);
+
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+IF iSysCommand = 2 AND iState = 0 THEN			// System schaltet Objekt ein
+	Connect_State := TRUE;
+END_IF
+
+IF iSysCommand = 1 AND iState = 1 THEN			// System schaltet Objekt aus
+	Disconnect_State := TRUE;				
+END_IF
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+IF Connect_State THEN
+	bVerbinden := Verbinden();
+	bTurnedOn := TRUE;
+END_IF
+
+IF Disconnect_State THEN
+	bTrennen := Trennen();
+	bTurnedOn := FALSE;
+	RT_State := 0;
+END_IF
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+IF bTurnedOn THEN
+	CASE RT_State OF 
+		0:	// Connect to RealTimePort
+				Connect_RT(bExecute := TRUE);			
+					
+				IF NOT Connect_RT.bBusy AND NOT Connect_RT.bError THEN
+					Connect_RT.bExecute := FALSE;
+					RT_State := 1;
+				END_IF
+		
+		1:	// Get Data 
+				Receive_RT(bExecute := TRUE);
+			
+				IF NOT Receive_RT.bBusy AND NOT Receive_RT.bError THEN
+					Receive_RT.bExecute := FALSE;
+					RT_State := 2;
+				END_IF
+				
+		2:	// Use Data
+				m := 0;
+		
+				// Reverse Array
+				FOR m := 0 TO 7 DO
+					TempJointPosRev.q1[m] := ReceivedData.qActualQ1[7 - m];
+					TempJointPosRev.q2[m] := ReceivedData.qActualQ2[7 - m];
+					TempJointPosRev.q3[m] := ReceivedData.qActualQ3[7 - m];
+					TempJointPosRev.q4[m] := ReceivedData.qActualQ4[7 - m];
+					TempJointPosRev.q5[m] := ReceivedData.qActualQ5[7 - m];
+					TempJointPosRev.q6[m] := ReceivedData.qActualQ6[7 - m];
+					
+					TempJointVRev.q1[m] := ReceivedData.qdActualQ1[7 - m];
+					TempJointVRev.q2[m] := ReceivedData.qdActualQ2[7 - m];
+					TempJointVRev.q3[m] := ReceivedData.qdActualQ3[7 - m];
+					TempJointVRev.q4[m] := ReceivedData.qdActualQ4[7 - m];
+					TempJointVRev.q5[m] := ReceivedData.qdActualQ5[7 - m];
+					TempJointVRev.q6[m] := ReceivedData.qdActualQ6[7 - m];
+					
+					TempToolPosRev.q1[m] := ReceivedData.toolVectorQ1[7 - m];
+					TempToolPosRev.q2[m] := ReceivedData.toolVectorQ2[7 - m];
+					TempToolPosRev.q3[m] := ReceivedData.toolVectorQ3[7 - m];
+					TempToolPosRev.q4[m] := ReceivedData.toolVectorQ4[7 - m];
+					TempToolPosRev.q5[m] := ReceivedData.toolVectorQ5[7 - m];
+					TempToolPosRev.q6[m] := ReceivedData.toolVectorQ6[7 - m];
+				END_FOR
+			
+				Joint.arrByte := TempJointPosRev.q1;
+				JointPositions.q1 := RAD_TO_DEG(Joint.rValue);
+				Joint.arrByte := TempJointPosRev.q2;
+				JointPositions.q2 := RAD_TO_DEG(Joint.rValue);
+				Joint.arrByte := TempJointPosRev.q3;
+				JointPositions.q3 := RAD_TO_DEG(Joint.rValue);
+				Joint.arrByte := TempJointPosRev.q4;
+				JointPositions.q4 := RAD_TO_DEG(Joint.rValue);
+				Joint.arrByte := TempJointPosRev.q5;
+				JointPositions.q5 := RAD_TO_DEG(Joint.rValue);
+				Joint.arrByte := TempJointPosRev.q6;
+				JointPositions.q6 := RAD_TO_DEG(Joint.rValue);
+				
+				JSpeed.arrByte := TempJointVRev.q1;
+				JointSpeed.q1 := JSpeed.rValue;
+				JSpeed.arrByte := TempJointVRev.q2;
+				JointSpeed.q2 := JSpeed.rValue;
+				JSpeed.arrByte := TempJointVRev.q3;
+				JointSpeed.q3 := JSpeed.rValue;
+				JSpeed.arrByte := TempJointVRev.q4;
+				JointSpeed.q4 := JSpeed.rValue;
+				JSpeed.arrByte := TempJointVRev.q5;
+				JointSpeed.q5 := JSpeed.rValue;
+				JSpeed.arrByte := TempJointVRev.q6;
+				JointSpeed.q6 := JSpeed.rValue;
+				
+				Tool.arrByte := TempToolPosRev.q1;
+				ToolPosition.q1 := Tool.rValue;
+				Tool.arrByte := TempToolPosRev.q2;
+				ToolPosition.q2 := Tool.rValue;
+				Tool.arrByte := TempToolPosRev.q3;
+				ToolPosition.q3 := Tool.rValue;
+				Tool.arrByte := TempToolPosRev.q4;
+				ToolPosition.q4 := RAD_TO_DEG(Tool.rValue);
+				Tool.arrByte := TempToolPosRev.q5;
+				ToolPosition.q5 := RAD_TO_DEG(Tool.rValue);
+				Tool.arrByte := TempToolPosRev.q6;
+				ToolPosition.q6 := RAD_TO_DEG(Tool.rValue);
+				
+				Delay_2(IN := TRUE, PT := T#0.5S);
+				IF Delay_2.Q THEN
+					Delay_2(IN := FALSE);
+					RT_State := 3;
+				END_IF
+				
+		3:	// Disconnect from RealTimePort
+				Disconnect_RT(bExecute := TRUE);
+							
+				IF NOT Disconnect_RT.bBusy AND NOT Disconnect_RT.bError THEN
+					Disconnect_RT.bExecute := FALSE;
+					RT_State := 0;
+				END_IF
+		
+	END_CASE
+END_IF
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bError THEN 
+	iState := 6;
+END_IF
+
+CASE iState OF 
 	0: // AUS
 		// DO
 		
 		// TRANSITION
-	
+			IF bVerbinden THEN							// Verbindung wird aufgebaut
+				Connect_State := FALSE;
+				bVerbinden := FALSE;
+				iState := 1;
+			END_IF
+			
+	//____________________________________________________________________________________________
 	1: // BEREIT
 		// DO
+			IF iSkillCommand = 1 THEN
+				bBewegungZuPosition := A_BewegungZuPosition();
+			END_IF
+			
+			IF bBewegungZuPosition THEN
+				Delay_1(IN := TRUE, PT := T#0.2S);
+			END_IF
 		
 		// TRANSITION
+			IF bTrennen THEN							// Verbindung wird getrennt
+				Disconnect_State := FALSE;
+				bTrennen := FALSE;
+				iState := 0;
+			END_IF
+			
+														// Manuell-Modus wird eingeschalten
+													
+			 IF Delay_1.Q THEN							// Objekt führt Prozessdurch
+				 Delay_1(IN := FALSE);
+				 bBewegungZuPosition := FALSE;
+				 iState := 3;
+			 END_IF			
 	
+	//____________________________________________________________________________________________
 	2: // MANUELL
 		// DO
 		
 		// TRANSITION
 	
+	//____________________________________________________________________________________________
 	3: // LAUFEND
 		// DO
+			bBusy := TRUE;
+			
+			// Ermitteln von TargetPosition 
+			IF NOT bSetvalues THEN
+				// Kartesisch
+				IF Prozessvariablen.MoveTyp = 0 OR Prozessvariablen.MoveTyp = 3 THEN
+					// Absolut
+					IF Prozessvariablen.PosTyp = 0 THEN
+						TargetPosition.q1 := Prozessvariablen.q1;
+						TargetPosition.q2 := Prozessvariablen.q2;
+						TargetPosition.q3 := Prozessvariablen.q3;
+						TargetPosition.q4 := Prozessvariablen.q4;
+						TargetPosition.q5 := Prozessvariablen.q5;
+						TargetPosition.q6 := Prozessvariablen.q6;		
+					END_IF
+										
+					// Relativ
+					IF Prozessvariablen.PosTyp = 1 THEN
+						TargetPosition.q1 := ToolPosition.q1 + Prozessvariablen.q1;
+						TargetPosition.q2 := ToolPosition.q2 + Prozessvariablen.q2;
+						TargetPosition.q3 := ToolPosition.q3 + Prozessvariablen.q3;
+						TargetPosition.q4 := ToolPosition.q4 + Prozessvariablen.q4;
+						TargetPosition.q5 := ToolPosition.q5 + Prozessvariablen.q5;
+						TargetPosition.q6 := ToolPosition.q6 + Prozessvariablen.q6;
+					END_IF
+					
+				END_IF
+				
+				// Gelenkwinkel
+				IF Prozessvariablen.MoveTyp = 1 THEN
+					TargetPosition.q1 := Prozessvariablen.q1;
+					TargetPosition.q2 := Prozessvariablen.q2;
+					TargetPosition.q3 := Prozessvariablen.q3;
+					TargetPosition.q4 := Prozessvariablen.q4;
+					TargetPosition.q5 := Prozessvariablen.q5;
+					TargetPosition.q6 := Prozessvariablen.q6;	
+				END_IF
+			
+				bSetvalues := TRUE;
+			END_IF
+
+			// Vergleich zwischen IST und SOLL
+			// Kartesisch
+			IF Prozessvariablen.MoveTyp = 0 OR Prozessvariablen.MoveTyp = 3 THEN
+				IF ABS(ABS(TargetPosition.q1) - ABS(ToolPosition.q1)) < 0.001 THEN
+					bQ1 := TRUE;
+				END_IF
+				
+				IF ABS(ABS(TargetPosition.q2) - ABS(ToolPosition.q2)) < 0.001 THEN
+					bQ2 := TRUE;
+				END_IF
+				
+				IF ABS(ABS(TargetPosition.q3) - ABS(ToolPosition.q3)) < 0.001 THEN
+					bQ3 := TRUE;
+				END_IF
+				
+				IF ABS(ABS(TargetPosition.q4) - ABS(ToolPosition.q4)) < 1 THEN
+					bQ4 := TRUE;
+				END_IF
+				
+				IF ABS(ABS(TargetPosition.q5) - ABS(ToolPosition.q5)) < 1 THEN
+					bQ5 := TRUE;
+				END_IF
+				
+				IF ABS(ABS(TargetPosition.q6) - ABS(ToolPosition.q6)) < 1 THEN
+					bQ6 := TRUE;
+				END_IF
+			END_IF
+			
+			// Gelenkwinkel
+			IF Prozessvariablen.MoveTyp = 1 THEN
+				IF ABS(TargetPosition.q1) - ABS(JointPositions.q1) < 0.1 THEN
+					bQ1 := TRUE;
+				END_IF
+				
+				IF ABS(TargetPosition.q2) - ABS(JointPositions.q2) < 0.1 THEN
+					bQ2 := TRUE;
+				END_IF
+				
+				IF ABS(TargetPosition.q3) - ABS(JointPositions.q3) < 0.1 THEN
+					bQ3 := TRUE;
+				END_IF
+				
+				IF ABS(TargetPosition.q4) - ABS(JointPositions.q4) < 0.1 THEN
+					bQ4 := TRUE;
+				END_IF
+				
+				IF ABS(TargetPosition.q5) - ABS(JointPositions.q5) < 0.1 THEN
+					bQ5 := TRUE;
+				END_IF
+				
+				IF ABS(TargetPosition.q6) - ABS(JointPositions.q6) < 0.1 THEN
+					bQ6 := TRUE;
+				END_IF
+			END_IF
+				
+			// Stoppen auslösen und Prüfgung
+			IF iSkillCommand = 2 OR iSysCommand = 3 THEN
+				A_BewegungStoppen();
+				
+				bBewegungStoppen := TRUE;
+				
+				IF JointSpeed.q1 = 0 THEN
+					bVQ1 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q2 = 0 THEN
+					bVQ2 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q3 = 0 THEN
+					bVQ3 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q4 = 0 THEN
+					bVQ4 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q5 = 0 THEN
+					bVQ5 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q6 = 0 THEN
+					bVQ6 := TRUE;
+				END_IF
+			END_IF 
+				
 		
 		// TRANSITION
+			IF bQ1 AND bQ2 AND bQ3 AND bQ4 AND bQ5 AND bQ6 THEN									// Abgeschlossener Prozess
+				bQ1 := FALSE;
+				bQ2 := FALSE;
+				bQ3 := FALSE;
+				bQ4 := FALSE;
+				bQ5 := FALSE;
+				bQ6 := FALSE;
+				
+				bSetvalues := FALSE;
+				bBusy := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bBewegungStoppen THEN
+								
+				IF bVQ1 AND bVQ2 AND bVQ3 AND bVQ4 AND bVQ5 AND bVQ6 THEN							// Gestoppter Prozess
+					bBewegungStoppen := FALSE;
+					bVQ1 := FALSE;	
+					bVQ2 := FALSE;	
+					bVQ3 := FALSE;	
+					bVQ4 := FALSE;	
+					bVQ5 := FALSE;	
+					bVQ6 := FALSE;	
+						
+					bSetvalues := FALSE;																
+					bBusy := FALSE;
+					iState := 5;
+				END_IF
+			END_IF
 	
+	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN
 		// DO
+			bDone := TRUE;
 		
 		// TRANSITION
-	
+			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten											
+				bDone := FALSE;
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
 	5: // GESTOPPT
 		// DO
+			IF iSkillCommand = 2 THEN																// Durch Skill beendet
+				bDone := TRUE;
+			END_IF
 		
 		// TRANSITION
+			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten
+				bDone := FALSE;
+				iState := 1;
+			END_IF
 	
+	//____________________________________________________________________________________________
 	6: // FEHLER
 		// DO
+			bDone := FALSE;
+			bBusy := FALSE;
 		
 		// TRANSITION
+			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten
+					iState := 1;
+				END_IF
 	
 END_CASE]]></ST>
     </Implementation>
     <Folder Name="01_Methoden" Id="{1aa946ee-754d-4b9a-827e-c2d8360194ef}">
       <Folder Name="01_Nicht-Funktional" Id="{dba25a55-927e-456a-8761-8632b877b9de}" />
-      <Folder Name="02_Funktional" Id="{c0be9bff-a129-4d21-a449-75936cff3ce2}" />
+      <Folder Name="02_Funktional" Id="{c0be9bff-a129-4d21-a449-75936cff3ce2}">
+        <Folder Name="01_Manuell" Id="{5446f96e-eec6-42cc-a50a-52e3aea41b86}" />
+        <Folder Name="02_Automatik" Id="{dc640de9-b1af-4a50-9890-db6e6bebe055}" />
+      </Folder>
     </Folder>
     <Folder Name="02_Eigenschaften" Id="{678e1a2f-8921-40a4-99a9-2a17bd9f9add}" />
+    <Method Name="A_BewegungStoppen" Id="{2ff7e932-c7bc-4418-b317-fcce664a73b2}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
+      <Declaration><![CDATA[METHOD A_BewegungStoppen : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	stringFormat   		:FB_FormatString;		// Funktion für Stringerstellung	
+	a					:INT := 2;
+
+	Command				:T_MaxString;			// Commandstring
+	CommandArray		:String_Array256;		// Byte-Array für Kommunikation mit Roboter
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stringFormat(sFormat := 'stopj(%d)',
+							arg1 := F_INT(a),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);	
+							
+// VOrbereiten von Array 
+	CommandArray.sValue := Command;
+	CommandArray.arrByte[LEN(CommandArray.sValue)] := 10;
+	
+// Senden von Array
+	Send_STOP(cbLen := LEN(CommandArray.sValue),
+			pSrc := ADR(CommandArray.arrByte),
+			bExecute := TRUE);
+			
+	IF NOT bBusy THEN
+		Send_STOP.bExecute := FALSE;
+		A_BewegungStoppen := TRUE;
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="A_BewegungZuPosition" Id="{ae273d58-b027-42f0-9b62-44c4d2724a45}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
+      <Declaration><![CDATA[METHOD A_BewegungZuPosition : BOOL
+VAR 
+	
+	x					:LREAL;				// X-Koordinate
+	y					:LREAL;				// Y-Koordinate
+	z					:LREAL;				// Z-Koordinate
+	rx					:LREAL;				// Orintierung um X-Achse
+	ry					:LREAL;				// Orientierung um Y-Achse
+	rz					:LREAL;				// Orientierung um Z-Achse
+	
+	q1					:LREAL;				// Joint-Position 1
+	q2					:LREAL;				// Joint-Position 2
+	q3					:LREAL;				// Joint-Position 3
+	q4					:LREAL;				// Joint-Position 4
+	q5					:LREAL;				// Joint-Position 5
+	q6					:LREAL;				// Joint-Position 6
+
+	stringFormat   : FB_FormatString;		// Funktion für Stringerstellung
+
+	pose			:T_MaxString;			// Positionsstring
+	Command			:T_MaxString;			// Commandstring
+	
+	CommandArray	:String_Array256;			// Byte-Array für Kommunikation mit Roboter
+	
+END_VAR
+VAR_INPUT
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Einfluss von Positionart
+	IF Prozessvariablen.PosTyp = 1 THEN		// Relative Bewegung
+		
+		x := ToolPosition.q1 + Prozessvariablen.q1;
+		y := ToolPosition.q2 + Prozessvariablen.q2;
+		z := ToolPosition.q3 + Prozessvariablen.q3;
+		rx := DEG_TO_RAD(ToolPosition.q4 + Prozessvariablen.q4);
+		ry := DEG_TO_RAD(ToolPosition.q5 + Prozessvariablen.q5);
+		rz := DEG_TO_RAD(ToolPosition.q6 + Prozessvariablen.q6);
+		
+	END_IF
+	
+	IF Prozessvariablen.PosTyp = 0 THEN		// Absolute Bewegung
+		
+		x := Prozessvariablen.q1;
+		y := Prozessvariablen.q2;
+		z := Prozessvariablen.q3;
+		rx := DEG_TO_RAD(Prozessvariablen.q4);
+		ry := DEG_TO_RAD(Prozessvariablen.q5);
+		rz := DEG_TO_RAD(Prozessvariablen.q6);
+		
+	END_IF
+	
+	stringFormat(sFormat := 'p[%.3f,%.3f,%.3f,%.3f,%.3f,%.3f]',
+			arg1 := F_LREAL(x),
+			arg2 := F_LREAL(y),
+			arg3 := F_LREAL(z),
+			arg4 := F_LREAL(rx),
+			arg5 := F_LREAL(ry),
+			arg6 := F_LREAL(rz),
+			bError => bError,
+			nErrId => iErrorID,
+			sOut => pose);
+
+// Einlfuss von Bewegungsart
+	IF Prozessvariablen.MoveTyp = 0 THEN			// Move to position (linear in tool-space)
+													// movel(pose, a=1.2, v=0.25, t=0, r=0)
+		stringFormat(sFormat := 'movel(%s, a=%.2f, v=%.2f)',
+							arg1 := F_STRING(pose),
+							arg2 := F_LREAL(Prozessvariablen.a),
+							arg3 := F_LREAL(Prozessvariablen.v),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);											
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 1 THEN			// Move to position (linear in joint-space)
+													// movej(q, a=1.4, v=1.05, t=0, r =0)
+		q1 := DEG_TO_RAD(Prozessvariablen.q4);
+		q2 := DEG_TO_RAD(Prozessvariablen.q5);
+		q3 := DEG_TO_RAD(Prozessvariablen.q6);
+		q4 := DEG_TO_RAD(Prozessvariablen.q4);
+		q5 := DEG_TO_RAD(Prozessvariablen.q5);
+		q6 := DEG_TO_RAD(Prozessvariablen.q6);
+		
+		stringFormat(sFormat := 'movej([%.3f,%.3f,%.3f,%.3f,%.3f,%.3f], a=%.2f, v=%.2f)',
+							arg1 := F_LREAL(q1),
+							arg2 := F_LREAL(q2),
+							arg3 := F_LREAL(q3),
+							arg4 := F_LREAL(q4),
+							arg5 := F_LREAL(q5),
+							arg6 := F_LREAL(q6),
+							arg7 := F_LREAL(Prozessvariablen.a),
+							arg8 := F_LREAL(Prozessvariablen.v),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);	
+													
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 2 THEN			// Move Circular: Move to position (circular in tool-space)
+													//movec(pose_via, pose_to, a=1.2, v=0.25, r =0, mode=0)
+													
+		
+	END_IF
+	
+	IF Prozessvariablen.MoveTyp = 3 THEN			// Move Process
+													// movep(pose, a=1.2, v=0.25, r=0)
+		stringFormat(sFormat := 'movep(%s, a=%.2f, v=%.2f)',
+							arg1 := F_STRING(pose),
+							arg2 := F_LREAL(Prozessvariablen.a),
+							arg3 := F_LREAL(Prozessvariablen.v),
+							bError => bError,
+							nErrId => iErrorID,
+							sOut => Command);												
+	END_IF
+
+// Vorbereiten von Array
+	CommandArray.sValue := Command;
+	CommandArray.arrByte[LEN(CommandArray.sValue)] := 10;
+
+// Senden von Array	
+	Send_START(cbLen := LEN(CommandArray.sValue),
+			pSrc := ADR(CommandArray.arrByte),
+			bExecute := TRUE);
+			
+	IF NOT bBusy THEN
+		Send_START(bExecute := FALSE);
+		A_BewegungZuPosition := TRUE;
+	END_IF
+	
+	
+						]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_JointPosition" Id="{ac4bb86b-eff3-406a-b366-5ed6a015ec6c}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_JointPosition : sPositionValues]]></Declaration>
+      <Get Name="Get" Id="{2f60e7c4-7eee-4b24-94c0-8aca4d89e6e4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_JointPosition := JointPositions;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_ToolPosition" Id="{231c57b4-95e7-4979-9f10-be4dadff4716}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_ToolPosition : sPositionValues]]></Declaration>
+      <Get Name="Get" Id="{88eed5bb-c4cb-4533-9ba8-62edd39c9393}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ToolPosition := ToolPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Trennen" Id="{8e6a9714-f7e2-472f-95e7-19c575ef290b}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD Trennen : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Ausführen von Funktionalitäten
+	Disconnect(sSrvNetId := sSrvNetId,
+			bExecute := TRUE,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID);
+	
+	IF NOT bBusy AND NOT bError THEN
+		Trennen := TRUE;
+		Disconnect(bExecute := FALSE);
+	END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Verbinden" Id="{6eda4363-4e3b-4ff9-8ce0-b02d70060188}" FolderPath="01_Methoden\01_Nicht-Funktional\">
-      <Declaration><![CDATA[METHOD Verbinden : BOOL
-VAR_INPUT
+      <Declaration><![CDATA[METHOD Verbinden : BOOL 
+VAR
 	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Ausführen von Funktionalitäten
+	Connect(sSrvNetId := sSrvNetId,
+			sRemoteHost := sIP,
+			nRemotePort := iPort_Prim,
+			bExecute := TRUE,
+			tTimeout := tTimeout,
+			bBusy => bBusy,
+			bError => bError,
+			nErrId => iErrorID,
+			hSocket => hSocket);
+			
+	IF hSocket.handle <> 0 THEN
+		Verbinden := TRUE;
+		Connect(bExecute := FALSE);
+		Connect_RT(bExecute := FALSE);
+	END_IF
+				]]></ST>
       </Implementation>
     </Method>
   </POU>

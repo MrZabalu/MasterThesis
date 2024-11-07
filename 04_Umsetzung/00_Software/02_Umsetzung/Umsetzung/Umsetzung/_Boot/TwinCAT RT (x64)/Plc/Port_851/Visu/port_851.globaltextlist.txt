@@ -1,0 +1,22 @@
+Id;Default
+425;%s
+874;AUSCHALTEN
+468;EINSCHALTEN
+440;EXECUTE
+764;KEINE
+545;ObjectState
+207;Position anfahren
+913;Position anfahren:
+462;RES PROZESS
+680;RES PROZESSET
+988;RESET
+482;RESET Prozess¨
+303;RESETTEN
+707;SkillCommand
+512;SkillState
+844;START
+554;STARTEN
+351;STOPPEN
+785;SystemCommand
+668;Test-Steuerung
+54;UR5:

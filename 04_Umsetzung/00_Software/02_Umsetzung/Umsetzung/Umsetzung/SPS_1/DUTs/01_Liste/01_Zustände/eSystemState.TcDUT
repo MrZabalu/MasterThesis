@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eSystemState" Id="{32d095af-aa04-4ec5-bd02-ebabe735bc8f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eSystemState :
+(
+	AUS 			:= 0,				// Das System ist ausgeschalten
+	BEREIT 			:= 1,				// Das System ist eingeschalten und bereit einen Prozess durchzuführen
+	LAUFEND 		:= 2,				// Ein Prozess wird ausgeführt
+	GESTOPPT		:= 3,				// Ein Prozess wurde gestoppt
+	FEHLER			:= 4				// Es gibt einen Fehler im System 
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

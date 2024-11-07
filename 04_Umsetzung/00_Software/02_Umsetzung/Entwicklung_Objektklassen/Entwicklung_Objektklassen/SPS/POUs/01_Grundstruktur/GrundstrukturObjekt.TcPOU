@@ -4,9 +4,9 @@
     <Declaration><![CDATA[FUNCTION_BLOCK GrundstrukturObjekt IMPLEMENTS I_State
 VAR_INPUT
 	iMode				:INT;				// Information über aktuellen Betriebsmodi 
-	iSkillCommand 		:INT;				// Steuerungsvariabel von Skill
-	iSysCommand			:INT;				// Steuerungsvariabel von System
-	iSysState			:INT;				// Information über Stand von System
+	iSkillCommand 		:SkillCommand;		// Steuerungsvariabel von Skill
+	iSysCommand			:SystemCommand;		// Steuerungsvariabel von System
+	iSysState			:SystemState;		// Information über Stand von System
 END_VAR
 VAR_OUTPUT
 	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
