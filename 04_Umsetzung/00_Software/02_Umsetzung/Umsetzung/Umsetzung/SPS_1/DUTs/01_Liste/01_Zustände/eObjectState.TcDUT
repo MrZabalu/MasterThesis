@@ -6,13 +6,14 @@
 {attribute 'to_string'}
 TYPE eObjectState :
 (
-	AUS 			:= 0,				// Das Objekt ist ausgeschalten
-	BEREIT 			:= 1,				// Das Objekt ist eingeschalten und bereit
-	MANUELL			:= 2,				// Das Objekt befindet sich im Manuell-Modus
-	LAUFEND 		:= 3,				// Das Objekt ist aktiv
-	ABGESCHLOSSEN 	:= 4,				// Das Objekt hat den Prozess durchgeführt und hat selbständig gestoppt
-	GESTOPPT 		:= 5,				// Das Objekt wurde gestoppt durch externe Einwirkung gestoppt
-	FEHLER			:= 6				// Es gibt einen Fehler bezüglich des Objektes
+	AUS 					:= 0,				// Das Objekt ist ausgeschalten
+	BEREIT 					:= 1,				// Das Objekt ist eingeschalten und bereit
+	MANUELL					:= 2,				// Das Objekt befindet sich im Manuell-Modus
+	LAUFEND 				:= 3,				// Das Objekt ist aktiv
+	ABGESCHLOSSEN_INTERN 	:= 4,				// Das Objekt hat den Prozess durchgeführt und hat selbständig gestoppt
+	ABGESCHLOSSEN_EXTERN	:= 5,				// Das Objekt wurde durch den Skill gestoppt (ERREICHT / LIMIT)
+	GESTOPPT 				:= 6,				// Das Objekt wurde durch das System gestoppt
+	FEHLER					:= 7				// Es gibt einen Fehler bezüglich des Objektes
 );
 END_TYPE
 ]]></Declaration>

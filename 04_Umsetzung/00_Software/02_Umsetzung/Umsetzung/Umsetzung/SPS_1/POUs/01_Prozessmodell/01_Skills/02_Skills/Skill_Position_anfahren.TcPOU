@@ -12,60 +12,90 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF bError THEN
+      <ST><![CDATA[// Startmanagement
+fTrigger(CLK := bExecute);
+fSwitch(Set1 := fTrigger.Q);
+
+
+//_______________________________________________________________
+// Fehlerüberwachung
+IF bFehler THEN
 	iState := 3;
 END_IF
 
-
+//_______________________________________________________________
+// Zustandsmanagement
 CASE iState OF 
 0: 	// BEREIT
 		// DO
 		iSkillCommand := 0;
+		bDone := FALSE;	
 		
-		IF bExecute THEN
+		IF fSwitch.Q1 THEN
 			IF ParameterError OR PositionError THEN
 				bError := TRUE;
 			ELSE	
 				sObjektvariablen := sProzessvariablen;
-				iSkillCommand := 1;																							// Starten des Objektes 
+				iSkillCommand := 1;																						// Starten des Objektes 
 			END_IF		
 		END_IF	
+		
+		IF iObjState = 3 THEN
+			fSwitch.RESET := TRUE;																						// Resetten von Startsignal
+			bStarten := TRUE;
+		END_IF
 			
 		// TRANSITION	
-		IF iObjState = 3 THEN
-				iState := 1;																							// Objekt wurde gestartet
-			END_IF
+		IF bStarten THEN
+			bStarten := FALSE;
+			iState := 1;																								// Objekt wurde gestartet
+		END_IF
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
 		// DO
 		iSkillCommand := 0;
-		bBusy := TRUE;																									// Skill wird ausgeführt
+		bBusy := TRUE;		
+		fSwitch.RESET := FALSE;																								// Skill wird ausgeführt
 		
 		IF bTargetReached OR bLimitReached THEN																			// Prüfen ob Prozessziel erreicht wurde
 			iSkillCommand := 2;
 		END_IF
-			
-		// TRANSITION 
-		IF iObjState = 4 THEN																							// Transition zu ABGESCHLOSSEN
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
-			iState := 2;																								// Objekt ist fertig und wieder bereit
+		
+		IF iObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF iSysState = 3 THEN																							// Transition wenn System das Orbjekt stoppt
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
+		IF iSysCommand = 3 THEN																						// Transition wenn System das Orbjekt stoppt
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bStoppen := TRUE;
+		END_IF
+			
+		// TRANSITION 
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bStoppen THEN																								// Transition zu BEREIT
+			bStoppen := FALSE;																							
 			iState := 0;
 		END_IF
 			
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
-		// DO
-		iSkillCommand := 0;		
-		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
+		// DO																											// Skill wurde erfolgreich ausgeführt
+		iSkillCommand := 3;																								// Objekt resetten
+		
+		IF iObjState = 1 THEN
+			iSkillCommand := 0;																							// Zurücksetzen von Command
+			bSkillFertig := TRUE;
+			bDone := TRUE;												
+		END_IF
 			
 		//  TRANSITION
-		IF bDone THEN
-			bDone := FALSE;																								// Zurücksetzen von Skill
-			iSkillCommand := 3;																					// Resetten von Objekt
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																								// Zurücksetzen von Skill																																										// Resetten von Objekt
 			iState := 0;
 		END_IF
 		
@@ -84,8 +114,13 @@ CASE iState OF
 			// Setzen von ErrorID
 		END_IF
 		
+		IF iSysCommand = 4 THEN
+			bResetten := TRUE;
+		END_IF
+		
 		// TRANSITION
-		IF bReset THEN
+		IF bResetten THEN
+			bResetten := FALSE;
 			iState := 0;
 		END_IF
 

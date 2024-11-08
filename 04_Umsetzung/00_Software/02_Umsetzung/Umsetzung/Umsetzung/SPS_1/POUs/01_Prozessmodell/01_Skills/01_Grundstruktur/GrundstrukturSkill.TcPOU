@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK GrundstrukturSkill IMPLEMENTS I_State_Skill
 VAR_INPUT
 	bExecute			:BOOL;				// Trigger für Ausführung von Skill
-	bReset				:BOOL;				// Trigger für Reset von Skill
+	iSysCommand			:eSystemCommand;	// Steuerungsvariabel von System (Resetten)
 	iObjState			:eObjectState;		// Information über Zustand von Objekt
 	iSysState			:eSystemState;		// Information über Zustand von System
 END_VAR
@@ -17,9 +17,27 @@ VAR_OUTPUT
 	iErrorID			:INT;				// Information um welchen Fehler es sich handelt
 END_VAR
 VAR
+	// Managementvariablen
 	iState				:eSkillState;		// Information über Zustand von Skill
 	bTargetReached		:BOOL;				// Information ob Prozessziel erreicht wurde
 	bLimitReached		:BOOL;				// Information ob Limit erreicht wurde
+	
+	// Startvariablen (FB soll nur bei einer steigenden Flanke gestartet werden)
+	fTrigger			:R_TRIG;			// Erkennung einer steigenden Flanke für den Starte
+	fSwitch				:SR;				// Setzen des Signals
+	bSwitchResett		:BOOL;				// Resetten des Signals
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bObjektFertig		:BOOL;
+	bWertErreicht		:BOOL;				
+	bLimitErreicht		:BOOL;				
+	bSkillFertig		:BOOL;
+	bFehler				:BOOL;
+	bResetten			:BOOL;
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>

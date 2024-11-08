@@ -5,8 +5,9 @@
 VAR_INPUT
 	iMode				:INT;				// Information über aktuellen Betriebsmodi 
 	iSkillCommand 		:eSkillCommand;		// Steuerungsvariabel von Skill
-	iSysCommand			:eSystemCommand;		// Steuerungsvariabel von System
+	iSysCommand			:eSystemCommand;	// Steuerungsvariabel von System
 	iSysState			:eSystemState;		// Information über Stand von System
+	bReset				:BOOL;				// Resett für den Manuell-Modus
 END_VAR
 VAR_OUTPUT
 	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde

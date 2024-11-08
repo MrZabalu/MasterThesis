@@ -10,7 +10,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF bError THEN
+      <ST><![CDATA[IF bFehler THEN
 	iState := 3;
 END_IF
 
@@ -18,14 +18,20 @@ CASE iState OF
 0: 	// BEREIT
 		// DO
 		iSkillCommand := 0;
+		
 		IF bExecute THEN
 			iSkillCommand := 1;																							// Starten des Objektes 
 		END_IF	
+		
+		IF iObjState = 3 THEN
+			bStarten := TRUE;
+		END_IF
 			
 		// TRANSITION	
-		IF iObjState = 3 THEN
-				iState := 1;																							// Objekt wurde gestartet
-			END_IF
+		IF bStarten THEN
+			bStarten := FALSE;
+			iState := 1;																							// Objekt wurde gestartet
+		END_IF
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
 		// DO
@@ -35,30 +41,50 @@ CASE iState OF
 		IF bTargetReached OR bLimitReached THEN																			// Prüfen ob Prozessziel erreicht wurde
 			iSkillCommand := 2;
 		END_IF
-			
-		// TRANSITION 
-		IF iObjState = 4 THEN																							// Transition zu ABGESCHLOSSEN
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
-			iState := 2;																								// Objekt ist fertig und wieder bereit
+		
+		IF iSysCommand := 3 THEN																						// Transition wenn System das Orbjekt stoppt
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bStoppen := TRUE;
 		END_IF
 		
-		IF iObjState = 5  AND bLimitReached THEN																		// Transition zu LIMIT
-			iSkillCommand := 0;
-			bLimitReached := FALSE;																						// Zurücksetzen von Information
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
+		IF iObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitReached AND iObjState = 5 THEN																			// Objekt wurde duch Skill gestoppt - LIMIT
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bLimitReached := FALSE;																							// Zurücksetzen von Information	
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bLimitErreicht := TRUE;	
+		END_IF
+		
+		IF bTargetReached AND iObjState = 5 THEN																			// Objekt wurde duch Skill gestoppt - LIMIT
+			iSkillCommand := 0;																									// Zurücksetzen von Command
+			bTargetReached := FALSE;																							// Zurücksetzen von Information	
+			bBusy := FALSE;																										// Skill wird nicht mehr ausgeführt
+			bWertErreicht := TRUE;	
+		END_IF
+			
+		// TRANSITION 
+		IF bStoppen THEN																								// Transition zu BEREIT
+			bStoppen := FALSE;																							
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht THEN																							// Transition zu LIMIT
+			bLimitErreicht := FALSE;
 			iState := 4;
 		END_IF
 		
-		IF iObjState = 5 AND bTargetReached THEN																		// Transition zu ERREICHT
-			iSkillCommand := 0;
-			bTargetReached := FALSE;																					// Zurücksetzen von Information
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
+		IF bWertErreicht THEN																							// Transition zu ERREICHT																						// Skill wird nicht mehr ausgeführt
+			bWertErreicht := FALSE;
 			iState := 5;
-		END_IF
-		
-		IF iSysState = 3 THEN																							// Transition wenn System das Orbjekt stoppt
-			bBusy := FALSE;																								// Skill wird nicht mehr ausgeführt
-			iState := 0;
 		END_IF
 			
 // _________________________________________________________________________________________________________________________			
@@ -66,11 +92,17 @@ CASE iState OF
 		// DO
 		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
 			
+		iSkillCommand := 3;																								// Objekt resetten
+		
+		IF iObjState = 1 THEN																							// Objekt wurde geresettet
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bDone := FALSE;																									// Zurücksetzen von Skill
+			bSkillFertig := TRUE;									
+		END_IF
+			
 		//  TRANSITION
-		IF bDone THEN
-			bDone := FALSE;																								// Zurücksetzen von Skill
-			iSkillCommand := 3;	
-			iSkillCommand := 0;																							// Resetten von Objekt
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
 			iState := 0;
 		END_IF
 		
@@ -78,11 +110,17 @@ CASE iState OF
 3: 	// FEHLER
 		// DO 	
 		iSkillCommand := 0;
+		
 		bDone := FALSE;
 		bBusy := FALSE;
 		
+		IF iSysCommand := 4 THEN
+			bResetten := TRUE;
+		END_IF
+		
 		// TRANSITION
-		IF bReset THEN
+		IF bResetten THEN
+			bResetten := FALSE;
 			iState := 0;
 		END_IF
 		
@@ -90,10 +128,23 @@ CASE iState OF
 4: 	// LIMIT
 		// DO 
 		iSkillCommand := 0;
-		bLimit := TRUE;																								// Limit wurde erreicht
+		bLimit := TRUE;																									// Limit wurde erreicht
+		
+		iSkillCommand := 3;																								// Objekt resetten
+		
+		IF iSysCommand := 4 THEN
+			iSkillCommand := 3;																							// Objekt resetten
+		END_IF
+		
+		IF iObjState = 1 THEN																							// Objekt wurde geresettet
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bDone := FALSE;																									// Zurücksetzen von Skill
+			bResetten := TRUE;								
+		END_IF
 	
 		// TRANSITION
-		IF bReset THEN
+		IF bResetten THEN
+			bResetten := FALSE;
 			bLimit := FALSE;																							// Zurücksetzen von Output-Variable
 			iSkillCommand := 3;																							// Resetten von Objekt 
 			iState := 0;
@@ -105,10 +156,19 @@ CASE iState OF
 		iSkillCommand := 0;
 		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
 		
+		iSkillCommand := 3;																								// Objekt resetten
+		
+		IF iObjState = 1 THEN																							// Objekt wurde geresettet
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bDone := FALSE;																									// Zurücksetzen von Skill
+			bSkillFertig := TRUE;									
+		END_IF
+		
 		// TRANSITION
-		IF bDone THEN
-			bDone := FALSE;																								// Zurücksetzen von Output-Variable
-			iSkillCommand := 3;																							// Resetten von Objekt
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;
+			bLimit := FALSE;																							// Zurücksetzen von Output-Variable
+			iSkillCommand := 3;																							// Resetten von Objekt 
 			iState := 0;
 		END_IF
 		

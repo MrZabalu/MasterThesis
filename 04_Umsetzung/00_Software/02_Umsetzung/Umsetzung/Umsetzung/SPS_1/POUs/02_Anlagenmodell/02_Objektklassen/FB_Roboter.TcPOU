@@ -32,13 +32,20 @@ VAR
 	hSocket_RT    			:T_HSOCKET;
 	
 	// Managementvariablen
+	bEinschalten			:BOOL;
+	bAusschalten			:BOOL;
+ 	bStarten				:BOOL;
+	bObjektFertig			:BOOL;
+	bSkillFertig			:BOOL;
+	bStoppen				:BOOL;
+	bResettenSkill			:BOOL;
+	bResettenSystem			:BOOL;
+	bFehler					:BOOL;
+	
 	Connect_State			:BOOL;
 	Disconnect_State		:BOOL;
 	bTurnedOn 				:BOOL;
 	
-	bVerbinden				:BOOL;
-	bTrennen				:BOOL;
-	bBewegungZuPosition		:BOOL;
 	bBewegungStoppen		:BOOL;
 	
 	Delay_1					:TON;
@@ -78,7 +85,7 @@ VAR
 	
 	// Prozessdaten
 	TargetPosition			:sPositionValues;				// Targetpositions
-	bSetValues				:BOOL;
+	bSetValues				:BOOL;							// Definiert ob Targetposition noch ermittelt werden muss
 
 END_VAR
 ]]></Declaration>
@@ -89,7 +96,7 @@ END_VAR
 							nRemotePort := iPort_RT,
 							tTimeout := tTimeout,
 							bBusy => bBusy,
-							bError => bError,
+							bError => bFehler,
 							nErrId => iErrorID,
 							hSocket => hSocket_RT);	
 							
@@ -97,13 +104,13 @@ END_VAR
 			hSocket := hSocket,
 			tTimeout := tTimeout,
 			bBusy => bBusy,
-			bError => bError,
+			bError => bFehler,
 			nErrId => iErrorID);
 	Send_STOP(sSrvNetId := sSrvNetId,
 			hSocket := hSocket,
 			tTimeout := tTimeout,
 			bBusy => bBusy,
-			bError => bError,
+			bError => bFehler,
 			nErrId => iErrorID);
 							
 	Receive_RT(sSrvNetId := sSrvNetId,
@@ -112,7 +119,7 @@ END_VAR
 							pDest := ADR(ReceivedData),
 							tTimeout := tTimeout,
 							bBusy => bBusy,
-							bError => bError,
+							bError => bFehler,
 							nErrId => iErrorID,
 							nRecBytes => nRecBytes);
 							
@@ -120,7 +127,7 @@ END_VAR
 							hSocket := hSocket_RT,
 							tTimeout := tTimeout,
 							bBusy => bBusy,
-							bError => bError,
+							bError => bFehler,
 							nErrId => iErrorID);
 
 //____________________________________________________________________________________________
@@ -135,12 +142,12 @@ END_IF
 //____________________________________________________________________________________________
 // Interner Methodenaufruf (Durch System oder Skill)
 IF Connect_State THEN
-	bVerbinden := Verbinden();
+	bEinschalten := Verbinden();
 	bTurnedOn := TRUE;
 END_IF
 
 IF Disconnect_State THEN
-	bTrennen := Trennen();
+	bAusschalten := Trennen();
 	bTurnedOn := FALSE;
 	RT_State := 0;
 END_IF
@@ -250,8 +257,8 @@ END_IF
 //____________________________________________________________________________________________
 // Zustandsmanagement
 
-IF bError THEN 
-	iState := 6;
+IF bFehler THEN 
+	iState := 7;
 END_IF
 
 CASE iState OF 
@@ -259,9 +266,9 @@ CASE iState OF
 		// DO
 		
 		// TRANSITION
-			IF bVerbinden THEN							// Verbindung wird aufgebaut
+			IF bEinschalten THEN																	// Verbindung wird aufgebaut
 				Connect_State := FALSE;
-				bVerbinden := FALSE;
+				bEinschalten := FALSE;
 				iState := 1;
 			END_IF
 			
@@ -269,25 +276,25 @@ CASE iState OF
 	1: // BEREIT
 		// DO
 			IF iSkillCommand = 1 THEN
-				bBewegungZuPosition := A_BewegungZuPosition();
+				bStarten := A_BewegungZuPosition();
 			END_IF
 			
-			IF bBewegungZuPosition THEN
+			IF bStarten THEN
 				Delay_1(IN := TRUE, PT := T#0.2S);
 			END_IF
 		
 		// TRANSITION
-			IF bTrennen THEN							// Verbindung wird getrennt
+			IF bAusschalten THEN																	// Verbindung wird getrennt
 				Disconnect_State := FALSE;
-				bTrennen := FALSE;
+				bAusschalten := FALSE;
 				iState := 0;
 			END_IF
 			
-														// Manuell-Modus wird eingeschalten
+																									// Manuell-Modus wird eingeschalten
 													
-			 IF Delay_1.Q THEN							// Objekt führt Prozessdurch
+			 IF Delay_1.Q THEN																		// Objekt führt Prozessdurch
 				 Delay_1(IN := FALSE);
-				 bBewegungZuPosition := FALSE;
+				 bStarten := FALSE;
 				 iState := 3;
 			 END_IF			
 	
@@ -395,12 +402,24 @@ CASE iState OF
 					bQ6 := TRUE;
 				END_IF
 			END_IF
+			
+			// Objekt schliessen Prozess ab
+			IF bQ1 AND bQ2 AND bQ3 AND bQ4 AND bQ5 AND bQ6 THEN										// Abgeschlossener Prozess
 				
-			// Stoppen auslösen und Prüfgung
-			IF iSkillCommand = 2 OR iSysCommand = 3 THEN
+				bQ1 := FALSE;
+				bQ2 := FALSE;
+				bQ3 := FALSE;
+				bQ4 := FALSE;
+				bQ5 := FALSE;
+				bQ6 := FALSE;
+				
+				bObjektFertig := TRUE;
+			END_IF
+			
+				
+			// Objekt wird gestoppt durch Skill
+			IF iSkillCommand = 2 THEN
 				A_BewegungStoppen();
-				
-				bBewegungStoppen := TRUE;
 				
 				IF JointSpeed.q1 = 0 THEN
 					bVQ1 := TRUE;
@@ -425,73 +444,141 @@ CASE iState OF
 				IF JointSpeed.q6 = 0 THEN
 					bVQ6 := TRUE;
 				END_IF
-			END_IF 
 				
+				bBewegungStoppen := TRUE;
+				bSkillFertig := TRUE;
+			END_IF 
+			
+			// Objekt wird gestoppt durch System
+			IF iSysCommand = 3 THEN
+				A_BewegungStoppen();
+				
+				IF JointSpeed.q1 = 0 THEN
+					bVQ1 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q2 = 0 THEN
+					bVQ2 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q3 = 0 THEN
+					bVQ3 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q4 = 0 THEN
+					bVQ4 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q5 = 0 THEN
+					bVQ5 := TRUE;
+				END_IF
+				
+				IF JointSpeed.q6 = 0 THEN
+					bVQ6 := TRUE;
+				END_IF
+				
+				bBewegungStoppen := TRUE;
+				bStoppen := TRUE;
+			END_IF 
 		
 		// TRANSITION
-			IF bQ1 AND bQ2 AND bQ3 AND bQ4 AND bQ5 AND bQ6 THEN									// Abgeschlossener Prozess
-				bQ1 := FALSE;
-				bQ2 := FALSE;
-				bQ3 := FALSE;
-				bQ4 := FALSE;
-				bQ5 := FALSE;
-				bQ6 := FALSE;
-				
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
 				bSetvalues := FALSE;
 				bBusy := FALSE;
 				iState := 4;
 			END_IF
 			
-			IF bBewegungStoppen THEN
-								
+			IF bBewegungStoppen THEN		
 				IF bVQ1 AND bVQ2 AND bVQ3 AND bVQ4 AND bVQ5 AND bVQ6 THEN							// Gestoppter Prozess
-					bBewegungStoppen := FALSE;
 					bVQ1 := FALSE;	
 					bVQ2 := FALSE;	
 					bVQ3 := FALSE;	
 					bVQ4 := FALSE;	
 					bVQ5 := FALSE;	
 					bVQ6 := FALSE;	
-						
+					
+					bBewegungStoppen := FALSE;	
 					bSetvalues := FALSE;																
 					bBusy := FALSE;
-					iState := 5;
+					
+					IF bSkillFertig THEN
+						bSkillFertig := FALSE;
+						iState := 5;
+					END_IF
+					
+					IF bStoppen THEN
+						bStoppen := FALSE;
+						iState := 6;
+					END_IF
+					
 				END_IF
 			END_IF
 	
 	//____________________________________________________________________________________________
-	4: // ABGESCHLOSSEN
+	4: // ABGESCHLOSSEN_INTERN
 		// DO
 			bDone := TRUE;
+			
+			IF iSkillCommand = 3 THEN 																// Durch Skill resetten
+				bResettenSkill := TRUE;
+			END_IF
 		
 		// TRANSITION
-			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten											
+			IF bResettenSkill THEN																	// Objekt resetten
+				bResettenSkill := FALSE;											
 				bDone := FALSE;
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
-	5: // GESTOPPT
-		// DO
-			IF iSkillCommand = 2 THEN																// Durch Skill beendet
-				bDone := TRUE;
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+			bDone := TRUE;
+			
+			IF iSkillCommand = 3 THEN 																// Durch Skill resetten
+				bResettenSkill := TRUE;
 			END_IF
 		
 		// TRANSITION
-			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten
+			IF bResettenSkill THEN																	// Objekt resetten
+				bResettenSkill := FALSE;
 				bDone := FALSE;
 				iState := 1;
 			END_IF
 	
 	//____________________________________________________________________________________________
-	6: // FEHLER
+	6: // GESTOPPT
+		// DO
+			bBusy := FALSE;
+				
+			IF iSysCommand = 4 THEN																// Durch System resetten
+				bResettenSystem := TRUE;
+			END_IF
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bResettenSystem := FALSE;
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
 		// DO
 			bDone := FALSE;
 			bBusy := FALSE;
+			bError := bFehler;
+			
+			IF iSkillCommand = 4 THEN																// Durch System resetten
+				bResettenSystem := TRUE;
+			END_IF
 		
 		// TRANSITION
-			IF iSkillCommand = 3 OR iSysCommand = 4 THEN											// Objekt resetten
-					iState := 1;
-				END_IF
+			IF bResettenSystem THEN																	// Objekt resetten
+				bResettenSystem := FALSE;
+				bFehler	 := FALSE;
+				bError := FALSE;
+				iState := 1;
+			END_IF
 	
 END_CASE]]></ST>
     </Implementation>

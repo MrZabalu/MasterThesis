@@ -11,7 +11,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Instanziierung von Kommunikationsbausteine
-	Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
+	//Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 	
 
 	
@@ -36,7 +36,7 @@ Senddaten[1] := 0;
 Senddaten[2] := 0;
 
 //Communication_§end.WriteSingleRegister();
-	Communication.WriteRegs(
+	GVL.Communication.WriteRegs(
 		UnitID := UnitID,
 		Quantity := Quantity,
 		MBAddr := MBAddr,

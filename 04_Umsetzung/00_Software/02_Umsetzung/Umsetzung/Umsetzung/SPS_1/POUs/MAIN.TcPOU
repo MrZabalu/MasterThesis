@@ -10,12 +10,18 @@ VAR
 	Position_DOWN			:sRoboterProzessVariablen;
 	Position_UP				:sRoboterProzessVariablen;
 	Position_2				:sRoboterProzessVariablen;
+	
+	Switch1					:BOOL;
+	Switch2					:BOOL;
+	Switch3					:BOOL;
+	Switch4					:BOOL;
 		
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Systemparameter();
+      <ST><![CDATA[Zustandshandling();
 Anlage();
+test();
 
 Position_1.q1 := 0.108;
 Position_1.q2 := 0.483;

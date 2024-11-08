@@ -21,7 +21,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CC25F818-B997-4B5A-8046-D637D41920AB}" Name="SPS_1" PrjFilePath="SPS_1\SPS_1.plcproj" TmcFilePath="SPS_1\SPS_1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{16A0CCFC-7260-2841-A389-8228EE55F369}" TmcPath="SPS_1\SPS_1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{4861ED3E-E827-788A-C974-CE52CE8BF1FD}" TmcPath="SPS_1\SPS_1.tmc">
 					<Name>SPS_1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
