@@ -29,10 +29,10 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_PcComInData</Name>
-			<BitSize>528</BitSize>
+			<Name GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_KL6inData22B</Name>
+			<BitSize>192</BitSize>
 			<SubItem>
-				<Name>SerStatus</Name>
+				<Name>Status</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
 				<BitSize>16</BitSize>
 				<BitOffs>0</BitOffs>
@@ -42,9 +42,9 @@
 				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
 				<ArrayInfo>
 					<LBound>0</LBound>
-					<Elements>64</Elements>
+					<Elements>22</Elements>
 				</ArrayInfo>
-				<BitSize>512</BitSize>
+				<BitSize>176</BitSize>
 				<BitOffs>16</BitOffs>
 			</SubItem>
 			<Properties>
@@ -54,10 +54,10 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_PcComOutData</Name>
-			<BitSize>528</BitSize>
+			<Name GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">MB_KL6outData22B</Name>
+			<BitSize>192</BitSize>
 			<SubItem>
-				<Name>SerCtrl</Name>
+				<Name>Ctrl</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
 				<BitSize>16</BitSize>
 				<BitOffs>0</BitOffs>
@@ -67,9 +67,9 @@
 				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
 				<ArrayInfo>
 					<LBound>0</LBound>
-					<Elements>64</Elements>
+					<Elements>22</Elements>
 				</ArrayInfo>
-				<BitSize>512</BitSize>
+				<BitSize>176</BitSize>
 				<BitOffs>16</BitOffs>
 			</SubItem>
 			<Properties>
@@ -756,7 +756,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{789EF4E4-9446-DC88-3265-359649E2DD34}" AutoDeleteType="true">SystemCommand</Name>
+			<Name GUID="{8C604648-3738-0FD2-B7F1-7CD7DA827570}" AutoDeleteType="true">SystemCommand</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -791,11 +791,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__624</Value>
+					<Value>__TO_STRING__444</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__624</Value>
+					<Value>__TO_WSTRING__444</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -803,7 +803,7 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{16475CA0-8E09-760E-1BA4-585E4D5F8CAD}" AutoDeleteType="true">SkillCommand</Name>
+			<Name GUID="{25D11651-CD19-97F8-FBA6-A35075641E14}" AutoDeleteType="true">SkillCommand</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -834,11 +834,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__627</Value>
+					<Value>__TO_STRING__447</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__627</Value>
+					<Value>__TO_WSTRING__447</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -846,7 +846,7 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{8A484A3E-C4DF-DC1A-4152-29C3C8883B3B}" AutoDeleteType="true">Positionsart</Name>
+			<Name GUID="{7655C774-186E-9D28-10F3-71A7B1A4E90E}" AutoDeleteType="true">Positionsart</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -871,11 +871,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__635</Value>
+					<Value>__TO_STRING__455</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__635</Value>
+					<Value>__TO_WSTRING__455</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -883,7 +883,7 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{14704CA7-47D2-AA3B-B71E-BE62B3F28BC6}" AutoDeleteType="true">Bewegungsart</Name>
+			<Name GUID="{1BC0B5B0-702C-CBE4-F58C-AFDD0FC1CB9F}" AutoDeleteType="true">Bewegungsart</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -918,11 +918,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__638</Value>
+					<Value>__TO_STRING__458</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__638</Value>
+					<Value>__TO_WSTRING__458</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -930,7 +930,7 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{48DFD7F1-F737-090B-E6F3-C41B6A1BF8BA}" AutoDeleteType="true">Prozessvariablen</Name>
+			<Name GUID="{399AC145-7183-E2EB-107B-A5605E14AC0C}" AutoDeleteType="true">Prozessvariablen</Name>
 			<BitSize>576</BitSize>
 			<SubItem>
 				<Name>q1</Name>
@@ -990,36 +990,26 @@
 			</SubItem>
 			<SubItem>
 				<Name>PosTyp</Name>
-				<Type GUID="{8A484A3E-C4DF-DC1A-4152-29C3C8883B3B}">Positionsart</Type>
+				<Type GUID="{7655C774-186E-9D28-10F3-71A7B1A4E90E}">Positionsart</Type>
 				<Comment><![CDATA[ Position-Typ definieren (Absolut / Relativ)		]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>512</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>MoveTyp</Name>
-				<Type GUID="{14704CA7-47D2-AA3B-B71E-BE62B3F28BC6}">Bewegungsart</Type>
+				<Type GUID="{1BC0B5B0-702C-CBE4-F58C-AFDD0FC1CB9F}">Bewegungsart</Type>
 				<Comment><![CDATA[ Bewegungsart definieren (Linear / Circular etc.)]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>528</BitOffs>
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{E9F34FB8-0E27-89CE-0FBE-273B920C4867}" AutoDeleteType="true">I_State</Name>
+			<Name GUID="{A7FAAD21-E56E-9567-A966-1C8608957731}" AutoDeleteType="true">I_State</Name>
 			<BitSize>64</BitSize>
 			<ExtendsType GUID="{18071995-0000-0000-0000-000000000018}">PVOID</ExtendsType>
-			<Method>
-				<Name>__getP_State</Name>
-				<ReturnType GUID="{18071995-0000-0000-0000-000000000006}">INT</ReturnType>
-				<ReturnBitSize>16</ReturnBitSize>
-				<Properties>
-					<Property>
-						<Name>property</Name>
-					</Property>
-				</Properties>
-			</Method>
 		</DataType>
 		<DataType>
-			<Name GUID="{36325659-D510-6FD2-0E2B-A4279F52A583}" AutoDeleteType="true">SystemState</Name>
+			<Name GUID="{47C9FC09-1924-865C-38A0-986F30FB13D0}" AutoDeleteType="true">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -1059,11 +1049,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__694</Value>
+					<Value>__TO_STRING__511</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__694</Value>
+					<Value>__TO_WSTRING__511</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -1071,7 +1061,7 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{D451E4A7-41C3-8FFD-0D24-A5259D50D3C2}" AutoDeleteType="true">ObjectState</Name>
+			<Name GUID="{DEBA68D1-98DE-F15A-FA03-7E881322C89F}" AutoDeleteType="true">ObjectState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -1121,11 +1111,11 @@
 				</Property>
 				<Property>
 					<Name>to_string_function</Name>
-					<Value>__TO_STRING__697</Value>
+					<Value>__TO_STRING__514</Value>
 				</Property>
 				<Property>
 					<Name>to_wstring_function</Name>
-					<Value>__TO_WSTRING__697</Value>
+					<Value>__TO_WSTRING__514</Value>
 				</Property>
 				<Property>
 					<Name>generate_implicit_init_function</Name>
@@ -1133,9 +1123,9 @@
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{99ACC1F4-5E5E-83D0-6048-53A810053F79}" AutoDeleteType="true">GrundstrukturObjekt</Name>
+			<Name GUID="{FB06F459-90C6-5C70-2519-61C0DFC3111B}" AutoDeleteType="true">GrundstrukturObjekt</Name>
 			<BitSize>320</BitSize>
-			<Implements GUID="{E9F34FB8-0E27-89CE-0FBE-273B920C4867}">I_State</Implements>
+			<Implements GUID="{A7FAAD21-E56E-9567-A966-1C8608957731}">I_State</Implements>
 			<SubItem>
 				<Name>iMode</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
@@ -1151,7 +1141,7 @@
 			</SubItem>
 			<SubItem>
 				<Name>iSkillCommand</Name>
-				<Type GUID="{16475CA0-8E09-760E-1BA4-585E4D5F8CAD}">SkillCommand</Type>
+				<Type GUID="{25D11651-CD19-97F8-FBA6-A35075641E14}">SkillCommand</Type>
 				<Comment><![CDATA[ Steuerungsvariabel von Skill]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>144</BitOffs>
@@ -1164,7 +1154,7 @@
 			</SubItem>
 			<SubItem>
 				<Name>iSysCommand</Name>
-				<Type GUID="{789EF4E4-9446-DC88-3265-359649E2DD34}">SystemCommand</Type>
+				<Type GUID="{8C604648-3738-0FD2-B7F1-7CD7DA827570}">SystemCommand</Type>
 				<Comment><![CDATA[ Steuerungsvariabel von System]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>160</BitOffs>
@@ -1177,7 +1167,7 @@
 			</SubItem>
 			<SubItem>
 				<Name>iSysState</Name>
-				<Type GUID="{36325659-D510-6FD2-0E2B-A4279F52A583}">SystemState</Type>
+				<Type GUID="{47C9FC09-1924-865C-38A0-986F30FB13D0}">SystemState</Type>
 				<Comment><![CDATA[ Information über Stand von System]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>176</BitOffs>
@@ -1242,7 +1232,7 @@
 			</SubItem>
 			<SubItem>
 				<Name>iState</Name>
-				<Type GUID="{D451E4A7-41C3-8FFD-0D24-A5259D50D3C2}">ObjectState</Type>
+				<Type GUID="{DEBA68D1-98DE-F15A-FA03-7E881322C89F}">ObjectState</Type>
 				<Comment><![CDATA[ Information über Zustand von Skill]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>256</BitOffs>
@@ -3000,9 +2990,9 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{B49BE5B4-F0F2-89DC-DDCD-7867B875B1CD}" AutoDeleteType="true">FB_Roboter</Name>
+			<Name GUID="{5E331B21-9F1C-E709-2047-5AB4A1A8F26A}" AutoDeleteType="true">FB_Roboter</Name>
 			<BitSize>30016</BitSize>
-			<ExtendsType GUID="{99ACC1F4-5E5E-83D0-6048-53A810053F79}">GrundstrukturObjekt</ExtendsType>
+			<ExtendsType GUID="{FB06F459-90C6-5C70-2519-61C0DFC3111B}">GrundstrukturObjekt</ExtendsType>
 			<SubItem>
 				<Name>sIP</Name>
 				<Type GUID="{C0DEFBF4-8368-4063-9CA4-DBD5C85C853E}" Namespace="Tc2_System">T_IPv4Addr</Type>
@@ -3042,7 +3032,7 @@
 			</SubItem>
 			<SubItem>
 				<Name>Prozessvariablen</Name>
-				<Type GUID="{48DFD7F1-F737-090B-E6F3-C41B6A1BF8BA}">Prozessvariablen</Type>
+				<Type GUID="{399AC145-7183-E2EB-107B-A5605E14AC0C}">Prozessvariablen</Type>
 				<Comment><![CDATA[ Prozessvariablen]]></Comment>
 				<BitSize>576</BitSize>
 				<BitOffs>512</BitOffs>
@@ -3496,1072 +3486,6 @@
 				<Property>
 					<Name>PouType</Name>
 					<Value>FunctionBlock</Value>
-				</Property>
-			</Properties>
-		</DataType>
-		<DataType>
-			<Name GUID="{5CCFD0FB-ACC6-FA0E-8A02-FE66FF3CEF14}" AutoDeleteType="true">FB_SmartGripper</Name>
-			<BitSize>640</BitSize>
-			<ExtendsType GUID="{99ACC1F4-5E5E-83D0-6048-53A810053F79}">GrundstrukturObjekt</ExtendsType>
-			<SubItem>
-				<Name>sIP</Name>
-				<Type GUID="{C0DEFBF4-8368-4063-9CA4-DBD5C85C853E}" Namespace="Tc2_System">T_IPv4Addr</Type>
-				<BitSize>128</BitSize>
-				<BitOffs>320</BitOffs>
-				<Properties>
-					<Property>
-						<Name>ItemType</Name>
-						<Value>Input</Value>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>iPort</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>448</BitOffs>
-				<Properties>
-					<Property>
-						<Name>ItemType</Name>
-						<Value>Input</Value>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>UnitID</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<Comment><![CDATA[ Instanziierung von Kommunikationsbausteine
-Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
- Kommunikationsvariablen]]></Comment>
-				<BitSize>8</BitSize>
-				<BitOffs>464</BitOffs>
-				<Default>
-					<Value>9</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>Quantity</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>480</BitOffs>
-				<Default>
-					<Value>3</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>MBAddr</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>496</BitOffs>
-				<Default>
-					<Value>1000</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>Execute_1</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>512</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Timeout</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000048}">TIME</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>544</BitOffs>
-				<Default>
-					<DateTime>T#5S</DateTime>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>cbRead</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>576</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Senddaten</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>3</Elements>
-				</ArrayInfo>
-				<BitSize>48</BitSize>
-				<BitOffs>592</BitOffs>
-			</SubItem>
-			<Method>
-				<Name>DoSomething</Name>
-				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
-				<ReturnBitSize>8</ReturnBitSize>
-			</Method>
-			<Method>
-				<Name>Verbinden</Name>
-				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
-				<ReturnBitSize>8</ReturnBitSize>
-			</Method>
-			<Method>
-				<Name>Trennen</Name>
-				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
-				<ReturnBitSize>8</ReturnBitSize>
-			</Method>
-			<Properties>
-				<Property>
-					<Name>PouType</Name>
-					<Value>FunctionBlock</Value>
-				</Property>
-			</Properties>
-		</DataType>
-		<DataType>
-			<Name GUID="{33902CB3-61BA-15A0-F5CA-BA918F4FCB01}" AutoDeleteType="true">Request</Name>
-			<BitSize>320</BitSize>
-			<SubItem>
-				<Name>Command</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<Comment><![CDATA[ Value according to the command table]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Data</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>19</Elements>
-				</ArrayInfo>
-				<BitSize>304</BitSize>
-				<BitOffs>16</BitOffs>
-				<Default>
-					<SubItem>
-						<Name>[0]</Name>
-						<Value>0</Value>
-					</SubItem>
-				</Default>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{B4730849-BE90-0A34-4E14-EAF4FE7D4EDF}" AutoDeleteType="true">Response_Values</Name>
-			<BitSize>128</BitSize>
-			<SubItem>
-				<Name>Header</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<Comment><![CDATA[ Fixed 0x1234]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Status</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<Comment><![CDATA[ Status word of the sensor and Compute Box]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Fx</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ X-axis force in 32 bit Counts*]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Fy</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Y-axis force in 32 bit Counts*]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>48</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Fz</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Z-axis force in 32 bit Counts*]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Tx</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ X-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>80</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Ty</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Y-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>96</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Tz</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Z-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>112</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{45B6ACA3-8787-4589-54C0-D4D41D6C1304}" AutoDeleteType="true">INT2Byte</Name>
-			<BitSize>16</BitSize>
-			<SubItem>
-				<Name>sValue</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>arrByte</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>2</Elements>
-				</ArrayInfo>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{2D564514-6AE0-C9EB-88B1-B79ED6383012}" AutoDeleteType="true">Array2Byte</Name>
-			<BitSize>16</BitSize>
-			<SubItem>
-				<Name>arrByte</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>2</Elements>
-				</ArrayInfo>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>sValue</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}" AutoDeleteType="true">Kraftvariablen</Name>
-			<BitSize>384</BitSize>
-			<SubItem>
-				<Name>Fx</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Kraft in X-Richtung ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Fy</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Kraft in Y-Richtung ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Fz</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Kraft in Z-Richtung ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Tx</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Moment auf X-Achse ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>192</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Ty</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Moment auf Y-Achse ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>256</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Tz</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<Comment><![CDATA[ Moment auf Z-Achse ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>320</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{AA2C9D14-A373-4849-A4FD-C45A1DC0785E}" AutoDeleteType="true">FB_Kraftsensor</Name>
-			<BitSize>12992</BitSize>
-			<ExtendsType GUID="{99ACC1F4-5E5E-83D0-6048-53A810053F79}">GrundstrukturObjekt</ExtendsType>
-			<SubItem>
-				<Name>sIP</Name>
-				<Type GUID="{C0DEFBF4-8368-4063-9CA4-DBD5C85C853E}" Namespace="Tc2_System">T_IPv4Addr</Type>
-				<Comment><![CDATA[ Kommunikationsvariablen]]></Comment>
-				<BitSize>128</BitSize>
-				<BitOffs>320</BitOffs>
-				<Properties>
-					<Property>
-						<Name>ItemType</Name>
-						<Value>Input</Value>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>iPort</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>448</BitOffs>
-				<Properties>
-					<Property>
-						<Name>ItemType</Name>
-						<Value>Input</Value>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>Connect</Name>
-				<Type GUID="{FC6F1627-3742-F87E-7B1C-B91F3EE44528}" Namespace="Tc2_TcpIp">FB_SocketConnect</Type>
-				<Comment><![CDATA[ Instanziierung von Kommunikationsbausteine]]></Comment>
-				<BitSize>3136</BitSize>
-				<BitOffs>512</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Disconnect</Name>
-				<Type GUID="{1B6AF237-221A-7C71-AAA0-281A2FC4E7CF}" Namespace="Tc2_TcpIp">FB_SocketClose</Type>
-				<BitSize>2304</BitSize>
-				<BitOffs>3648</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Send</Name>
-				<Type GUID="{6D088438-0633-49C9-8096-E6B82E2AED82}" Namespace="Tc2_TcpIp">FB_SocketSend</Type>
-				<BitSize>2368</BitSize>
-				<BitOffs>5952</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Receive</Name>
-				<Type GUID="{A1EF5070-4208-0020-76E0-840B3B870352}" Namespace="Tc2_TcpIp">FB_SocketReceive</Type>
-				<BitSize>2560</BitSize>
-				<BitOffs>8320</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>sSrvNetId</Name>
-				<Type GUID="{E73C367E-92B3-1139-8032-E11C3D2123C1}" Namespace="Tc2_System">T_AmsNetID</Type>
-				<Comment><![CDATA[ Kommunikationsvariablen]]></Comment>
-				<BitSize>192</BitSize>
-				<BitOffs>10880</BitOffs>
-				<Default>
-					<String><![CDATA[]]></String>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>tTimeout</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000048}">TIME</Type>
-				<Comment><![CDATA[!!!]]></Comment>
-				<BitSize>32</BitSize>
-				<BitOffs>11072</BitOffs>
-				<Default>
-					<DateTime>T#45S</DateTime>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>hSocket</Name>
-				<Type GUID="{0B9FC878-788D-D5AC-A368-7C4133D6F3D5}" Namespace="Tc2_TcpIp">T_HSOCKET</Type>
-				<BitSize>352</BitSize>
-				<BitOffs>11104</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>RT_State</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ RealTime-State-Variable]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>11456</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>SendData</Name>
-				<Type GUID="{33902CB3-61BA-15A0-F5CA-BA918F4FCB01}">Request</Type>
-				<BitSize>320</BitSize>
-				<BitOffs>11472</BitOffs>
-				<Properties>
-					<Property>
-						<Name>TcSwapWord</Name>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>ReceivedData</Name>
-				<Type GUID="{B4730849-BE90-0A34-4E14-EAF4FE7D4EDF}">Response_Values</Type>
-				<Comment><![CDATA[ Erhaltene Daten von Roboter]]></Comment>
-				<BitSize>128</BitSize>
-				<BitOffs>11792</BitOffs>
-				<Properties>
-					<Property>
-						<Name>TcSwapWord</Name>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>nRecBytes</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<Comment><![CDATA[ Anzahl der erhaltenen Bytes]]></Comment>
-				<BitSize>32</BitSize>
-				<BitOffs>11936</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>CPF</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Counts per Force value]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>11968</BitOffs>
-				<Default>
-					<Value>10000</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>CPT</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Counts per Torque value (Noch mal 10 rechnen)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>11984</BitOffs>
-				<Default>
-					<Value>10000</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorFx</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12000</BitOffs>
-				<Default>
-					<Value>200</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorFy</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12016</BitOffs>
-				<Default>
-					<Value>200</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorFz</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12032</BitOffs>
-				<Default>
-					<Value>200</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorTx</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12048</BitOffs>
-				<Default>
-					<Value>100</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorTy</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12064</BitOffs>
-				<Default>
-					<Value>100</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>ScalefactorTz</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
-				<BitSize>16</BitSize>
-				<BitOffs>12080</BitOffs>
-				<Default>
-					<Value>65</Value>
-				</Default>
-			</SubItem>
-			<SubItem>
-				<Name>RohArray</Name>
-				<Type GUID="{45B6ACA3-8787-4589-54C0-D4D41D6C1304}">INT2Byte</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>12096</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>SwitchArray</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>2</Elements>
-				</ArrayInfo>
-				<BitSize>16</BitSize>
-				<BitOffs>12112</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>SwichValue</Name>
-				<Type GUID="{2D564514-6AE0-C9EB-88B1-B79ED6383012}">Array2Byte</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>12128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Rohdaten</Name>
-				<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
-				<Comment><![CDATA[ Rohwerte der Messung ]]></Comment>
-				<BitSize>384</BitSize>
-				<BitOffs>12160</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Messung</Name>
-				<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
-				<Comment><![CDATA[ Werte in Newton / Newtonmeter ]]></Comment>
-				<BitSize>384</BitSize>
-				<BitOffs>12544</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bTurnedON</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<Comment><![CDATA[ Managementvariablen]]></Comment>
-				<BitSize>8</BitSize>
-				<BitOffs>12928</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bStart</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>12936</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bStop</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>12944</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bReset</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>12952</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bManOn</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>12960</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>m</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>12976</BitOffs>
-			</SubItem>
-			<Method>
-				<Name>__getP_Messdaten</Name>
-				<ReturnType GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</ReturnType>
-				<ReturnBitSize>384</ReturnBitSize>
-				<Local>
-					<Name>P_Messdaten</Name>
-					<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
-					<BitSize>384</BitSize>
-				</Local>
-				<Properties>
-					<Property>
-						<Name>property</Name>
-					</Property>
-				</Properties>
-			</Method>
-			<Properties>
-				<Property>
-					<Name>PouType</Name>
-					<Value>FunctionBlock</Value>
-				</Property>
-			</Properties>
-		</DataType>
-		<DataType>
-			<Name GUID="{4C33F8F7-56F8-427C-975D-2EBBBC5DC550}" TcBaseType="true">PlcLicenseInfo</Name>
-			<BitSize>1024</BitSize>
-			<SubItem>
-				<Name>LicenseId</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000021}">GUID</Type>
-				<BitSize>128</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Instances</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>LicenseName</Name>
-				<Type GUID="{18071995-0000-0000-0000-00010000005F}">STRING(95)</Type>
-				<BitSize>768</BitSize>
-				<BitOffs>256</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{5456DAC5-9FA5-4A6B-B497-840FCC690FDD}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{302277DD-5AD1-433D-B776-5031AECC2BB4}" TcBaseType="true">EPlcPersistentStatus</Name>
-			<BitSize>8</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
-			<EnumInfo>
-				<Text><![CDATA[PS_None]]></Text>
-				<Enum>0</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[PS_All]]></Text>
-				<Enum>1</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[PS_Partial]]></Text>
-				<Enum>2</Enum>
-			</EnumInfo>
-			<Hides>
-				<Hide GUID="{4591E628-DBCE-4E33-AE0B-7EB853AA256E}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{6096F07B-CE2D-45B4-B170-49A834787FA2}" TcBaseType="true">PlcAppSystemInfo</Name>
-			<BitSize>2048</BitSize>
-			<SubItem>
-				<Name>ObjId</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>TaskCnt</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>OnlineChangeCnt</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Flags</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>96</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>AdsPort</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>BootDataLoaded</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>144</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>OldBootData</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>152</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>AppTimestamp</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000004C}">DT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>160</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>KeepOutputsOnBP</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>192</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>ShutdownInProgress</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>200</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>LicensesPending</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>208</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>BSODOccured</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>216</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>LoggedIn</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>224</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>PersistentStatus</Name>
-				<Type GUID="{302277DD-5AD1-433D-B776-5031AECC2BB4}">EPlcPersistentStatus</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>232</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>TComSrvPtr</Name>
-				<Type GUID="{00000030-0000-0000-E000-000000000064}">ITComObjectServer</Type>
-				<BitSize X64="64">32</BitSize>
-				<BitOffs>256</BitOffs>
-				<Properties>
-					<Property>
-						<Name>TcComInterface</Name>
-					</Property>
-				</Properties>
-			</SubItem>
-			<SubItem>
-				<Name>AppName</Name>
-				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
-				<BitSize>512</BitSize>
-				<BitOffs>512</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>ProjectName</Name>
-				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
-				<BitSize>512</BitSize>
-				<BitOffs>1024</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{D91E046A-A488-4D27-8D43-0F3C40ED5081}"/>
-				<Hide GUID="{5DCEB2BC-E196-43AD-80B7-EBACF31A430B}"/>
-				<Hide GUID="{1B9FDDE4-B3B7-4F0F-AB14-24EDC2F643E7}"/>
-				<Hide GUID="{C1C52E30-BC0B-44CA-BF39-E2FE7F2D145C}"/>
-				<Hide GUID="{5C8FF47F-7F83-4493-8D21-F1FF8A08F75A}"/>
-				<Hide GUID="{941FDF6E-37CE-4C30-AA23-3236AFA461E2}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{18990FEE-DAB7-484A-867F-B5550518F883}" TcBaseType="true">PlcTaskSystemInfo</Name>
-			<BitSize>1024</BitSize>
-			<SubItem>
-				<Name>ObjId</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>CycleTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Priority</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>AdsPort</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>80</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>CycleCount</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>96</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>DcTaskTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000C}">LINT</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>LastExecTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>192</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>FirstCycle</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>224</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>CycleTimeExceeded</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>232</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>InCallAfterOutputUpdate</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>240</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>RTViolation</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>248</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>TaskName</Name>
-				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
-				<BitSize>512</BitSize>
-				<BitOffs>512</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{6A76D020-03A2-465C-A678-C341951E9EF3}"/>
-				<Hide GUID="{6F7D679F-72A0-4831-A7F1-085F839743ED}"/>
-				<Hide GUID="{56294066-FFF7-46F3-8206-FA06A30B13BA}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{CD0367B0-AC23-73F9-3788-7DA05B7C4D9E}" AutoDeleteType="true">_Implicit_KindOfTask</Name>
-			<BitSize>16</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
-			<EnumInfo>
-				<Text><![CDATA[_implicit_cyclic]]></Text>
-				<Enum>0</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[_implicit_event]]></Text>
-				<Enum>1</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[_implicit_external]]></Text>
-				<Enum>2</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[_implicit_freewheeling]]></Text>
-				<Enum>3</Enum>
-			</EnumInfo>
-			<Properties>
-				<Property>
-					<Name>signature_flag</Name>
-					<Value>256</Value>
-				</Property>
-				<Property>
-					<Name>hide</Name>
-				</Property>
-				<Property>
-					<Name>generate_implicit_init_function</Name>
-				</Property>
-			</Properties>
-		</DataType>
-		<DataType>
-			<Name GUID="{167A5CA8-1337-68A5-F81F-229672FD130B}" AutoDeleteType="true">_Implicit_Jitter_Distribution</Name>
-			<BitSize>48</BitSize>
-			<SubItem>
-				<Name>wRangeMax</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>wCountJitterNeg</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>wCountJitterPos</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-			<Properties>
-				<Property>
-					<Name>signature_flag</Name>
-					<Value>256</Value>
-				</Property>
-				<Property>
-					<Name>hide</Name>
-				</Property>
-			</Properties>
-		</DataType>
-		<DataType>
-			<Name GUID="{659FF1F2-DCC8-554A-FA96-44EFC9B5F395}" AutoDeleteType="true">_Implicit_Task_Info</Name>
-			<BitSize>896</BitSize>
-			<SubItem>
-				<Name>dwVersion</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>pszName</Name>
-				<Type GUID="{18071995-0000-0000-0000-000100000050}" PointerTo="1">STRING(80)</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>nPriority</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>KindOf</Name>
-				<Type GUID="{CD0367B0-AC23-73F9-3788-7DA05B7C4D9E}">_Implicit_KindOfTask</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>144</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bWatchdog</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>160</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bProfilingTask</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>168</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwEventFunctionPointer</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}" PointerTo="1">BYTE</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>192</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>pszExternalEvent</Name>
-				<Type GUID="{18071995-0000-0000-0000-000100000050}" PointerTo="1">STRING(80)</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>256</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwTaskEntryFunctionPointer</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}" PointerTo="1">BYTE</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>320</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwWatchdogSensitivity</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>384</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwInterval</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>416</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwWatchdogTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>448</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwLastCycleTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>480</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwAverageCycleTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>512</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwMaxCycleTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>544</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwMinCycleTime</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>576</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>diJitter</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>608</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>diJitterMin</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>640</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>diJitterMax</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>672</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwCycleCount</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>704</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>wTaskStatus</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>736</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>wNumOfJitterDistributions</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>752</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>pJitterDistribution</Name>
-				<Type GUID="{167A5CA8-1337-68A5-F81F-229672FD130B}" PointerTo="1">_Implicit_Jitter_Distribution</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>768</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bWithinSPSTimeSlicing</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>832</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>byDummy</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>840</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bShouldBlock</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>848</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>bActive</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>856</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>dwIECCycleCount</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>864</BitOffs>
-			</SubItem>
-			<Properties>
-				<Property>
-					<Name>signature_flag</Name>
-					<Value>256</Value>
-				</Property>
-				<Property>
-					<Name>hide</Name>
 				</Property>
 			</Properties>
 		</DataType>
@@ -6532,9 +5456,9 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{6D2E3B46-3364-D960-252D-E0106FE7F7A2}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">ModbusRtuMasterV2_PcCOM</Name>
-			<Comment><![CDATA[ Modbus RTU Master functionality for a serial connections via PC COM port.]]></Comment>
-			<BitSize>12096</BitSize>
+			<Name GUID="{BEB1AFF7-6A59-5685-AA4B-515217A50334}" Namespace="Tc2_ModbusRTU" AutoDeleteType="true">ModbusRtuMasterV2_KL6x22B</Name>
+			<Comment><![CDATA[ Modbus RTU Master functionality for a serial connections via serial EL6x/KL6x terminals with 22 bytes data process image.]]></Comment>
+			<BitSize>11392</BitSize>
 			<SubItem>
 				<Name>UnitID</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
@@ -6724,35 +5648,41 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 			</SubItem>
 			<SubItem>
 				<Name>InData</Name>
-				<Type GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}" Namespace="Tc2_ModbusRTU">MB_PcComInData</Type>
-				<BitSize>528</BitSize>
+				<Type GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}" Namespace="Tc2_ModbusRTU">MB_KL6inData22B</Type>
+				<BitSize>192</BitSize>
 				<BitOffs>432</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>OutData</Name>
-				<Type GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}" Namespace="Tc2_ModbusRTU">MB_PcComOutData</Type>
-				<BitSize>528</BitSize>
-				<BitOffs>960</BitOffs>
+				<Type GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU">MB_KL6outData22B</Type>
+				<BitSize>192</BitSize>
+				<BitOffs>624</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>WcState</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>816</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>MBmaster</Name>
 				<Type GUID="{1D799F3F-6767-71BB-505C-A7E7F22251F9}" Namespace="Tc2_ModbusRTU">ModbusRtuMasterV2</Type>
 				<BitSize>10368</BitSize>
-				<BitOffs>1536</BitOffs>
+				<BitOffs>832</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>ErrorDiagnostics</Name>
 				<Type GUID="{1ACF66AF-54F5-F748-E0C9-83835BC1E920}" Namespace="Tc2_ModbusRTU">ST_ModbusErrorDiagnostics</Type>
 				<BitSize>144</BitSize>
-				<BitOffs>11904</BitOffs>
+				<BitOffs>11200</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Mode</Name>
 				<Type GUID="{37EE92C9-A173-314B-0F37-C4220B468970}" Namespace="Tc2_ModbusRTU">MBserialLineMode_t</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>12048</BitOffs>
+				<BitOffs>11344</BitOffs>
 				<Default>
-					<EnumText>MBserialLineMode_t.MBSERIALLINEMODE_PC_COM_PORT</EnumText>
+					<EnumText>MBserialLineMode_t.MBSERIALLINEMODE_KL6_22B_STANDARD</EnumText>
 				</Default>
 			</SubItem>
 			<Action>
@@ -6792,6 +5722,1111 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 				<Property>
 					<Name>PouType</Name>
 					<Value>FunctionBlock</Value>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{2F851081-AE03-B846-B837-BB30F0A1AD7B}" AutoDeleteType="true">FB_SmartGripper</Name>
+			<BitSize>12160</BitSize>
+			<ExtendsType GUID="{FB06F459-90C6-5C70-2519-61C0DFC3111B}">GrundstrukturObjekt</ExtendsType>
+			<SubItem>
+				<Name>sIP</Name>
+				<Type GUID="{C0DEFBF4-8368-4063-9CA4-DBD5C85C853E}" Namespace="Tc2_System">T_IPv4Addr</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>320</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Input</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>iPort</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Input</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>Communication</Name>
+				<Type GUID="{BEB1AFF7-6A59-5685-AA4B-515217A50334}" Namespace="Tc2_ModbusRTU">ModbusRtuMasterV2_KL6x22B</Type>
+				<Comment><![CDATA[ Instanziierung von Kommunikationsbausteine]]></Comment>
+				<BitSize>11392</BitSize>
+				<BitOffs>512</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>UnitID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<Comment><![CDATA[ Kommunikationsvariablen]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>11904</BitOffs>
+				<Default>
+					<Value>9</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>Quantity</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>11920</BitOffs>
+				<Default>
+					<Value>3</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>Quantity2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>11936</BitOffs>
+				<Default>
+					<Value>1</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>MBAddr</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>11952</BitOffs>
+				<Default>
+					<Value>1000</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>MBAddr2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>11968</BitOffs>
+				<Default>
+					<Value>2000</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>Execute_1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>11984</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Execute_2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>11992</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Timeout</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000048}">TIME</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>12000</BitOffs>
+				<Default>
+					<DateTime>T#5S</DateTime>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>cbRead</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>12032</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Senddaten</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>6</Elements>
+				</ArrayInfo>
+				<BitSize>48</BitSize>
+				<BitOffs>12048</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Receivedaten</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>2</Elements>
+				</ArrayInfo>
+				<BitSize>16</BitSize>
+				<BitOffs>12096</BitOffs>
+			</SubItem>
+			<Method>
+				<Name>DoSomething</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>Verbinden</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>Trennen</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+			</Method>
+			<Properties>
+				<Property>
+					<Name>PouType</Name>
+					<Value>FunctionBlock</Value>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{33902CB3-61BA-15A0-F5CA-BA918F4FCB01}" AutoDeleteType="true">Request</Name>
+			<BitSize>320</BitSize>
+			<SubItem>
+				<Name>Command</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Comment><![CDATA[ Value according to the command table]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Data</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>19</Elements>
+				</ArrayInfo>
+				<BitSize>304</BitSize>
+				<BitOffs>16</BitOffs>
+				<Default>
+					<SubItem>
+						<Name>[0]</Name>
+						<Value>0</Value>
+					</SubItem>
+				</Default>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{B4730849-BE90-0A34-4E14-EAF4FE7D4EDF}" AutoDeleteType="true">Response_Values</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>Header</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Comment><![CDATA[ Fixed 0x1234]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Status</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Comment><![CDATA[ Status word of the sensor and Compute Box]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Fx</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ X-axis force in 32 bit Counts*]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Fy</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Y-axis force in 32 bit Counts*]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>48</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Fz</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Z-axis force in 32 bit Counts*]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tx</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ X-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>80</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ty</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Y-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>96</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tz</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Z-axis torque in 32 bit Counts* (0 if not available)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>112</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{45B6ACA3-8787-4589-54C0-D4D41D6C1304}" AutoDeleteType="true">INT2Byte</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>sValue</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>arrByte</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>2</Elements>
+				</ArrayInfo>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{2D564514-6AE0-C9EB-88B1-B79ED6383012}" AutoDeleteType="true">Array2Byte</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>arrByte</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>2</Elements>
+				</ArrayInfo>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>sValue</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}" AutoDeleteType="true">Kraftvariablen</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>Fx</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Kraft in X-Richtung ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Fy</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Kraft in Y-Richtung ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Fz</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Kraft in Z-Richtung ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tx</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Moment auf X-Achse ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ty</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Moment auf Y-Achse ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tz</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[ Moment auf Z-Achse ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{AF812E18-BDC1-C93D-3EC6-7A9BB5E33CD6}" AutoDeleteType="true">FB_Kraftsensor</Name>
+			<BitSize>12992</BitSize>
+			<ExtendsType GUID="{FB06F459-90C6-5C70-2519-61C0DFC3111B}">GrundstrukturObjekt</ExtendsType>
+			<SubItem>
+				<Name>sIP</Name>
+				<Type GUID="{C0DEFBF4-8368-4063-9CA4-DBD5C85C853E}" Namespace="Tc2_System">T_IPv4Addr</Type>
+				<Comment><![CDATA[ Kommunikationsvariablen]]></Comment>
+				<BitSize>128</BitSize>
+				<BitOffs>320</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Input</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>iPort</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Input</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>Connect</Name>
+				<Type GUID="{FC6F1627-3742-F87E-7B1C-B91F3EE44528}" Namespace="Tc2_TcpIp">FB_SocketConnect</Type>
+				<Comment><![CDATA[ Instanziierung von Kommunikationsbausteine]]></Comment>
+				<BitSize>3136</BitSize>
+				<BitOffs>512</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Disconnect</Name>
+				<Type GUID="{1B6AF237-221A-7C71-AAA0-281A2FC4E7CF}" Namespace="Tc2_TcpIp">FB_SocketClose</Type>
+				<BitSize>2304</BitSize>
+				<BitOffs>3648</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Send</Name>
+				<Type GUID="{6D088438-0633-49C9-8096-E6B82E2AED82}" Namespace="Tc2_TcpIp">FB_SocketSend</Type>
+				<BitSize>2368</BitSize>
+				<BitOffs>5952</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Receive</Name>
+				<Type GUID="{A1EF5070-4208-0020-76E0-840B3B870352}" Namespace="Tc2_TcpIp">FB_SocketReceive</Type>
+				<BitSize>2560</BitSize>
+				<BitOffs>8320</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>sSrvNetId</Name>
+				<Type GUID="{E73C367E-92B3-1139-8032-E11C3D2123C1}" Namespace="Tc2_System">T_AmsNetID</Type>
+				<Comment><![CDATA[ Kommunikationsvariablen]]></Comment>
+				<BitSize>192</BitSize>
+				<BitOffs>10880</BitOffs>
+				<Default>
+					<String><![CDATA[]]></String>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>tTimeout</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000048}">TIME</Type>
+				<Comment><![CDATA[!!!]]></Comment>
+				<BitSize>32</BitSize>
+				<BitOffs>11072</BitOffs>
+				<Default>
+					<DateTime>T#45S</DateTime>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>hSocket</Name>
+				<Type GUID="{0B9FC878-788D-D5AC-A368-7C4133D6F3D5}" Namespace="Tc2_TcpIp">T_HSOCKET</Type>
+				<BitSize>352</BitSize>
+				<BitOffs>11104</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>RT_State</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ RealTime-State-Variable]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>11456</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SendData</Name>
+				<Type GUID="{33902CB3-61BA-15A0-F5CA-BA918F4FCB01}">Request</Type>
+				<BitSize>320</BitSize>
+				<BitOffs>11472</BitOffs>
+				<Properties>
+					<Property>
+						<Name>TcSwapWord</Name>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>ReceivedData</Name>
+				<Type GUID="{B4730849-BE90-0A34-4E14-EAF4FE7D4EDF}">Response_Values</Type>
+				<Comment><![CDATA[ Erhaltene Daten von Roboter]]></Comment>
+				<BitSize>128</BitSize>
+				<BitOffs>11792</BitOffs>
+				<Properties>
+					<Property>
+						<Name>TcSwapWord</Name>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>nRecBytes</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<Comment><![CDATA[ Anzahl der erhaltenen Bytes]]></Comment>
+				<BitSize>32</BitSize>
+				<BitOffs>11936</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CPF</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Counts per Force value]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>11968</BitOffs>
+				<Default>
+					<Value>10000</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>CPT</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Counts per Torque value (Noch mal 10 rechnen)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>11984</BitOffs>
+				<Default>
+					<Value>10000</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorFx</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12000</BitOffs>
+				<Default>
+					<Value>200</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorFy</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12016</BitOffs>
+				<Default>
+					<Value>200</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorFz</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12032</BitOffs>
+				<Default>
+					<Value>200</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorTx</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12048</BitOffs>
+				<Default>
+					<Value>100</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorTy</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12064</BitOffs>
+				<Default>
+					<Value>100</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>ScalefactorTz</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<Comment><![CDATA[ Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>12080</BitOffs>
+				<Default>
+					<Value>65</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>RohArray</Name>
+				<Type GUID="{45B6ACA3-8787-4589-54C0-D4D41D6C1304}">INT2Byte</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>12096</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SwitchArray</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>2</Elements>
+				</ArrayInfo>
+				<BitSize>16</BitSize>
+				<BitOffs>12112</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SwichValue</Name>
+				<Type GUID="{2D564514-6AE0-C9EB-88B1-B79ED6383012}">Array2Byte</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>12128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Rohdaten</Name>
+				<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
+				<Comment><![CDATA[ Rohwerte der Messung ]]></Comment>
+				<BitSize>384</BitSize>
+				<BitOffs>12160</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Messung</Name>
+				<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
+				<Comment><![CDATA[ Werte in Newton / Newtonmeter ]]></Comment>
+				<BitSize>384</BitSize>
+				<BitOffs>12544</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bTurnedON</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<Comment><![CDATA[ Managementvariablen]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>12928</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bStart</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>12936</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bStop</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>12944</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bReset</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>12952</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bManOn</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>12960</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>m</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>12976</BitOffs>
+			</SubItem>
+			<Method>
+				<Name>__getP_Messdaten</Name>
+				<ReturnType GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</ReturnType>
+				<ReturnBitSize>384</ReturnBitSize>
+				<Local>
+					<Name>P_Messdaten</Name>
+					<Type GUID="{ABEFD909-92DE-6365-9464-C2A087242DE2}">Kraftvariablen</Type>
+					<BitSize>384</BitSize>
+				</Local>
+				<Properties>
+					<Property>
+						<Name>property</Name>
+					</Property>
+				</Properties>
+			</Method>
+			<Properties>
+				<Property>
+					<Name>PouType</Name>
+					<Value>FunctionBlock</Value>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{4C33F8F7-56F8-427C-975D-2EBBBC5DC550}" TcBaseType="true">PlcLicenseInfo</Name>
+			<BitSize>1024</BitSize>
+			<SubItem>
+				<Name>LicenseId</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000021}">GUID</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Instances</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>LicenseName</Name>
+				<Type GUID="{18071995-0000-0000-0000-00010000005F}">STRING(95)</Type>
+				<BitSize>768</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{5456DAC5-9FA5-4A6B-B497-840FCC690FDD}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{302277DD-5AD1-433D-B776-5031AECC2BB4}" TcBaseType="true">EPlcPersistentStatus</Name>
+			<BitSize>8</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[PS_None]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[PS_All]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[PS_Partial]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{4591E628-DBCE-4E33-AE0B-7EB853AA256E}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{6096F07B-CE2D-45B4-B170-49A834787FA2}" TcBaseType="true">PlcAppSystemInfo</Name>
+			<BitSize>2048</BitSize>
+			<SubItem>
+				<Name>ObjId</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>TaskCnt</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>OnlineChangeCnt</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Flags</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>96</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>AdsPort</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>BootDataLoaded</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>144</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>OldBootData</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>152</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>AppTimestamp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000004C}">DT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>160</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>KeepOutputsOnBP</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>ShutdownInProgress</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>200</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>LicensesPending</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>208</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>BSODOccured</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>216</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>LoggedIn</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>224</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>PersistentStatus</Name>
+				<Type GUID="{302277DD-5AD1-433D-B776-5031AECC2BB4}">EPlcPersistentStatus</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>232</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>TComSrvPtr</Name>
+				<Type GUID="{00000030-0000-0000-E000-000000000064}">ITComObjectServer</Type>
+				<BitSize X64="64">32</BitSize>
+				<BitOffs>256</BitOffs>
+				<Properties>
+					<Property>
+						<Name>TcComInterface</Name>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>AppName</Name>
+				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
+				<BitSize>512</BitSize>
+				<BitOffs>512</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>ProjectName</Name>
+				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
+				<BitSize>512</BitSize>
+				<BitOffs>1024</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{D91E046A-A488-4D27-8D43-0F3C40ED5081}"/>
+				<Hide GUID="{5DCEB2BC-E196-43AD-80B7-EBACF31A430B}"/>
+				<Hide GUID="{1B9FDDE4-B3B7-4F0F-AB14-24EDC2F643E7}"/>
+				<Hide GUID="{C1C52E30-BC0B-44CA-BF39-E2FE7F2D145C}"/>
+				<Hide GUID="{5C8FF47F-7F83-4493-8D21-F1FF8A08F75A}"/>
+				<Hide GUID="{941FDF6E-37CE-4C30-AA23-3236AFA461E2}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{18990FEE-DAB7-484A-867F-B5550518F883}" TcBaseType="true">PlcTaskSystemInfo</Name>
+			<BitSize>1024</BitSize>
+			<SubItem>
+				<Name>ObjId</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Priority</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>AdsPort</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>80</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CycleCount</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>96</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>DcTaskTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000C}">LINT</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>LastExecTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FirstCycle</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>224</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CycleTimeExceeded</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>232</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>InCallAfterOutputUpdate</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>240</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>RTViolation</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>248</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>TaskName</Name>
+				<Type GUID="{18071995-0000-0000-0000-00010000003F}">STRING(63)</Type>
+				<BitSize>512</BitSize>
+				<BitOffs>512</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{6A76D020-03A2-465C-A678-C341951E9EF3}"/>
+				<Hide GUID="{6F7D679F-72A0-4831-A7F1-085F839743ED}"/>
+				<Hide GUID="{56294066-FFF7-46F3-8206-FA06A30B13BA}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{CD0367B0-AC23-73F9-3788-7DA05B7C4D9E}" AutoDeleteType="true">_Implicit_KindOfTask</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[_implicit_cyclic]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[_implicit_event]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[_implicit_external]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[_implicit_freewheeling]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<Properties>
+				<Property>
+					<Name>signature_flag</Name>
+					<Value>256</Value>
+				</Property>
+				<Property>
+					<Name>hide</Name>
+				</Property>
+				<Property>
+					<Name>generate_implicit_init_function</Name>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{167A5CA8-1337-68A5-F81F-229672FD130B}" AutoDeleteType="true">_Implicit_Jitter_Distribution</Name>
+			<BitSize>48</BitSize>
+			<SubItem>
+				<Name>wRangeMax</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>wCountJitterNeg</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>wCountJitterPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<Properties>
+				<Property>
+					<Name>signature_flag</Name>
+					<Value>256</Value>
+				</Property>
+				<Property>
+					<Name>hide</Name>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
+			<Name GUID="{659FF1F2-DCC8-554A-FA96-44EFC9B5F395}" AutoDeleteType="true">_Implicit_Task_Info</Name>
+			<BitSize>896</BitSize>
+			<SubItem>
+				<Name>dwVersion</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>pszName</Name>
+				<Type GUID="{18071995-0000-0000-0000-000100000050}" PointerTo="1">STRING(80)</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nPriority</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>KindOf</Name>
+				<Type GUID="{CD0367B0-AC23-73F9-3788-7DA05B7C4D9E}">_Implicit_KindOfTask</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>144</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bWatchdog</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>160</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bProfilingTask</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>168</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwEventFunctionPointer</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}" PointerTo="1">BYTE</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>pszExternalEvent</Name>
+				<Type GUID="{18071995-0000-0000-0000-000100000050}" PointerTo="1">STRING(80)</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwTaskEntryFunctionPointer</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}" PointerTo="1">BYTE</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwWatchdogSensitivity</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwInterval</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>416</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwWatchdogTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>448</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwLastCycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>480</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwAverageCycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>512</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwMaxCycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>544</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwMinCycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>576</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>diJitter</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>608</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>diJitterMin</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>640</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>diJitterMax</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>672</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwCycleCount</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>704</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>wTaskStatus</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>736</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>wNumOfJitterDistributions</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>752</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>pJitterDistribution</Name>
+				<Type GUID="{167A5CA8-1337-68A5-F81F-229672FD130B}" PointerTo="1">_Implicit_Jitter_Distribution</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>768</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bWithinSPSTimeSlicing</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>832</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>byDummy</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>840</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bShouldBlock</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>848</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>bActive</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>856</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>dwIECCycleCount</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000007}">DWORD</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>864</BitOffs>
+			</SubItem>
+			<Properties>
+				<Property>
+					<Name>signature_flag</Name>
+					<Value>256</Value>
+				</Property>
+				<Property>
+					<Name>hide</Name>
 				</Property>
 			</Properties>
 		</DataType>
@@ -6924,10 +6959,16 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 				<ContextId>0</ContextId>
 				<ByteSize>10747904</ByteSize>
 				<Symbol>
-					<Name>GVL.Communication.InData</Name>
-					<BitSize>528</BitSize>
-					<BaseType GUID="{85E5F182-994B-D58F-D73E-E06C3608A833}">Tc2_ModbusRTU.MB_PcComInData</BaseType>
-					<BitOffs>3524720</BitOffs>
+					<Name>Anlage.Gripper.Communication.InData</Name>
+					<BitSize>192</BitSize>
+					<BaseType GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}">Tc2_ModbusRTU.MB_KL6inData22B</BaseType>
+					<BitOffs>3359920</BitOffs>
+				</Symbol>
+				<Symbol>
+					<Name>Anlage.Gripper.Communication.WcState</Name>
+					<BitSize>8</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+					<BitOffs>3360304</BitOffs>
 				</Symbol>
 			</DataArea>
 			<DataArea>
@@ -6936,10 +6977,10 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 				<ContextId>0</ContextId>
 				<ByteSize>10747904</ByteSize>
 				<Symbol>
-					<Name>GVL.Communication.OutData</Name>
-					<BitSize>528</BitSize>
-					<BaseType GUID="{817F87BD-54FA-7383-92CB-61C84BBDADE4}">Tc2_ModbusRTU.MB_PcComOutData</BaseType>
-					<BitOffs>3525248</BitOffs>
+					<Name>Anlage.Gripper.Communication.OutData</Name>
+					<BitSize>192</BitSize>
+					<BaseType GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}">Tc2_ModbusRTU.MB_KL6outData22B</BaseType>
+					<BitOffs>3360112</BitOffs>
 				</Symbol>
 			</DataArea>
 			<DataArea>
@@ -11619,38 +11660,38 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 				<Symbol>
 					<Name>MAIN.SysCommand</Name>
 					<BitSize>16</BitSize>
-					<BaseType GUID="{789EF4E4-9446-DC88-3265-359649E2DD34}">SystemCommand</BaseType>
+					<BaseType GUID="{8C604648-3738-0FD2-B7F1-7CD7DA827570}">SystemCommand</BaseType>
 					<BitOffs>3290656</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>MAIN.SkillCommand</Name>
 					<BitSize>16</BitSize>
-					<BaseType GUID="{16475CA0-8E09-760E-1BA4-585E4D5F8CAD}">SkillCommand</BaseType>
+					<BaseType GUID="{25D11651-CD19-97F8-FBA6-A35075641E14}">SkillCommand</BaseType>
 					<BitOffs>3290672</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>MAIN.testProcessValue</Name>
 					<BitSize>576</BitSize>
-					<BaseType GUID="{48DFD7F1-F737-090B-E6F3-C41B6A1BF8BA}">Prozessvariablen</BaseType>
-					<BitOffs>3322176</BitOffs>
+					<BaseType GUID="{399AC145-7183-E2EB-107B-A5605E14AC0C}">Prozessvariablen</BaseType>
+					<BitOffs>3317184</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>Anlage.UR5</Name>
 					<BitSize>30016</BitSize>
-					<BaseType GUID="{B49BE5B4-F0F2-89DC-DDCD-7867B875B1CD}">FB_Roboter</BaseType>
+					<BaseType GUID="{5E331B21-9F1C-E709-2047-5AB4A1A8F26A}">FB_Roboter</BaseType>
 					<BitOffs>3328960</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>Anlage.Gripper</Name>
-					<BitSize>640</BitSize>
-					<BaseType GUID="{5CCFD0FB-ACC6-FA0E-8A02-FE66FF3CEF14}">FB_SmartGripper</BaseType>
+					<BitSize>12160</BitSize>
+					<BaseType GUID="{2F851081-AE03-B846-B837-BB30F0A1AD7B}">FB_SmartGripper</BaseType>
 					<BitOffs>3358976</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>Anlage.HEX_E</Name>
 					<BitSize>12992</BitSize>
-					<BaseType GUID="{AA2C9D14-A373-4849-A4FD-C45A1DC0785E}">FB_Kraftsensor</BaseType>
-					<BitOffs>3359616</BitOffs>
+					<BaseType GUID="{AF812E18-BDC1-C93D-3EC6-7A9BB5E33CD6}">FB_Kraftsensor</BaseType>
+					<BitOffs>3371136</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_PreventOnlineChangeGvl.WriteLineIDs</Name>
@@ -11664,7 +11705,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>TcVarGlobal</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3392352</BitOffs>
+					<BitOffs>3403872</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_PreventOnlineChangeGvl.PlcProfilerActive</Name>
@@ -11678,7 +11719,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>TcVarGlobal</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3392360</BitOffs>
+					<BitOffs>3403880</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_PreventOnlineChangeGvl.PlcProfilerConfigChecksum</Name>
@@ -11692,7 +11733,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>TcVarGlobal</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3392368</BitOffs>
+					<BitOffs>3403888</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_LicenseInfoVarList._LicenseInfo</Name>
@@ -11707,7 +11748,21 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>TcVarGlobal</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3406464</BitOffs>
+					<BitOffs>3404832</BitOffs>
+				</Symbol>
+				<Symbol>
+					<Name>TwinCAT_SystemInfoVarList._TaskPouOid_PlcTask</Name>
+					<BitSize>32</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+					<Properties>
+						<Property>
+							<Name>TcVarGlobal</Name>
+						</Property>
+						<Property>
+							<Name>no_init</Name>
+						</Property>
+					</Properties>
+					<BitOffs>3405856</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_SystemInfoVarList._AppInfo</Name>
@@ -11721,7 +11776,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>no_init</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3407488</BitOffs>
+					<BitOffs>3405888</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_SystemInfoVarList._TaskInfo</Name>
@@ -11739,21 +11794,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>no_init</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3409536</BitOffs>
-				</Symbol>
-				<Symbol>
-					<Name>TwinCAT_SystemInfoVarList._TaskPouOid_PlcTask</Name>
-					<BitSize>32</BitSize>
-					<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
-					<Properties>
-						<Property>
-							<Name>TcVarGlobal</Name>
-						</Property>
-						<Property>
-							<Name>no_init</Name>
-						</Property>
-					</Properties>
-					<BitOffs>3410560</BitOffs>
+					<BitOffs>3407936</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_SystemInfoVarList._TaskOid_PlcTask</Name>
@@ -11767,7 +11808,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Name>no_init</Name>
 						</Property>
 					</Properties>
-					<BitOffs>3410592</BitOffs>
+					<BitOffs>3408960</BitOffs>
 				</Symbol>
 				<Symbol>
 					<Name>TwinCAT_SystemInfoVarList.__PlcTask</Name>
@@ -11788,18 +11829,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 							<Value>PlcTask</Value>
 						</Property>
 					</Properties>
-					<BitOffs>3410624</BitOffs>
-				</Symbol>
-				<Symbol>
-					<Name>GVL.Communication</Name>
-					<BitSize>12096</BitSize>
-					<BaseType GUID="{6D2E3B46-3364-D960-252D-E0106FE7F7A2}">Tc2_ModbusRTU.ModbusRtuMasterV2_PcCOM</BaseType>
-					<Properties>
-						<Property>
-							<Name>TcVarGlobal</Name>
-						</Property>
-					</Properties>
-					<BitOffs>3524288</BitOffs>
+					<BitOffs>3409024</BitOffs>
 				</Symbol>
 			</DataArea>
 		</DataAreas>
@@ -11810,7 +11840,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 			</Property>
 			<Property>
 				<Name>ChangeDate</Name>
-				<Value>2024-11-08T08:18:31</Value>
+				<Value>2024-11-13T17:23:35</Value>
 			</Property>
 			<Property>
 				<Name>GeneratedCodeSize</Name>
@@ -11851,7 +11881,7 @@ Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
 			</Value>
 			<Value>
 				<Name>Application Timestamp</Name>
-				<Value>1731053911</Value>
+				<Value>1731518615</Value>
 			</Value>
 			<Value>
 				<Name>Symbolic Mapping</Name>

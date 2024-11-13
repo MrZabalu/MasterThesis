@@ -12,16 +12,36 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Startmanagement
-fTrigger(CLK := bExecute);
-fSwitch(Set1 := fTrigger.Q);
-
-
-//_______________________________________________________________
-// Fehlerüberwachung
+      <ST><![CDATA[// Fehlerüberwachung
 IF bFehler THEN
 	iState := 3;
 END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Starten
+	fTrigger(CLK := bExecute);
+	fSwitch(Set1 := fTrigger.Q);
+	
+	IF fSwitch.Q1 AND iSysState = 1 THEN
+		bStarten := TRUE;
+	ELSE
+		bStarten := FALSE;
+	END_IF
+
+	// Stoppen
+	IF iSysCommand = 3 THEN
+		bStoppen := TRUE;
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF iSysCommand = 4 THEN
+		bResetten := TRUE;
+	ELSE
+		bResetten := FALSE;
+	END_IF
 
 //_______________________________________________________________
 // Zustandsmanagement
@@ -30,8 +50,9 @@ CASE iState OF
 		// DO
 		iSkillCommand := 0;
 		bDone := FALSE;	
+		fSwitch.RESET := FALSE;	
 		
-		IF fSwitch.Q1 THEN
+		IF bStarten THEN
 			IF ParameterError OR PositionError THEN
 				bError := TRUE;
 			ELSE	
@@ -42,20 +63,19 @@ CASE iState OF
 		
 		IF iObjState = 3 THEN
 			fSwitch.RESET := TRUE;																						// Resetten von Startsignal
-			bStarten := TRUE;
+			bGestartet := TRUE;
 		END_IF
 			
 		// TRANSITION	
-		IF bStarten THEN
-			bStarten := FALSE;
+		IF bGestartet THEN
+			bGestartet := FALSE;
 			iState := 1;																								// Objekt wurde gestartet
 		END_IF
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
 		// DO
 		iSkillCommand := 0;
-		bBusy := TRUE;		
-		fSwitch.RESET := FALSE;																								// Skill wird ausgeführt
+		bBusy := TRUE;																									// Skill wird ausgeführt
 		
 		IF bTargetReached OR bLimitReached THEN																			// Prüfen ob Prozessziel erreicht wurde
 			iSkillCommand := 2;
@@ -66,9 +86,9 @@ CASE iState OF
 			bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF iSysCommand = 3 THEN																						// Transition wenn System das Orbjekt stoppt
+		IF bStoppen THEN																							// Transition wenn System das Orbjekt stoppt
 			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
-			bStoppen := TRUE;
+			bGestoppt := TRUE;
 		END_IF
 			
 		// TRANSITION 
@@ -77,25 +97,25 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bStoppen THEN																								// Transition zu BEREIT
-			bStoppen := FALSE;																							
+		IF bGestoppt THEN																									// Transition zu BEREIT
+			bGestoppt := FALSE;																							
 			iState := 0;
 		END_IF
 			
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
-		// DO																											// Skill wurde erfolgreich ausgeführt
-		iSkillCommand := 3;																								// Objekt resetten
+		// DO																												// Skill wurde erfolgreich ausgeführt
+		iSkillCommand := 3;																									// Objekt resetten
 		
 		IF iObjState = 1 THEN
-			iSkillCommand := 0;																							// Zurücksetzen von Command
+			iSkillCommand := 0;																								// Zurücksetzen von Command
 			bSkillFertig := TRUE;
 			bDone := TRUE;												
 		END_IF
 			
 		//  TRANSITION
 		IF bSkillFertig THEN
-			bSkillFertig := FALSE;																								// Zurücksetzen von Skill																																										// Resetten von Objekt
+			bSkillFertig := FALSE;																							// Zurücksetzen von Skill																																										// Resetten von Objekt
 			iState := 0;
 		END_IF
 		
@@ -114,13 +134,8 @@ CASE iState OF
 			// Setzen von ErrorID
 		END_IF
 		
-		IF iSysCommand = 4 THEN
-			bResetten := TRUE;
-		END_IF
-		
 		// TRANSITION
 		IF bResetten THEN
-			bResetten := FALSE;
 			iState := 0;
 		END_IF
 

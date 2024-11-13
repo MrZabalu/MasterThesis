@@ -3,7 +3,6 @@
   <GVL Name="GVL" Id="{d358711c-d4bb-4176-9fa5-bdda4bc55262}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	Communication		:ModbusRtuMasterV2_PcCOM;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -80,7 +80,7 @@
     <Compile Include="POUs\01_Prozessmodell\01_Skills\01_Grundstruktur\GrundstrukturSkill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\00_Referenz\Basis.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\00_Referenz\Basis_Skill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\Skill_Position_anfahren.TcPOU">
@@ -107,7 +107,13 @@
     <Compile Include="POUs\02_Anlagenmodell\01_Grundstruktur\GrundstrukturObjekt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\00_Referenz\Basis_Objekt.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Roboter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_SmartGreifer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\Anlage.TcPOU">
@@ -119,7 +125,7 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\test.TcPOU">
+    <Compile Include="POUs\POU.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualization Manager.TcVMO">
@@ -156,6 +162,7 @@
     <Folder Include="POUs\02_Anlagenmodell" />
     <Folder Include="POUs\02_Anlagenmodell\01_Grundstruktur" />
     <Folder Include="POUs\02_Anlagenmodell\02_Objektklassen" />
+    <Folder Include="POUs\02_Anlagenmodell\02_Objektklassen\00_Referenz" />
     <Folder Include="POUs\03_Systemmodell" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
@@ -210,6 +217,10 @@
       <Namespace>VisuNativeControl</Namespace>
       <SystemLibrary>true</SystemLibrary>
       <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_ModbusRTU">
+      <DefaultResolution>Tc2_ModbusRTU, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_ModbusRTU</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>

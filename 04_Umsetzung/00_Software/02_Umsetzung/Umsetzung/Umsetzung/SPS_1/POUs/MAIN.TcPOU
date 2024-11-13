@@ -15,13 +15,14 @@ VAR
 	Switch2					:BOOL;
 	Switch3					:BOOL;
 	Switch4					:BOOL;
+	
+	Test					:eSystemCommand; 
 		
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[Zustandshandling();
 Anlage();
-test();
 
 Position_1.q1 := 0.108;
 Position_1.q2 := 0.483;
@@ -70,7 +71,7 @@ Position_2.PosTyp:= 0;
 
 TestAblauf(
 	bExecute := Execute,
-	bReset	:= GVL.Reset,
+	iSysCommand := GVL.SystemCommand,
 	Position_1 := Position_1,
 	Position_DOWN := Position_DOWN,
 	Position_UP := Position_UP,

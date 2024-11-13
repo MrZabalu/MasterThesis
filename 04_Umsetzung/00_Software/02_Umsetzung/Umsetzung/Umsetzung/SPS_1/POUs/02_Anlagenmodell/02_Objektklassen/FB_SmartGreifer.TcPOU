@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SmartGreifer" Id="{1e0d412f-2c15-47f4-b717-f9c4f89d77fc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer  EXTENDS GrundstrukturObjekt
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Instanziierung von Kommunikationsbausteine 
+	Communication		:ModbusRtuMasterV2_KL6x22B;
+	
+	// Kommunikationsvariablen
+	UnitID      			:BYTE := 9;
+    Quantity    			:WORD;
+    MBAddr      			:WORD;
+	Timeout     			:TIME := T#5S;
+	cbRead					:UINT;
+	DataSend				:ARRAY[0..5] OF BYTE;
+	DataRead				:ARRAY[0..5] OF BYTE;
+	
+	// Managementvariablen
+	iStartUp			:INT;
+	bGreiferReset		:BOOL;
+	bAmStarten			:BOOL;
+	bGestartet			:BOOL;
+	
+	Delay				:TON;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+	// System
+	IF iSysCommand = 2 AND iState = 0 THEN			// Objekt einschalten
+		bEinschalten := TRUE;
+	ELSE 
+		bEinschalten := FALSE;
+	END_IF
+	
+	IF iSysCommand = 1 AND iState = 1 THEN			// Objekt ausschalten
+		bAusschalten := TRUE;		
+	ELSE 
+		bAusschalten := FALSE;		
+	END_IF
+	
+	IF iSysCommand = 3 THEN							// Objekt beendet Prozess
+		bStoppen := TRUE;
+	ELSE
+		bStoppen := FALSE;
+	END_IF
+	
+	IF iSysCommand = 4 THEN							// System resettet Objekt
+		bResettenSystem := TRUE;
+	ELSE
+		bResettenSystem := FALSE;
+	END_IF
+	
+	// Skill
+	IF iSkillCommand = 1 THEN						// Skill startet Prozess
+		bStarten := TRUE;
+	ELSE 
+		bStarten := FALSE;
+	END_IF
+	
+	IF iSkillCommand = 2 THEN						// Skill beendet Prozess
+		bSkillFertig := TRUE;
+	ELSE
+		bSkillFertig := FALSE;
+	END_IF
+	
+	IF iSkillCommand = 3 THEN						// Skill resettet Objekt
+ 		bResettenSkill := TRUE;
+	ELSE
+		bResettenSkill := FALSE;
+	END_IF
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bFehler THEN 
+	iState := 7;
+END_IF
+
+CASE iState OF 
+	0: // AUS
+		// DO
+		IF bEinschalten THEN
+			CASE iStartUP OF
+				0: // Greifer Resetten
+					bGreiferReset := Resetten();
+					
+					IF bGreiferReset THEN
+						bGreiferReset := FALSE;
+						iStartUp := 1;
+					END_IF
+				1: // Greifer Aktivieren
+					bAmStarten := Aktivieren();
+					
+					IF bAmStarten THEN 
+						bAmStarten := FALSE;
+						Delay(IN:= TRUE, PT := T#1S);
+					END_IF
+					
+					IF Delay.Q THEN
+						Delay(IN:= FALSE);
+						iStartUp := 2;
+					END_IF
+					
+				2:
+					bAmStarten := StatusLesen();
+					
+					IF bAmStarten THEN
+						bAmStarten := FALSE;
+						IF DataRead[1] = 49  AND DataRead[0] = 0 THEN
+							bGestartet := TRUE;
+						END_IF
+					END_IF
+			END_CASE
+		END_IF
+		
+		// TRANSITION
+		IF bGestartet THEN																			// Verbindung wird aufgebaut
+			bGestartet := FALSE;
+			iStartUp := 0;
+			iState := 1;
+		END_IF
+			
+	//____________________________________________________________________________________________
+	1: // BEREIT
+		// DO
+
+		// TRANSITION
+																									// Manuell-Modus wird eingeschalten
+													
+			 IF bStarten THEN																		// Objekt führt Prozessdurch
+				 iState := 3;
+			 END_IF			
+	//____________________________________________________________________________________________
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	//____________________________________________________________________________________________
+	3: // LAUFEND
+		// DO
+			bBusy := TRUE;
+		
+		// TRANSITION
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
+				bBusy := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bStoppen THEN	
+				
+				IF bSkillFertig THEN
+					iState := 5;
+				END_IF
+					
+				IF bStoppen THEN
+					iState := 6;
+				END_IF
+					
+			END_IF
+	
+	//____________________________________________________________________________________________
+	4: // ABGESCHLOSSEN_INTERN
+		// DO
+			bDone := TRUE;
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten		
+				bDone := FALSE;
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+			bDone := TRUE;
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				bDone := FALSE;
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	6: // GESTOPPT
+		// DO
+			bBusy := FALSE;
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
+		// DO
+			bDone := FALSE;
+			bBusy := FALSE;
+			bError := bFehler;
+			
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bFehler	 := FALSE;
+				bError := FALSE;
+				iState := 1;
+			END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Methoden" Id="{8bef1fce-a79d-491b-85eb-292f85243fd3}">
+      <Folder Name="01_Nicht-Funktional" Id="{d247bbb4-617a-459b-8e80-d559cc2f4de6}" />
+      <Folder Name="02_Funktional" Id="{74d4df1c-6e30-4536-b2f1-c81690cd4243}">
+        <Folder Name="01_Manuell" Id="{da97d29d-50d9-424b-8fc5-8ee0f9e12497}" />
+        <Folder Name="02_Automatik" Id="{9dd68ca4-539b-4a90-b9cb-27a2a4d76558}" />
+      </Folder>
+    </Folder>
+    <Folder Name="02_Eigenschaften" Id="{472bcf55-ae01-4684-b0a5-1bac4ac8db73}" />
+    <Method Name="A_PositionAnfahren" Id="{4c569e10-c6ef-4410-b884-6fe27f9c3446}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
+      <Declaration><![CDATA[METHOD A_PositionAnfahren : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Aktivieren" Id="{fdd6e674-7a95-46dd-b35c-bacfce641df0}" FolderPath="01_Methoden\01_Nicht-Funktional\">
+      <Declaration><![CDATA[METHOD Aktivieren : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 1;
+DataSend[2] := 0;
+DataSend[3] := 0;
+DataSend[4] := 0;
+DataSend[5] := 0;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	UnitID 		:= UnitID,
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE,
+	Timeout 	:= Timeout,
+	BUSY 		=> bBusy,
+	Error 		=> bError,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+	
+IF NOT Communication.BUSY THEN
+	bBusy := FALSE;
+	Communication.WriteRegs(Execute := FALSE);
+	Aktivieren := TRUE;
+END_IF
+	
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Resetten" Id="{6c37f541-f851-4216-a3b1-3d989b5fbdc7}" FolderPath="01_Methoden\01_Nicht-Funktional\">
+      <Declaration><![CDATA[METHOD Resetten : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 0;
+DataSend[2] := 0;
+DataSend[3] := 0;
+DataSend[4] := 0;
+DataSend[5] := 0;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	UnitID 		:= UnitID,
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE,
+	Timeout 	:= Timeout,
+	BUSY 		=> bBusy,
+	Error 		=> bError,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+	
+IF Communication.BUSY  THEN
+	bBusy := FALSE;
+	Communication.WriteRegs(Execute := FALSE);
+	Resetten := TRUE;
+END_IF
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StatusLesen" Id="{3212b8cc-f492-4878-ad07-ac83bcec30d8}" FolderPath="01_Methoden\01_Nicht-Funktional\">
+      <Declaration><![CDATA[METHOD StatusLesen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 1;
+
+// Definieren von Register
+MBAddr := 2000;
+
+
+// Lesen von Daten des entsprechenden Registers
+Communication.ReadRegs(
+	UnitID 		:= UnitID,
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataRead),
+	pMemoryAddr := ADR(DataRead),
+	Execute 	:= TRUE,
+	Timeout 	:= Timeout,
+	BUSY 		=> bBusy,
+	Error 		=> bError,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+	
+IF Communication.BUSY THEN
+	bBusy := FALSE;
+	Communication.ReadRegs(Execute := FALSE);
+	StatusLesen := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

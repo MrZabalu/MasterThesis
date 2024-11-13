@@ -17,6 +17,19 @@ VAR_OUTPUT
 END_VAR
 VAR
 	iState				:eObjectState;		// Information über Zustand von Skill
+	
+	// Zustandsvariablen
+	bEinschalten			:BOOL;			// Objekt einschalten
+	bAusschalten			:BOOL;			// Objekt ausschalten
+ 	bStarten				:BOOL;			// Objekt starten
+	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
+	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
+	bStoppen				:BOOL;			// Objekt wurde gestoppt
+	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
+	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
+	bFehler					:BOOL;			// Das Objket hat einen Fehler
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>

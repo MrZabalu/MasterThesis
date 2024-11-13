@@ -1,8 +1,10 @@
 Id;Default
 425;%s
+484;AKTIVIEREN
 874;AUSCHALTEN
 468;EINSCHALTEN
 440;EXECUTE
+917;Greifer_Test
 764;KEINE
 545;ObjectState
 207;Position anfahren

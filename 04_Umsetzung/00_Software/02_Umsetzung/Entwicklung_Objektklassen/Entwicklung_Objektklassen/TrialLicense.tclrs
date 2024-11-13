@@ -2,14 +2,9 @@
 <TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
 	<LicenseInfo>
 		<SystemId>{CC22F6E9-E823-63EB-3D0B-82B4224D8206}</SystemId>
-		<IssueTime>2024-11-07T12:31:00</IssueTime>
-		<ExpireTime>2024-11-15T00:00:00</ExpireTime>
-		<LicenseKey>ef6228f9b1b27799f3524f384d18dffa92da32eb78b56e38e683e2f30c57e5f5516308db678be1326abb423e24d97fb21dedcdf8a15f23f3555a9b3b5a88d68b1b32b6491fc6df972eecb8b815307cac97fa30d338c5a18df3de33dbe208624205c540e74ff93d500f97e3d83f9ab8fa5b973fe2b95dabdfcb3782011ba891e5731f3f5387b8787452b8239e319331dac3bfa8699f7b9001bf0f6c2408ccb3afeed1a8642e88534ea8c5f54d17987af3ff04cda1471a85ef21e59873f50d985511b97f959f139c284d55f36f5f7a88f8b7379968d7e4af4af8c541e54de8221c6ac6adabaf7d232b2d998e0f5aecc3c454938dcf8e7178b4ce06df17bf0b0ebb</LicenseKey>
-		<License>
-			<LicenseId>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</LicenseId>
-			<Name>TC3 Modbus-RTU</Name>
-			<OrderNo>TF6255</OrderNo>
-		</License>
+		<IssueTime>2024-11-13T16:23:00</IssueTime>
+		<ExpireTime>2024-11-21T00:00:00</ExpireTime>
+		<LicenseKey>52704d3e6bd0ca3e8f15cea945ccfe7acaa09da3f7d1fa1c5e235871e9ad120d95913eaae6b1cda80df94dfc6a43079eb3984a1b992907ed3e4eaf8d621c0debeb6ae4b86ad645055fa342a09dee2703d7455bc1be5897437feb0ad8155f96604ea35ede4603997ff82b3538fd3ea78d024799fd246d2599f8da92a3e13d23866dbe40fd335f760c2e730a29bb1f06d1cf97f17ebd61bc9eaf57301d9de00e364d49f91e436de6948017d19e1bc47201ae09fb792497f6701494eea90fd991611881b0aa6c52eaf91e8e45f63a03794d0184674de3422b84f62d86a8b9c859e6c19b65cba56bb1f23111cf58df99fe09049f88c15d48ab440d9f86498e9ad0e5</LicenseKey>
 		<License>
 			<LicenseId>{BCA6EE0A-9CE1-4D3F-98CA-413ABC0D94FD}</LicenseId>
 			<Name>TC3 Serial-Communication</Name>
@@ -50,14 +45,19 @@
 			<OrderNo>TF1800</OrderNo>
 		</License>
 		<License>
-			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
-			<Name>TC3 IO</Name>
-			<OrderNo>TC1100</OrderNo>
+			<LicenseId>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</LicenseId>
+			<Name>TC3 Modbus-RTU</Name>
+			<OrderNo>TF6255</OrderNo>
 		</License>
 		<License>
 			<LicenseId>{B27B051A-CA6A-42EA-833E-82CC92903D83}</LicenseId>
 			<Name>TC3 UML</Name>
 			<OrderNo>TF1910</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
+			<Name>TC3 IO</Name>
+			<OrderNo>TC1100</OrderNo>
 		</License>
 	</LicenseInfo>
 </TcLicenseInfo>

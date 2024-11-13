@@ -25,7 +25,10 @@ VAR
 	// Startvariablen (FB soll nur bei einer steigenden Flanke gestartet werden)
 	fTrigger			:R_TRIG;			// Erkennung einer steigenden Flanke für den Starte
 	fSwitch				:SR;				// Setzen des Signals
-	bSwitchResett		:BOOL;				// Resetten des Signals
+	
+	// Managementvariablen 
+	bGestartet			:BOOL;
+	bGestoppt			:BOOL;
 	
 	// Zustandsvariablen
 	bStarten			:BOOL;

@@ -24,9 +24,18 @@ VAR
 	// Sequenz-Zustände
 	iState				:eSequenceState;
 	
+	// Startvariablen (FB soll nur bei einer steigenden Flanke gestartet werden)
+	fTrigger			:R_TRIG;			// Erkennung einer steigenden Flanke für den Starte
+	fSwitch				:SR;				// Setzen des Signals
+	bSwitchResett		:BOOL;				// Resetten des Signals
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bResetten			:BOOL;
+	
 	// Management-Variablen:
 	bFinished			:BOOL;
-	bReset				:BOOL;
 	bInit				:BOOL;
 	
 	// Skill-Instanziierungen
@@ -36,31 +45,61 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Aufrufen von Skills
+      <ST><![CDATA[// Aufrufen von Skills und Ablauf
+Ablauf();	
 Skills();
 
-// Reakrion auf Fehler
+//_______________________________________________________________
+// Reaktion auf Fehler
 IF bError THEN
 	iState := 3;
 END_IF	
 
+// Reaktion auf Input-Variablen: 
+	// Starten
+	fTrigger(CLK := bExecute);
+	fSwitch(Set1 := fTrigger.Q);
+	
+	IF fSwitch.Q1 THEN
+		bStarten := TRUE;
+	ELSE
+		bStarten := FALSE;
+	END_IF
+	
+	// Stoppen
+	IF iSysCommand = 3 THEN
+		bStoppen := TRUE;	
+	ELSE 
+		bStoppen := FALSE;	
+	END_IF
+	
+	// Stoppen
+	IF iSysCommand = 4 THEN
+		bResetten := TRUE;	
+	ELSE 
+		bResetten := FALSE;	
+	END_IF
+
+
+
+//_______________________________________________________________
+// Zustandsmanagement
 CASE iState OF 
 	0:	// BEREIT
 			// DO	
-			Reset := FALSE;
+			fSwitch.RESET := FALSE;
 				
 			// TRANSITION
-			IF bExecute THEN
+			IF bStarten THEN
+				fSwitch.RESET := TRUE;
 				iState := 1;																							// Starten des Objektes 
 			END_IF
-// ________________________________________________________________________________			
+	// ________________________________________________________________________________			
 	1:	// LAUFEND
 			// DO
 			bBusy := TRUE;	
 
-			Ablauf();	
-
-			IF iSysCommand =4 THEN
+			IF bStoppen THEN
 				SFCReset := TRUE;
 				bBusy := FALSE;
 			END_IF	
@@ -78,7 +117,7 @@ CASE iState OF
 				iState := 0;
 			END_IF
 
-// ________________________________________________________________________________					
+	// ________________________________________________________________________________					
 	2:	// ABGESCHLOSSEN
 			// DO
 			bDone := TRUE;			
@@ -88,19 +127,14 @@ CASE iState OF
 				bDone := FALSE;
 				iState := 0;
 			END_IF
-// ________________________________________________________________________________					
+	// ________________________________________________________________________________					
 	3:	// FEHLER
 			// DO
 			bDone := FALSE;
 			bBusy := FALSE;
 			
-			IF iSysCommand = 4 THEN
-				bReset := TRUE;
-			END_IF
-			
 			// TRANSITION
-			IF bReset THEN
-				bReset := FALSE;
+			IF bResetten THEN
 				bError := FALSE;
 				iState := 0;
 			END_IF
@@ -296,7 +330,7 @@ END_CASE]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"bExecute"</v>
+                              <v n="Value">"bStarten"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">27L</v>

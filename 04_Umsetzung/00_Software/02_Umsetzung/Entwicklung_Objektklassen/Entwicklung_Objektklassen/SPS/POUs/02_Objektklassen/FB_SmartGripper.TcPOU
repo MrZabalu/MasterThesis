@@ -11,37 +11,59 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Instanziierung von Kommunikationsbausteine
-	//Communication		AT%Q*	:ModbusRtuMasterV2_PcCOM;
+	Communication			:ModbusRtuMasterV2_KL6x22B;
 	
 
 	
 	// Kommunikationsvariablen
 	UnitID      		:BYTE := 9;
     Quantity    		:WORD := 3;
+	Quantity2    		:WORD := 1;
     MBAddr      		:WORD := 1000;
+	MBAddr2     		:WORD := 2000;
     Execute_1     		:BOOL;
+	Execute_2     		:BOOL;
     Timeout     		:TIME := T#5S;
 	
 	cbRead				:UINT;
 
-	Senddaten 			:ARRAY[0..2] OF INT;
+	Senddaten 			:ARRAY[0..5] OF BYTE;
+	Receivedaten 		:ARRAY[0..1] OF BYTE;
 
 
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Instanziierungen
+
 Senddaten[0] := 0;
-Senddaten[1] := 0;
+Senddaten[1] := 1;
 Senddaten[2] := 0;
+Senddaten[3] := 1;
+Senddaten[4] := 0;
+Senddaten[5] := 1;
+
 
 //Communication_§end.WriteSingleRegister();
-	GVL.Communication.WriteRegs(
+	Communication.WriteRegs(
 		UnitID := UnitID,
 		Quantity := Quantity,
 		MBAddr := MBAddr,
 		cbLength := SIZEOF(Senddaten),
 		pMemoryAddr := ADR(Senddaten),
+		Execute := Execute_1,
+		Timeout := Timeout,
+		BUSY => bBusy,
+		Error => bError,
+		ErrorId => iErrorID,
+		cbRead => cbRead);
+		
+		Communication.ReadRegs(
+		UnitID := UnitID,
+		Quantity := Quantity2,
+		MBAddr := MBAddr2,
+		cbLength := SIZEOF(Receivedaten),
+		pMemoryAddr := ADR(Receivedaten),
 		Execute := Execute_1,
 		Timeout := Timeout,
 		BUSY => bBusy,
