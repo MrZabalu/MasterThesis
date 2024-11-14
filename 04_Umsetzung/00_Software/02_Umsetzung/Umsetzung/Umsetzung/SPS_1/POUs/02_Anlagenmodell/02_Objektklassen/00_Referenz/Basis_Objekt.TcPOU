@@ -40,19 +40,19 @@ END_VAR
 	END_IF
 	
 	// Skill
-	IF iSkillCommand = 1 THEN						// Skill startet Prozess
+	IF iSkillCommand_1 = 1 THEN						// Skill startet Prozess
 		bStarten := TRUE;
 	ELSE 
 		bStarten := FALSE;
 	END_IF
 	
-	IF iSkillCommand = 2 THEN						// Skill beendet Prozess
+	IF iSkillCommand_1 = 2 THEN						// Skill beendet Prozess
 		bSkillFertig := TRUE;
 	ELSE
 		bSkillFertig := FALSE;
 	END_IF
 	
-	IF iSkillCommand = 3 THEN						// Skill resettet Objekt
+	IF iSkillCommand_1 = 3 THEN						// Skill resettet Objekt
  		bResettenSkill := TRUE;
 	ELSE
 		bResettenSkill := FALSE;

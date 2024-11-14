@@ -3,7 +3,8 @@
   <POU Name="MAIN" Id="{3072df51-7c74-4910-9d79-1ee236673122}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	TestAblauf				:Seq_2;
+	TestAblauf_1				:Seq_2;
+	TestAblauf_2				:Seq_3;
 	
 	Execute					:BOOL;		
 	Position_1				:sRoboterProzessVariablen;
@@ -16,7 +17,14 @@ VAR
 	Switch3					:BOOL;
 	Switch4					:BOOL;
 	
-	Test					:eSystemCommand; 
+	TestSystem				:eSystemCommand; 
+	TestSkill				:eSkillCommand; 
+	TestVariablen			:sSmartGreiferProzessVariablen;
+	
+	Param1					:sSmartGreiferProzessVariablen;
+	Param2					:sSmartGreiferProzessVariablen;
+	Param3					:sSmartGreiferProzessVariablen;
+	Param4					:sSmartGreiferProzessVariablen;
 		
 END_VAR
 ]]></Declaration>
@@ -69,13 +77,36 @@ Position_2.MoveTyp := 3;
 Position_2.PosTyp:= 0;
 
 
-TestAblauf(
+TestAblauf_1(
 	bExecute := Execute,
 	iSysCommand := GVL.SystemCommand,
 	Position_1 := Position_1,
 	Position_DOWN := Position_DOWN,
 	Position_UP := Position_UP,
 	Position_2 := Position_2);
+	
+	
+Param1.Pos := 20;
+Param1.Geschw := 100;
+
+
+Param2.Pos := 70;
+Param2.Geschw := 50;
+
+Param3.Pos := 30;
+Param3.Geschw := 20;
+
+Param4.Pos := 40;	
+Param4.Geschw := 80;	
+	
+TestAblauf_2(
+	bExecute := Execute,
+	iSysCommand := GVL.SystemCommand,
+	Parameter_1 := Param1,
+	Parameter_2 := Param2,
+	Parameter_3 := Param3,
+	Parameter_4 := Param4);
+	
 ]]></ST>
     </Implementation>
   </POU>

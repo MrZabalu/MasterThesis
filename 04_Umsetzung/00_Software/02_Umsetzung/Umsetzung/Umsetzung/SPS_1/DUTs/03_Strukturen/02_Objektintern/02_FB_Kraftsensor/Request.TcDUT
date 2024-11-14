@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Request" Id="{a6802365-8118-4c6a-bbda-fbc4ffdf9cd5}">
+    <Declaration><![CDATA[TYPE Request :
+STRUCT
+	Command			:UINT;		// Value according to the command table
+	Data			:ARRAY[0..18] OF UINT := [0];		
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

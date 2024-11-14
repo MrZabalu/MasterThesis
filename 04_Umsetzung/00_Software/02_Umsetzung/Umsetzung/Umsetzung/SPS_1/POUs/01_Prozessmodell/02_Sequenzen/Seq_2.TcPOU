@@ -3126,7 +3126,7 @@ END_CASE]]></ST>
                       <o n="Text" t="CFCText">
                         <v n="Bounds">"0, 0, 0, 0"</v>
                         <n n="ElementGroupId" />
-                        <v n="Text">"Anlage.UR5.iSkillCommand"</v>
+                        <v n="Text">"Anlage.UR5.iSkillCommand_1"</v>
                         <v n="Modifiable">true</v>
                         <v n="Id">52L</v>
                       </o>
@@ -3573,8 +3573,8 @@ END_CASE]]></ST>
                   </d2>
                 </o>
                 <v n="AutoSizeCanvas">true</v>
-                <v n="CanvasWidth">42</v>
-                <v n="CanvasHeight">12</v>
+                <v n="CanvasWidth">43</v>
+                <v n="CanvasHeight">13</v>
                 <n n="EditorConfiguration" />
                 <v n="AreElementsSpaceOptimized">true</v>
               </o>

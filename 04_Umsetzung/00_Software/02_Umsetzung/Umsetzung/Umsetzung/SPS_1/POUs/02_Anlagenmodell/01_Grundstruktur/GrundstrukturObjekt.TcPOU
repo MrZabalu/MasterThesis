@@ -3,11 +3,11 @@
   <POU Name="GrundstrukturObjekt" Id="{9e0cb548-32a9-47c1-a7f8-3617636e4541}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK GrundstrukturObjekt IMPLEMENTS I_State_Object
 VAR_INPUT
-	iMode				:INT;				// Information über aktuellen Betriebsmodi 
-	iSkillCommand 		:eSkillCommand;		// Steuerungsvariabel von Skill
-	iSysCommand			:eSystemCommand;	// Steuerungsvariabel von System
-	iSysState			:eSystemState;		// Information über Stand von System
 	bReset				:BOOL;				// Resett für den Manuell-Modus
+	iMode				:INT;				// Information über aktuellen Betriebsmodi 
+	iSysState			:eSystemState;		// Information über Stand von System
+	iSysCommand		  	:eSystemCommand;	// Steuerungsvariabel von System
+	iSkillCommand_1 	:eSkillCommand;		// Steuerungsvariabel von Skill_1
 END_VAR
 VAR_OUTPUT
 	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
@@ -25,9 +25,11 @@ VAR
 	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
 	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
 	bStoppen				:BOOL;			// Objekt wurde gestoppt
-	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
+	bResettenSkill		:BOOL;				// Das Objekt wird durch den Skill resettet
 	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
 	bFehler					:BOOL;			// Das Objket hat einen Fehler
+	
+	iFehlerID				:UDINT;
 	
 	
 END_VAR

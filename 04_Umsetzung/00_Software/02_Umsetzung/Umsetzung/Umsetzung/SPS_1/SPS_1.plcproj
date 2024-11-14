@@ -52,6 +52,9 @@
     <Compile Include="DUTs\03_Strukturen\01_Schnittstellen\sRoboterProzessVariablen.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\03_Strukturen\01_Schnittstellen\sSmartGreiferProzessVariablen.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter\sPositionArrays.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -61,7 +64,25 @@
     <Compile Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter\sRealTimeData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Kraftvariablen.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Request.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Response_Parameters.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Response_Values.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Array2_Int.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\04_Union\Array8_LReal.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\04_Union\Int_2Byte.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\04_Union\String_Array256.TcDUT">
@@ -81,6 +102,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\00_Referenz\Basis_Skill.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\Skill_Greifer_Pos_Anfahren.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\Skill_Position_anfahren.TcPOU">
@@ -104,10 +128,16 @@
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_3.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Grundstruktur\GrundstrukturObjekt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\00_Referenz\Basis_Objekt.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Kraftsensor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\02_Objektklassen\FB_Roboter.TcPOU">
@@ -123,9 +153,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\POU.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualization Manager.TcVMO">
@@ -150,6 +177,7 @@
     <Folder Include="DUTs\03_Strukturen\01_Schnittstellen" />
     <Folder Include="DUTs\03_Strukturen\02_Objektintern" />
     <Folder Include="DUTs\03_Strukturen\02_Objektintern\01_FB_Roboter" />
+    <Folder Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor" />
     <Folder Include="DUTs\04_Union" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\01_Prozessmodell" />

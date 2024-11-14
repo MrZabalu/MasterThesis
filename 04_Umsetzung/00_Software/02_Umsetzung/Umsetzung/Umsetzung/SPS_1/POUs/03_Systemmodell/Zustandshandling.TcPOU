@@ -20,7 +20,7 @@ END_VAR
 CASE iState OF
 	0:	// AUS
 			// DO
-			IF Anlage.UR5.P_State = 1 THEN
+			IF Anlage.Gripper.P_State = 1 THEN
 				bEinschalten := TRUE;
 			END_IF
 			
@@ -33,11 +33,11 @@ CASE iState OF
 			
 	1:	// BEREIT
 			// DO
-			IF Anlage.UR5.P_State = 3 THEN
+			IF Anlage.Gripper.P_State = 3 THEN
 				bStarten := TRUE;
 			END_IF
 			
-			IF Anlage.UR5.P_State = 0 THEN
+			IF Anlage.Gripper.P_State = 0 THEN
 				bAusschalten := TRUE;
 			END_IF
 			
@@ -67,7 +67,7 @@ CASE iState OF
 				bStoppen := TRUE;
 			END_IF
 			
-			IF Anlage.UR5.P_State = 1 THEN
+			IF Anlage.Gripper.P_State = 1 THEN
 				bAbgeschlossen := TRUE;
 			END_IF
 			

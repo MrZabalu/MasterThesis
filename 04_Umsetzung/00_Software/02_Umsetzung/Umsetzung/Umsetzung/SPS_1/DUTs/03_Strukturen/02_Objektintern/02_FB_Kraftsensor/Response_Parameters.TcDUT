@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="Response_Parameters" Id="{567ab210-c4d6-48c1-a41e-baecfe3d6067}">
+    <Declaration><![CDATA[TYPE Response_Parameters :
+STRUCT
+	Header				:UINT;			// Fixed 0x1234
+	Unit_Force			:USINT;			// The unit of the calculated Force values
+	Unit_Torque			:USINT;			// The unit of the calculated Torque values
+	CPF					:UDINT;			// Counts per Force value
+	CPT					:UDINT;			// Counts per Torque value
+	ScaleFactorFx		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScaleFactorFy		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScaleFactorFz		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScaleFactorTx		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScaleFactorTy		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScaleFactorTz		:UINT;			// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

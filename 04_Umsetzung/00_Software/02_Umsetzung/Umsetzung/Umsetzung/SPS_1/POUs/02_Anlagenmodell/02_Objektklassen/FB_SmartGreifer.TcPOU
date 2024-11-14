@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_SmartGreifer" Id="{1e0d412f-2c15-47f4-b717-f9c4f89d77fc}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer  EXTENDS GrundstrukturObjekt
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer EXTENDS GrundstrukturObjekt
 VAR_INPUT
+	iSkillCommand_2			:eSkillCommand;		// Steuerungsvariabel von Skill_2
+	Prozessvariablen		:sSmartGreiferProzessVariablen; 
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	// Instanziierung von Kommunikationsbausteine 
-	Communication		:ModbusRtuMasterV2_KL6x22B;
+	Communication			:ModbusRtuMasterV2_KL6x22B;
 	
 	// Kommunikationsvariablen
 	UnitID      			:BYTE := 9;
@@ -21,11 +23,35 @@ VAR
 	
 	// Managementvariablen
 	iStartUp			:INT;
+	iProzess			:INT;
+	iSkillOption		:INT;
+	
 	bGreiferReset		:BOOL;
-	bAmStarten			:BOOL;
+	bGreiferLesen		:BOOL;
+	
+	bAmEinschalten		:BOOL;
+	bEingeschalten		:BOOL;
+	
 	bGestartet			:BOOL;
 	
+	
+	CheckTimer			:TON;
 	Delay				:TON;
+	
+	// Prozessvariablen
+	iPos				:BYTE;
+	iGeschw				:BYTE;
+	iKraft				:BYTE;
+	
+	// Eigenschaftsvariablen
+	iPosMax				:REAL := 85;
+	iGeschwMin			:REAL := 20;
+	iGeschwMax			:REAL := 150;
+	iKraftMin			:REAL := 20;
+	iKraftMax			:REAL := 235;
+	Anschlag			:BYTE;
+	
+	
 	
 END_VAR
 ]]></Declaration>
@@ -40,38 +66,46 @@ END_VAR
 		bEinschalten := FALSE;
 	END_IF
 	
-	IF iSysCommand = 1 AND iState = 1 THEN			// Objekt ausschalten
+	IF iSysCommand = 1 AND iState = 1 THEN				// Objekt ausschalten
 		bAusschalten := TRUE;		
 	ELSE 
 		bAusschalten := FALSE;		
 	END_IF
 	
-	IF iSysCommand = 3 THEN							// Objekt beendet Prozess
+	IF iSysCommand = 3 THEN								// Objekt beendet Prozess
 		bStoppen := TRUE;
 	ELSE
 		bStoppen := FALSE;
 	END_IF
 	
-	IF iSysCommand = 4 THEN							// System resettet Objekt
+	IF iSysCommand = 4 THEN								// System resettet Objekt
 		bResettenSystem := TRUE;
 	ELSE
 		bResettenSystem := FALSE;
 	END_IF
 	
 	// Skill
-	IF iSkillCommand = 1 THEN						// Skill startet Prozess
+	IF iSkillCommand_1 = 1 OR iSkillCommand_2 = 1 THEN	// Skill startet Prozess
+		IF iSkillCommand_1 = 1 THEN
+			iSkillOption := 1;
+		END_IF
+		
+		IF iSkillCommand_2 = 1 THEN
+			iSkillOption := 2;
+		END_IF
+		
 		bStarten := TRUE;
 	ELSE 
 		bStarten := FALSE;
 	END_IF
 	
-	IF iSkillCommand = 2 THEN						// Skill beendet Prozess
+	IF iSkillCommand_1 = 2 OR iSkillCommand_2 = 2 THEN	// Skill beendet Prozess
 		bSkillFertig := TRUE;
 	ELSE
 		bSkillFertig := FALSE;
 	END_IF
 	
-	IF iSkillCommand = 3 THEN						// Skill resettet Objekt
+	IF iSkillCommand_1 = 3 OR iSkillCommand_2 = 3 THEN	// Skill resettet Objekt
  		bResettenSkill := TRUE;
 	ELSE
 		bResettenSkill := FALSE;
@@ -103,10 +137,10 @@ CASE iState OF
 						iStartUp := 1;
 					END_IF
 				1: // Greifer Aktivieren
-					bAmStarten := Aktivieren();
+					bAmEinschalten := Aktivieren();
 					
-					IF bAmStarten THEN 
-						bAmStarten := FALSE;
+					IF bAmEinschalten THEN 
+						bAmEinschalten := FALSE;
 						Delay(IN:= TRUE, PT := T#1S);
 					END_IF
 					
@@ -116,20 +150,20 @@ CASE iState OF
 					END_IF
 					
 				2:
-					bAmStarten := StatusLesen();
+					bGreiferLesen := StatusLesen(NrOfReg := 1);
 					
-					IF bAmStarten THEN
-						bAmStarten := FALSE;
+					IF bGreiferLesen THEN
+						bGreiferLesen := FALSE;
 						IF DataRead[1] = 49  AND DataRead[0] = 0 THEN
-							bGestartet := TRUE;
+							bEingeschalten := TRUE;
 						END_IF
 					END_IF
 			END_CASE
 		END_IF
 		
 		// TRANSITION
-		IF bGestartet THEN																			// Verbindung wird aufgebaut
-			bGestartet := FALSE;
+		IF bEingeschalten THEN																			// Verbindung wird aufgebaut
+			bEingeschalten := FALSE;
 			iStartUp := 0;
 			iState := 1;
 		END_IF
@@ -137,6 +171,7 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	1: // BEREIT
 		// DO
+			Anschlag := 0;
 
 		// TRANSITION
 																									// Manuell-Modus wird eingeschalten
@@ -154,6 +189,135 @@ CASE iState OF
 	3: // LAUFEND
 		// DO
 			bBusy := TRUE;
+			
+			// Aktionsprozess 
+			IF iSkillOption = 1 THEN
+				CASE iProzess OF 
+					0: // Aktion durchführen
+						iPos := REAL_TO_BYTE(((255/iPosMax) * (iPosMax - Prozessvariablen.Pos)));	
+						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
+						iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
+					
+						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+						
+						IF bGestartet THEN
+							bGestartet := FALSE;
+							Delay(IN:= TRUE, PT := T#1S);
+						END_IF
+						
+						IF Delay.Q THEN
+							Delay(IN:= FALSE);
+							iProzess := 1;
+						END_IF
+					
+					1: // Prüfen ob Aktion erledigt 
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
+						CheckTimer(IN := TRUE, PT := T#5S);
+						
+						IF bGreiferLesen THEN
+							bGreiferLesen := FALSE;
+							
+							// Greifer hat Position erreicht
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 249 		AND
+								DataRead[2] = iPos 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		AND
+								DataRead[5] = iPos		THEN
+								
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bObjektFertig := TRUE;
+							END_IF
+							
+							// Greifer ist in Hinderniss gefahren
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 185 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		THEN
+								
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bFehler := TRUE;
+								iFehlerID := 202;
+							END_IF
+							
+						END_IF
+						
+						// Zeit wurde überschritten
+						IF CheckTimer.Q THEN		
+							iProzess := 0;
+							CheckTimer(IN := FALSE);
+							bFehler := TRUE;
+							iFehlerID := 201;
+						END_IF
+				END_CASE
+			END_IF
+			
+			IF iSkillOption = 2 THEN
+				CASE iProzess OF 
+					0: // Aktion durchführen
+						iPos := REAL_TO_BYTE(((255/iPosMax) * (iPosMax - Prozessvariablen.Pos)));	
+						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
+						iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
+					
+						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+						
+						IF bGestartet THEN
+							bGestartet := FALSE;
+							Delay(IN:= TRUE, PT := T#1S);
+						END_IF
+						
+						IF Delay.Q THEN
+							Delay(IN:= FALSE);
+							iProzess := 1;
+						END_IF
+					
+					1: // Prüfen ob Aktion erledigt 
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
+						CheckTimer(IN := TRUE, PT := T#5S);
+						
+						IF bGreiferLesen THEN
+							bGreiferLesen := FALSE;
+							
+							// Greifer hat Position erreicht
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 249 		AND
+								DataRead[2] = iPos 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		AND
+								DataRead[5] = iPos		THEN
+								
+								CheckTimer(IN := FALSE);
+								Anschlag := iPos;
+								iProzess := 0;
+								bObjektFertig := TRUE;
+							END_IF
+							
+							// Greifer ist in Hinderniss gefahren
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 185 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		THEN
+								
+								Anschlag := DataRead[5];
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bObjektFertig := TRUE;								
+							END_IF
+							
+						END_IF
+						
+						// Zeit wurde überschritten
+						IF CheckTimer.Q THEN		
+							iProzess := 0;
+							CheckTimer(IN := FALSE);
+							bFehler := TRUE;
+							iFehlerID := 201;
+						END_IF
+				END_CASE
+			END_IF
+			
 		
 		// TRANSITION
 			IF bObjektFertig THEN
@@ -211,11 +375,13 @@ CASE iState OF
 			bDone := FALSE;
 			bBusy := FALSE;
 			bError := bFehler;
+			iErrorID := iFehlerID;
 			
 		// TRANSITION
 			IF bResettenSystem THEN																	// Objekt resetten
 				bFehler	 := FALSE;
 				bError := FALSE;
+				iErrorID := 0;
 				iState := 1;
 			END_IF
 	
@@ -232,10 +398,45 @@ END_CASE]]></ST>
     <Method Name="A_PositionAnfahren" Id="{4c569e10-c6ef-4410-b884-6fe27f9c3446}" FolderPath="01_Methoden\02_Funktional\02_Automatik\">
       <Declaration><![CDATA[METHOD A_PositionAnfahren : BOOL
 VAR_INPUT
+	iPos		:BYTE;
+	iGeschw		:BYTE;
+	iKraft		:BYTE;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 9;
+DataSend[2] := iPos;
+DataSend[3] := 0;
+DataSend[4] := iKraft;
+DataSend[5] := iGeschw;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	UnitID 		:= UnitID,
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE,
+	Timeout 	:= Timeout,
+	BUSY 		=> bBusy,
+	Error 		=> bError,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+	
+IF NOT Communication.BUSY THEN
+	bBusy := FALSE;
+	Communication.WriteRegs(Execute := FALSE);
+	A_PositionAnfahren := TRUE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Aktivieren" Id="{fdd6e674-7a95-46dd-b35c-bacfce641df0}" FolderPath="01_Methoden\01_Nicht-Funktional\">
@@ -281,6 +482,17 @@ END_IF
 	]]></ST>
       </Implementation>
     </Method>
+    <Property Name="AnschlagPos" Id="{8a7e5113-77a4-41bd-b1e7-c17073d70e06}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY AnschlagPos : BYTE]]></Declaration>
+      <Get Name="Get" Id="{b513f4bb-ed8d-44a8-b856-243be0953fc4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AnschlagPos := Anschlag;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Resetten" Id="{6c37f541-f851-4216-a3b1-3d989b5fbdc7}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD Resetten : BOOL
 VAR_INPUT
@@ -326,20 +538,18 @@ END_IF
     <Method Name="StatusLesen" Id="{3212b8cc-f492-4878-ad07-ac83bcec30d8}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD StatusLesen : BOOL
 VAR_INPUT
+	NrOfReg			:WORD;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
-Quantity := 1;
-
-// Definieren von Register
+        <ST><![CDATA[// Definieren von Register
 MBAddr := 2000;
 
 
 // Lesen von Daten des entsprechenden Registers
 Communication.ReadRegs(
 	UnitID 		:= UnitID,
-	Quantity 	:= Quantity,
+	Quantity 	:= NrOfReg,
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataRead),
 	pMemoryAddr := ADR(DataRead),
