@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Greifer_Pos_Anfahren" Id="{f7a15202-efa0-40e7-b8a6-4ce2459089f3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren EXTENDS GrundstrukturSkill
+VAR_INPUT
+	sProzessvariablen			:sSmartGreiferProzessVariablen;
+END_VAR
+VAR_OUTPUT
+	sObjektvariablen			:sSmartGreiferProzessVariablen;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Starten
+	fTrigger(CLK := bExecute);
+	fSwitch(Set1 := fTrigger.Q);
+	
+	IF fSwitch.Q1 AND iSysState = 1 THEN
+		bStarten := TRUE;
+	ELSE
+		bStarten := FALSE;
+	END_IF
+
+	// Stoppen
+	IF iSysCommand = 3 AND iSysState = 2 THEN
+		bStoppen := TRUE;
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF iSysCommand = 4 THEN
+		bResetten := TRUE;
+	ELSE
+		bResetten := FALSE;
+	END_IF
+
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT
+		// DO
+		iSkillCommand := 0;
+		bDone := FALSE;
+		fSwitch.RESET := FALSE;
+		
+		IF bStarten THEN
+			sObjektvariablen := sProzessvariablen;
+			iSkillCommand := 1;																							// Starten des Objektes 
+		END_IF	
+		
+		IF iObjState = 3 THEN
+			fSwitch.RESET := TRUE;	
+			bGestartet := TRUE;
+		END_IF
+			
+		// TRANSITION	
+		IF bGestartet THEN
+			bGestartet := FALSE;
+			iState := 1;																							// Objekt wurde gestartet
+		END_IF
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO
+		iSkillCommand := 0;
+		bBusy := TRUE;																									// Skill wird ausgeführt
+		
+		IF bTargetReached OR bLimitReached THEN																			// Prüfen ob Prozessziel erreicht wurde
+			iSkillCommand := 2;
+		END_IF
+		
+		IF bStoppen THEN																						// Transition wenn System das Orbjekt stoppt
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bGestoppt := TRUE;
+		END_IF
+		
+		IF iObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+		END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;																							
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
+			
+		iSkillCommand := 3;																								// Objekt resetten
+		
+		IF iObjState = 1 THEN																							// Objekt wurde geresettet
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bDone := FALSE;																									// Zurücksetzen von Skill
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		iSkillCommand := 0;
+		
+		bDone := FALSE;
+		bBusy := FALSE;
+		
+		// TRANSITION
+		IF bResetten THEN
+			iState := 0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

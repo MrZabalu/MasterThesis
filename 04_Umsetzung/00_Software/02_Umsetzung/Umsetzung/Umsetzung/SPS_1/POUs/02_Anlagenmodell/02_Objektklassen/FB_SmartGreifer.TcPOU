@@ -4,6 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer EXTENDS GrundstrukturObjekt
 VAR_INPUT
 	iSkillCommand_2			:eSkillCommand;		// Steuerungsvariabel von Skill_2
+	iSkillCommand_3			:eSkillCommand;		// Steuerungsvariabel von Skill_2
+	iSkillCommand_4			:eSkillCommand;		// Steuerungsvariabel von Skill_2
 	Prozessvariablen		:sSmartGreiferProzessVariablen; 
 END_VAR
 VAR_OUTPUT
@@ -51,6 +53,13 @@ VAR
 	iKraftMax			:REAL := 235;
 	Anschlag			:BYTE;
 	
+	Count				:INT;
+	
+	Check1				:BOOL;
+	Check2				:BOOL;
+	Check3				:BOOL;
+	Check4				:BOOL;
+	
 	
 	
 END_VAR
@@ -85,13 +94,21 @@ END_VAR
 	END_IF
 	
 	// Skill
-	IF iSkillCommand_1 = 1 OR iSkillCommand_2 = 1 THEN	// Skill startet Prozess
+	IF iSkillCommand_1 = 1 OR iSkillCommand_2 = 1 OR  iSkillCommand_3 = 1 OR iSkillCommand_4 = 1 THEN	// Skill startet Prozess
 		IF iSkillCommand_1 = 1 THEN
 			iSkillOption := 1;
 		END_IF
 		
 		IF iSkillCommand_2 = 1 THEN
 			iSkillOption := 2;
+		END_IF
+		
+		IF iSkillCommand_3 = 1 THEN
+			iSkillOption := 3;
+		END_IF
+		
+		IF iSkillCommand_4 = 1 THEN
+			iSkillOption := 4;
 		END_IF
 		
 		bStarten := TRUE;
@@ -150,9 +167,10 @@ CASE iState OF
 					END_IF
 					
 				2:
-					bGreiferLesen := StatusLesen(NrOfReg := 1);
+					bGreiferLesen := StatusLesen(Execute:= TRUE, NrOfReg := 1);
 					
 					IF bGreiferLesen THEN
+						StatusLesen(Execute := FALSE, NrOfReg := 3);
 						bGreiferLesen := FALSE;
 						IF DataRead[1] = 49  AND DataRead[0] = 0 THEN
 							bEingeschalten := TRUE;
@@ -173,7 +191,10 @@ CASE iState OF
 		// DO
 			Anschlag := 0;
 
-		// TRANSITION
+		// TRANSITION		
+			IF bAusschalten THEN
+				iState := 0;
+			END_IF
 																									// Manuell-Modus wird eingeschalten
 													
 			 IF bStarten THEN																		// Objekt führt Prozessdurch
@@ -191,10 +212,11 @@ CASE iState OF
 			bBusy := TRUE;
 			
 			// Aktionsprozess 
-			IF iSkillOption = 1 THEN
-				CASE iProzess OF 
+			CASE iSkillOption OF 
+				1:	// Definierte Position anfahren
+					CASE iProzess OF 
 					0: // Aktion durchführen
-						iPos := REAL_TO_BYTE(((255/iPosMax) * (iPosMax - Prozessvariablen.Pos)));	
+						iPos := REAL_TO_BYTE((255.00/iPosMax) *  (iPosMax - Prozessvariablen.Pos));	
 						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
 						iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
 					
@@ -211,11 +233,12 @@ CASE iState OF
 						END_IF
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
+						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
+							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer hat Position erreicht
 							IF 	DataRead[0] = 0 		AND
@@ -251,11 +274,11 @@ CASE iState OF
 							bFehler := TRUE;
 							iFehlerID := 201;
 						END_IF
-				END_CASE
-			END_IF
-			
-			IF iSkillOption = 2 THEN
-				CASE iProzess OF 
+					END_CASE
+					
+				//______________________________________________________________________________________________________	
+				2:	// Greifabstand ermitteln
+					CASE iProzess OF 
 					0: // Aktion durchführen
 						iPos := REAL_TO_BYTE(((255/iPosMax) * (iPosMax - Prozessvariablen.Pos)));	
 						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
@@ -274,11 +297,12 @@ CASE iState OF
 						END_IF
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
+						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
+							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer hat Position erreicht
 							IF 	DataRead[0] = 0 		AND
@@ -315,9 +339,149 @@ CASE iState OF
 							bFehler := TRUE;
 							iFehlerID := 201;
 						END_IF
-				END_CASE
-			END_IF
-			
+					END_CASE
+				
+				//______________________________________________________________________________________________________	
+				3:	// Grifer komplett schliessen
+					CASE iProzess OF 
+					0: // Aktion durchführen
+						iPos := 200;	
+						iGeschw := 100;
+						iKraft := 0;
+						
+							bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+					
+						IF bGestartet THEN
+							bGestartet := FALSE;
+							Delay(IN:= TRUE, PT := T#1S);
+						END_IF
+						
+						IF Delay.Q THEN
+							Delay(IN:= FALSE);
+							iProzess := 1;
+						END_IF
+						
+						IF Communication.BUSY THEN
+							Check1 := TRUE;
+						ELSE
+							Check1 := TRUE;
+						END_IF
+					
+					1: // Prüfen ob Aktion erledigt 
+						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						CheckTimer(IN := TRUE, PT := T#5S);
+						
+						IF bGreiferLesen THEN
+							bGreiferLesen := FALSE;
+							StatusLesen(Execute := FALSE, NrOfReg := 3);
+							
+							// Greifer ist in Hinderniss gefahren
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 249 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		THEN
+								
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bObjektFertig := TRUE;								
+							END_IF
+							
+						END_IF
+						
+						IF Communication.BUSY THEN
+							Check2 := TRUE;
+						ELSE
+							Check2 := TRUE;
+						END_IF
+						
+						// Zeit wurde überschritten
+						IF CheckTimer.Q THEN		
+							iProzess := 0;
+							CheckTimer(IN := FALSE);
+							bFehler := TRUE;
+							iFehlerID := 201;
+						END_IF
+					END_CASE
+					
+				//______________________________________________________________________________________________________
+				4: 	// Greifer komplett öffnen
+					CASE iProzess OF 
+					0: // Aktion durchführen
+						iPos := 0;	
+						iGeschw := 100;
+						iKraft := 100;
+						
+						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+		
+						
+						IF bGestartet THEN
+							bGestartet := FALSE;
+							Delay(IN:= TRUE, PT := T#1S);
+						END_IF
+						
+						IF Delay.Q THEN
+							Delay(IN:= FALSE);
+							iProzess := 1;
+						END_IF
+						
+						IF Communication.BUSY THEN
+							Check3 := TRUE;
+						ELSE
+							Check3 := TRUE;
+						END_IF
+					
+					
+					1: // Prüfen ob Aktion erledigt 
+						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						
+						CheckTimer(IN := TRUE, PT := T#5S);
+						
+						IF bGreiferLesen THEN
+							bGreiferLesen := FALSE;
+							StatusLesen(Execute := FALSE, NrOfReg := 3);
+							
+							// Greifer hat Position erreicht
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 249 		AND
+								DataRead[2] = 0 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		THEN
+								
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bObjektFertig := TRUE;
+							END_IF
+							
+							// Greifer ist in Hinderniss gefahren
+							IF 	DataRead[0] = 0 		AND
+								DataRead[1] = 185 		AND
+								DataRead[3] = 0 		AND
+								DataRead[4] = 0 		THEN
+								
+								CheckTimer(IN := FALSE);
+								iProzess := 0;
+								bFehler := TRUE;
+								iFehlerID := 202;
+							END_IF
+							
+							IF Communication.BUSY THEN
+							Check4 := TRUE;
+						ELSE
+							Check4 := TRUE;
+						END_IF
+					
+							
+						END_IF
+						
+						// Zeit wurde überschritten
+						IF CheckTimer.Q THEN		
+							iProzess := 0;
+							CheckTimer(IN := FALSE);
+							bFehler := TRUE;
+							iFehlerID := 201;
+						END_IF
+					END_CASE
+			END_CASE			
 		
 		// TRANSITION
 			IF bObjektFertig THEN
@@ -538,6 +702,7 @@ END_IF
     <Method Name="StatusLesen" Id="{3212b8cc-f492-4878-ad07-ac83bcec30d8}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD StatusLesen : BOOL
 VAR_INPUT
+	Execute			:BOOL;
 	NrOfReg			:WORD;
 END_VAR
 ]]></Declaration>
@@ -553,7 +718,7 @@ Communication.ReadRegs(
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataRead),
 	pMemoryAddr := ADR(DataRead),
-	Execute 	:= TRUE,
+	Execute 	:= Execute,
 	Timeout 	:= Timeout,
 	BUSY 		=> bBusy,
 	Error 		=> bError,
@@ -562,7 +727,6 @@ Communication.ReadRegs(
 	
 IF Communication.BUSY THEN
 	bBusy := FALSE;
-	Communication.ReadRegs(Execute := FALSE);
 	StatusLesen := TRUE;
 END_IF]]></ST>
       </Implementation>

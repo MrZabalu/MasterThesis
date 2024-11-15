@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Position_anfahren" Id="{8634c28e-19a1-4457-b2ef-49512b75d47f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren EXTENDS GrundstrukturSkill
+VAR_INPUT 
+	sProzessvariablen			:sRoboterProzessVariablen;
+END_VAR
+VAR_OUTPUT
+	sObjektvariablen			:sRoboterProzessVariablen;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Starten
+	fTrigger(CLK := bExecute);
+	fSwitch(Set1 := fTrigger.Q);
+	
+	IF fSwitch.Q1 AND iSysState = 1 THEN
+		bStarten := TRUE;
+	ELSE
+		bStarten := FALSE;
+	END_IF
+
+	// Stoppen
+	IF iSysCommand = 3 THEN
+		bStoppen := TRUE;
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF iSysCommand = 4 THEN
+		bResetten := TRUE;
+	ELSE
+		bResetten := FALSE;
+	END_IF
+
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT
+		// DO
+		iSkillCommand := 0;
+		bDone := FALSE;	
+		fSwitch.RESET := FALSE;	
+		
+		IF bStarten THEN
+			IF ParameterError OR PositionError THEN
+				bError := TRUE;
+			ELSE	
+				sObjektvariablen := sProzessvariablen;
+				iSkillCommand := 1;																						// Starten des Objektes 
+			END_IF		
+		END_IF	
+		
+		IF iObjState = 3 THEN
+			fSwitch.RESET := TRUE;																						// Resetten von Startsignal
+			bGestartet := TRUE;
+		END_IF
+			
+		// TRANSITION	
+		IF bGestartet THEN
+			bGestartet := FALSE;
+			iState := 1;																								// Objekt wurde gestartet
+		END_IF
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO
+		iSkillCommand := 0;
+		bBusy := TRUE;																									// Skill wird ausgeführt
+		
+		IF bTargetReached OR bLimitReached THEN																			// Prüfen ob Prozessziel erreicht wurde
+			iSkillCommand := 2;
+		END_IF
+		
+		IF iObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bStoppen THEN																							// Transition wenn System das Orbjekt stoppt
+			bBusy := FALSE;																									// Skill wird nicht mehr ausgeführt
+			bGestoppt := TRUE;
+		END_IF
+			
+		// TRANSITION 
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bGestoppt THEN																									// Transition zu BEREIT
+			bGestoppt := FALSE;																							
+			iState := 0;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO																												// Skill wurde erfolgreich ausgeführt
+		iSkillCommand := 3;																									// Objekt resetten
+		
+		IF iObjState = 1 THEN
+			iSkillCommand := 0;																								// Zurücksetzen von Command
+			bSkillFertig := TRUE;
+			bDone := TRUE;												
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																							// Zurücksetzen von Skill																																										// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 
+		iSkillCommand := 0;	
+		bDone := FALSE;
+		bBusy := FALSE;
+		
+		IF ParameterError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		IF PositionError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		// TRANSITION
+		IF bResetten THEN
+			iState := 0;
+		END_IF
+
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Errors " Id="{e4a36e96-a871-4970-8732-9550c7ba797c}" />
+    <Transition Name="ParameterError" Id="{a748a408-1582-4e12-8401-070b4a81011d}" FolderPath="01_Errors \">
+      <Implementation>
+        <ST><![CDATA[IF sProzessvariablen.a = 0 OR sProzessvariablen.v = 0 THEN
+	ParameterError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+    <Transition Name="PositionError" Id="{ea1753a6-cf36-492f-aec9-bb7287dd1171}" FolderPath="01_Errors \">
+      <Implementation>
+        <ST><![CDATA[IF sProzessvariablen.q1 = 0 AND sProzessvariablen.q2 = 0 AND sProzessvariablen.q3 = 0 AND sProzessvariablen.q4 = 0 AND sProzessvariablen.q5 = 0 AND sProzessvariablen.q6 = 0 THEN
+	PositionError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+  </POU>
+</TcPlcObject>

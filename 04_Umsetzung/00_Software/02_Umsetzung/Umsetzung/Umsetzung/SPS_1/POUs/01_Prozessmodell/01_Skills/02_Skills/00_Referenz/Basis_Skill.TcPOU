@@ -55,6 +55,7 @@ CASE iState OF
 		END_IF	
 		
 		IF iObjState = 3 THEN
+			fSwitch.RESET := TRUE;	
 			bGestartet := TRUE;
 		END_IF
 			
