@@ -10,9 +10,7 @@ VAR_INPUT
 	iSkillCommand_1 	:eSkillCommand;		// Steuerungsvariabel von Skill_1
 END_VAR
 VAR_OUTPUT
-	bDone				:BOOL;				// Information ob Skill ausgfeührt wurde
-	bBusy				:BOOL;				// Information ob Skill im Moment ausgeführt wird
-	bError				:BOOL;				// Information ob sich Skill in Fehlerzustand befindet
+	bError				:BOOL;				// Information ob sich Objekt in Fehlerzustand befindet
 	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
 END_VAR
 VAR
@@ -25,11 +23,14 @@ VAR
 	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
 	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
 	bStoppen				:BOOL;			// Objekt wurde gestoppt
-	bResettenSkill		:BOOL;				// Das Objekt wird durch den Skill resettet
+	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
 	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
 	bFehler					:BOOL;			// Das Objket hat einen Fehler
 	
 	iFehlerID				:UDINT;
+
+
+	
 	
 	
 END_VAR

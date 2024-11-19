@@ -99,12 +99,10 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	3: // LAUFEND
 		// DO
-			bBusy := TRUE;
 		
 		// TRANSITION
 			IF bObjektFertig THEN
 				bObjektFertig := FALSE;
-				bBusy := FALSE;
 				iState := 4;
 			END_IF
 			
@@ -123,28 +121,23 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN_INTERN
 		// DO
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten		
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
 	5: // ABGESCHLOSSEN_EXTERN
 		// DO																					
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	
 	//____________________________________________________________________________________________
 	6: // GESTOPPT
 		// DO
-			bBusy := FALSE;
 		
 		// TRANSITION
 			IF bResettenSystem THEN																	// Objekt resetten
@@ -154,8 +147,6 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	7: // FEHLER
 		// DO
-			bDone := FALSE;
-			bBusy := FALSE;
 			bError := bFehler;
 			
 		// TRANSITION

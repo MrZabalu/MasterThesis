@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.8.4">
+  <diagram name="Seite-1" id="VmIDn_xGUgvJc_xkMX5D">
+    <mxGraphModel dx="2954" dy="1132" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="480" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-2" value="Grundaufbau eines Skills" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD966;strokeColor=#d6b656;fontStyle=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="480" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="480" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="210" width="240" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-8" value="Eingangsvariablen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE599;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="210" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-9" value="Ausgangsvariablen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE599;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="440" y="210" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-10" value="Zustandsdiagramm" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE599;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="480" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-13" value="bExecute&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;BOOL" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="250" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-14" value="iSysCommand" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="280" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-15" value="iSysState" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="310" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-16" value="iObjState" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="340" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-17" value="bExecute&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;BOOL" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="370" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-18" value="bExecute&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;BOOL" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="400" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KaKPH50YdmmbWOcwZBl8-19" value="bExecute&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;BOOL" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="430" width="220" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

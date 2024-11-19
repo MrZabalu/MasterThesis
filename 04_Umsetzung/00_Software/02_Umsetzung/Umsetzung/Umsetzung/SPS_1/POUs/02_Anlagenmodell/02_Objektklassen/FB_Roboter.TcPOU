@@ -91,7 +91,6 @@ END_VAR
 							sRemoteHost := sIP,
 							nRemotePort := iPort_RT,
 							tTimeout := tTimeout,
-							bBusy => bBusy,
 							bError => bFehler,
 							nErrId => iErrorID,
 							hSocket => hSocket_RT);	
@@ -99,13 +98,11 @@ END_VAR
 	Send_START(sSrvNetId := sSrvNetId,
 			hSocket := hSocket,
 			tTimeout := tTimeout,
-			bBusy => bBusy,
 			bError => bFehler,
 			nErrId => iErrorID);
 	Send_STOP(sSrvNetId := sSrvNetId,
 			hSocket := hSocket,
 			tTimeout := tTimeout,
-			bBusy => bBusy,
 			bError => bFehler,
 			nErrId => iErrorID);
 							
@@ -114,7 +111,6 @@ END_VAR
 							cbLen := SIZEOF(ReceivedData),
 							pDest := ADR(ReceivedData),
 							tTimeout := tTimeout,
-							bBusy => bBusy,
 							bError => bFehler,
 							nErrId => iErrorID,
 							nRecBytes => nRecBytes);
@@ -122,7 +118,6 @@ END_VAR
 	Disconnect_RT(sSrvNetId := sSrvNetId,
 							hSocket := hSocket_RT,
 							tTimeout := tTimeout,
-							bBusy => bBusy,
 							bError => bFehler,
 							nErrId => iErrorID);
 
@@ -347,7 +342,6 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	3: // LAUFEND
 		// DO
-			bBusy := TRUE;
 			
 			// Ermitteln von TargetPosition 
 			IF NOT bSetvalues THEN
@@ -540,7 +534,6 @@ CASE iState OF
 			IF bObjektFertig THEN
 				bObjektFertig := FALSE;
 				bSetvalues := FALSE;
-				bBusy := FALSE;
 				iState := 4;
 			END_IF
 			
@@ -560,28 +553,23 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN_INTERN
 		// DO
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten		
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
 	5: // ABGESCHLOSSEN_EXTERN
 		// DO																					
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	
 	//____________________________________________________________________________________________
 	6: // GESTOPPT
 		// DO
-			bBusy := FALSE;
 		
 		// TRANSITION
 			IF bResettenSystem THEN																	// Objekt resetten
@@ -591,8 +579,6 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	7: // FEHLER
 		// DO
-			bDone := FALSE;
-			bBusy := FALSE;
 			bError := bFehler;
 			
 		// TRANSITION
@@ -814,11 +800,10 @@ END_VAR
 	Disconnect(sSrvNetId := sSrvNetId,
 			bExecute := TRUE,
 			tTimeout := tTimeout,
-			bBusy => bBusy,
 			bError => bError,
 			nErrId => iErrorID);
 	
-	IF NOT bBusy AND NOT bError THEN
+	IF NOT Disconnect.bBusy AND NOT bError THEN
 		Trennen := TRUE;
 		Disconnect(bExecute := FALSE);
 	END_IF]]></ST>
@@ -837,7 +822,6 @@ END_VAR
 			nRemotePort := iPort_Prim,
 			bExecute := TRUE,
 			tTimeout := tTimeout,
-			bBusy => bBusy,
 			bError => bError,
 			nErrId => iErrorID,
 			hSocket => hSocket);

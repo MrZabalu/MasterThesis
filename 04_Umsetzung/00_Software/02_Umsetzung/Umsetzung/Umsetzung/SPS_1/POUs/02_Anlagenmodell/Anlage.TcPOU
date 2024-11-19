@@ -139,24 +139,6 @@ END_VAR]]></Declaration>
                           <v n="SetReset" t="SetReset">None</v>
                           <v n="SetResetRef" t="SetResetRef">None</v>
                           <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">26L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">28L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
                           <v n="Id">30L</v>
                         </o>
                         <o>
@@ -234,20 +216,6 @@ END_VAR]]></Declaration>
                           <v n="Text">"Prozessvariablen"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">25L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bDone"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">27L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bBusy"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">29L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -416,24 +384,6 @@ END_VAR]]></Declaration>
                           <v n="SetReset" t="SetReset">None</v>
                           <v n="SetResetRef" t="SetResetRef">None</v>
                           <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">160L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">162L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
                           <v n="Id">164L</v>
                         </o>
                         <o>
@@ -511,20 +461,6 @@ END_VAR]]></Declaration>
                           <v n="Text">"Prozessvariablen"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">159L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bDone"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">161L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bBusy"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">163L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -715,24 +651,6 @@ END_VAR]]></Declaration>
                           <v n="SetReset" t="SetReset">None</v>
                           <v n="SetResetRef" t="SetResetRef">None</v>
                           <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">129L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
-                          <v n="Id">131L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Negated">false</v>
-                          <v n="SetReset" t="SetReset">None</v>
-                          <v n="SetResetRef" t="SetResetRef">None</v>
-                          <v n="PretendsToBeConnected">false</v>
                           <v n="Id">133L</v>
                         </o>
                         <o>
@@ -796,20 +714,6 @@ END_VAR]]></Declaration>
                           <v n="Text">"iPort"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">128L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bDone"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">130L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"bBusy"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">132L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -982,10 +886,32 @@ END_VAR]]></Declaration>
               <o n="RoutingPathTable" t="CFCRoutingPathTable">
                 <d2 n="InnerDictionary" ckt="CFCRoutingConnection" cvt="CFCPointList">
                   <o>
-                    <v n="ConnectionId">45L</v>
+                    <v n="ConnectionId">175L</v>
+                    <o n="StartPoint" t="CFCPoint">
+                      <v n="X">32</v>
+                      <v n="Y">26</v>
+                      <v n="IsJoint">false</v>
+                      <v n="Flags">0</v>
+                    </o>
+                    <v n="Unroutable">true</v>
+                    <n n="CorrespondingPageId" />
+                    <v n="Locked">false</v>
+                  </o>
+                  <o>
+                    <l2 n="InnerList" cet="CFCPoint">
+                      <o>
+                        <v n="X">32</v>
+                        <v n="Y">26</v>
+                        <v n="IsJoint">false</v>
+                        <v n="Flags">0</v>
+                      </o>
+                    </l2>
+                  </o>
+                  <o>
+                    <v n="ConnectionId">53L</v>
                     <o n="StartPoint" t="CFCPoint">
                       <v n="X">31</v>
-                      <v n="Y">14</v>
+                      <v n="Y">16</v>
                       <v n="IsJoint">false</v>
                       <v n="Flags">0</v>
                     </o>
@@ -997,13 +923,13 @@ END_VAR]]></Declaration>
                     <l2 n="InnerList" cet="CFCPoint">
                       <o>
                         <v n="X">31</v>
-                        <v n="Y">14</v>
+                        <v n="Y">16</v>
                         <v n="IsJoint">false</v>
                         <v n="Flags">68</v>
                       </o>
                       <o>
                         <v n="X">32</v>
-                        <v n="Y">14</v>
+                        <v n="Y">16</v>
                         <v n="IsJoint">false</v>
                         <v n="Flags">97</v>
                       </o>
@@ -1038,10 +964,10 @@ END_VAR]]></Declaration>
                     </l2>
                   </o>
                   <o>
-                    <v n="ConnectionId">53L</v>
+                    <v n="ConnectionId">45L</v>
                     <o n="StartPoint" t="CFCPoint">
                       <v n="X">31</v>
-                      <v n="Y">16</v>
+                      <v n="Y">14</v>
                       <v n="IsJoint">false</v>
                       <v n="Flags">0</v>
                     </o>
@@ -1053,44 +979,22 @@ END_VAR]]></Declaration>
                     <l2 n="InnerList" cet="CFCPoint">
                       <o>
                         <v n="X">31</v>
-                        <v n="Y">16</v>
+                        <v n="Y">14</v>
                         <v n="IsJoint">false</v>
                         <v n="Flags">68</v>
                       </o>
                       <o>
                         <v n="X">32</v>
-                        <v n="Y">16</v>
+                        <v n="Y">14</v>
                         <v n="IsJoint">false</v>
                         <v n="Flags">97</v>
-                      </o>
-                    </l2>
-                  </o>
-                  <o>
-                    <v n="ConnectionId">175L</v>
-                    <o n="StartPoint" t="CFCPoint">
-                      <v n="X">32</v>
-                      <v n="Y">26</v>
-                      <v n="IsJoint">false</v>
-                      <v n="Flags">0</v>
-                    </o>
-                    <v n="Unroutable">true</v>
-                    <n n="CorrespondingPageId" />
-                    <v n="Locked">false</v>
-                  </o>
-                  <o>
-                    <l2 n="InnerList" cet="CFCPoint">
-                      <o>
-                        <v n="X">32</v>
-                        <v n="Y">26</v>
-                        <v n="IsJoint">false</v>
-                        <v n="Flags">0</v>
                       </o>
                     </l2>
                   </o>
                 </d2>
               </o>
               <v n="AutoSizeCanvas">true</v>
-              <v n="CanvasWidth">46</v>
+              <v n="CanvasWidth">44</v>
               <v n="CanvasHeight">46</v>
               <n n="EditorConfiguration" />
               <v n="AreElementsSpaceOptimized">true</v>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="sKraftVariablen" Id="{122d9620-5ea8-4ccd-874c-fdf24e5623a1}">
+    <Declaration><![CDATA[TYPE sKraftVariablen :
+STRUCT
+	Fx					:LREAL;							// Kraft in X-Richtung 
+	Fy					:LREAL;							// Kraft in Y-Richtung 
+	Fz					:LREAL;							// Kraft in Z-Richtung 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

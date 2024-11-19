@@ -5,13 +5,24 @@
 VAR_GLOBAL
 	// Schnittstellenvariablen 
 		// System: 
-		SystemState					:eSystemState; 
-		SystemCommand				:eSystemCommand; 
-		Error						:BOOL;
+		SystemState								:eSystemState; 
+		SystemCommand							:eSystemCommand; 
+		Error									:BOOL;
 		
 		// Kontrollvariablen: 
-		Reset						:BOOL;
-
+		Reset									:BOOL;
+		
+		// Prozessvariablen
+		eKraftLimitValue						:sKraftVariablen;
+		eKraftErreichtValue						:sKraftVariablen;
+		
+		
+		// SkillStates
+		
+		// ObjectStates
+		Robot_State								:eObjectState;
+		Greifer_State							:eObjectState;
+		Sensor_State							:eObjectState;
 		
 			
 		

@@ -52,20 +52,22 @@ VAR
 	iKraftMin			:REAL := 20;
 	iKraftMax			:REAL := 235;
 	Anschlag			:BYTE;
-	
-	Count				:INT;
-	
-	Check1				:BOOL;
-	Check2				:BOOL;
-	Check3				:BOOL;
-	Check4				:BOOL;
+
 	
 	
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[	
+      <ST><![CDATA[// Instanziierungen	
+Communication(
+	UnitID 		:= UnitID,
+	Timeout 	:= Timeout,
+	Error 		=> bError,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+
+
 //____________________________________________________________________________________________
 // Input-Command-Verwaltung
 	// System
@@ -167,10 +169,9 @@ CASE iState OF
 					END_IF
 					
 				2:
-					bGreiferLesen := StatusLesen(Execute:= TRUE, NrOfReg := 1);
+					bGreiferLesen := StatusLesen(NrOfReg := 1);
 					
 					IF bGreiferLesen THEN
-						StatusLesen(Execute := FALSE, NrOfReg := 3);
 						bGreiferLesen := FALSE;
 						IF DataRead[1] = 49  AND DataRead[0] = 0 THEN
 							bEingeschalten := TRUE;
@@ -209,7 +210,6 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	3: // LAUFEND
 		// DO
-			bBusy := TRUE;
 			
 			// Aktionsprozess 
 			CASE iSkillOption OF 
@@ -233,12 +233,11 @@ CASE iState OF
 						END_IF
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
-							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer hat Position erreicht
 							IF 	DataRead[0] = 0 		AND
@@ -297,12 +296,11 @@ CASE iState OF
 						END_IF
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
-							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer hat Position erreicht
 							IF 	DataRead[0] = 0 		AND
@@ -360,20 +358,13 @@ CASE iState OF
 							Delay(IN:= FALSE);
 							iProzess := 1;
 						END_IF
-						
-						IF Communication.BUSY THEN
-							Check1 := TRUE;
-						ELSE
-							Check1 := TRUE;
-						END_IF
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
-							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer ist in Hinderniss gefahren
 							IF 	DataRead[0] = 0 		AND
@@ -386,12 +377,6 @@ CASE iState OF
 								bObjektFertig := TRUE;								
 							END_IF
 							
-						END_IF
-						
-						IF Communication.BUSY THEN
-							Check2 := TRUE;
-						ELSE
-							Check2 := TRUE;
 						END_IF
 						
 						// Zeit wurde überschritten
@@ -423,22 +408,15 @@ CASE iState OF
 							Delay(IN:= FALSE);
 							iProzess := 1;
 						END_IF
-						
-						IF Communication.BUSY THEN
-							Check3 := TRUE;
-						ELSE
-							Check3 := TRUE;
-						END_IF
 					
 					
 					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(Execute := TRUE, NrOfReg := 3);
+						bGreiferLesen := StatusLesen(NrOfReg := 3);
 						
 						CheckTimer(IN := TRUE, PT := T#5S);
 						
 						IF bGreiferLesen THEN
 							bGreiferLesen := FALSE;
-							StatusLesen(Execute := FALSE, NrOfReg := 3);
 							
 							// Greifer hat Position erreicht
 							IF 	DataRead[0] = 0 		AND
@@ -463,12 +441,6 @@ CASE iState OF
 								bFehler := TRUE;
 								iFehlerID := 202;
 							END_IF
-							
-							IF Communication.BUSY THEN
-							Check4 := TRUE;
-						ELSE
-							Check4 := TRUE;
-						END_IF
 					
 							
 						END_IF
@@ -486,7 +458,6 @@ CASE iState OF
 		// TRANSITION
 			IF bObjektFertig THEN
 				bObjektFertig := FALSE;
-				bBusy := FALSE;
 				iState := 4;
 			END_IF
 			
@@ -505,28 +476,23 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN_INTERN
 		// DO
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten		
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
 	5: // ABGESCHLOSSEN_EXTERN
 		// DO																					
-			bDone := TRUE;
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten
-				bDone := FALSE;
 				iState := 1;
 			END_IF
 	
 	//____________________________________________________________________________________________
 	6: // GESTOPPT
 		// DO
-			bBusy := FALSE;
 		
 		// TRANSITION
 			IF bResettenSystem THEN																	// Objekt resetten
@@ -536,8 +502,6 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	7: // FEHLER
 		// DO
-			bDone := FALSE;
-			bBusy := FALSE;
 			bError := bFehler;
 			iErrorID := iFehlerID;
 			
@@ -584,20 +548,13 @@ DataSend[5] := iGeschw;
 
 // Senden von Daten an entsprechendes Register
 Communication.WriteRegs(
-	UnitID 		:= UnitID,
 	Quantity 	:= Quantity,
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataSend),
 	pMemoryAddr := ADR(DataSend),
-	Execute 	:= TRUE,
-	Timeout 	:= Timeout,
-	BUSY 		=> bBusy,
-	Error 		=> bError,
-	ErrorId 	=> iErrorID,
-	cbRead 		=> cbRead);
+	Execute 	:= TRUE);
 	
 IF NOT Communication.BUSY THEN
-	bBusy := FALSE;
 	Communication.WriteRegs(Execute := FALSE);
 	A_PositionAnfahren := TRUE;
 END_IF]]></ST>
@@ -625,20 +582,13 @@ DataSend[5] := 0;
 
 // Senden von Daten an entsprechendes Register
 Communication.WriteRegs(
-	UnitID 		:= UnitID,
 	Quantity 	:= Quantity,
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataSend),
 	pMemoryAddr := ADR(DataSend),
-	Execute 	:= TRUE,
-	Timeout 	:= Timeout,
-	BUSY 		=> bBusy,
-	Error 		=> bError,
-	ErrorId 	=> iErrorID,
-	cbRead 		=> cbRead);
+	Execute 	:= TRUE);
 	
 IF NOT Communication.BUSY THEN
-	bBusy := FALSE;
 	Communication.WriteRegs(Execute := FALSE);
 	Aktivieren := TRUE;
 END_IF
@@ -679,20 +629,13 @@ DataSend[5] := 0;
 
 // Senden von Daten an entsprechendes Register
 Communication.WriteRegs(
-	UnitID 		:= UnitID,
 	Quantity 	:= Quantity,
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataSend),
 	pMemoryAddr := ADR(DataSend),
-	Execute 	:= TRUE,
-	Timeout 	:= Timeout,
-	BUSY 		=> bBusy,
-	Error 		=> bError,
-	ErrorId 	=> iErrorID,
-	cbRead 		=> cbRead);
+	Execute 	:= TRUE);
 	
-IF Communication.BUSY  THEN
-	bBusy := FALSE;
+IF NOT Communication.BUSY THEN
 	Communication.WriteRegs(Execute := FALSE);
 	Resetten := TRUE;
 END_IF
@@ -702,7 +645,6 @@ END_IF
     <Method Name="StatusLesen" Id="{3212b8cc-f492-4878-ad07-ac83bcec30d8}" FolderPath="01_Methoden\01_Nicht-Funktional\">
       <Declaration><![CDATA[METHOD StatusLesen : BOOL
 VAR_INPUT
-	Execute			:BOOL;
 	NrOfReg			:WORD;
 END_VAR
 ]]></Declaration>
@@ -713,20 +655,15 @@ MBAddr := 2000;
 
 // Lesen von Daten des entsprechenden Registers
 Communication.ReadRegs(
-	UnitID 		:= UnitID,
 	Quantity 	:= NrOfReg,
 	MBAddr 		:= MBAddr,
 	cbLength 	:= SIZEOF(DataRead),
 	pMemoryAddr := ADR(DataRead),
-	Execute 	:= Execute,
-	Timeout 	:= Timeout,
-	BUSY 		=> bBusy,
-	Error 		=> bError,
-	ErrorId 	=> iErrorID,
-	cbRead 		=> cbRead);
+	Execute 	:= TRUE);
 	
-IF Communication.BUSY THEN
-	bBusy := FALSE;
+	
+IF NOT Communication.BUSY THEN
+	Communication.ReadRegs(Execute := FALSE);
 	StatusLesen := TRUE;
 END_IF]]></ST>
       </Implementation>
