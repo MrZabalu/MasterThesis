@@ -79,6 +79,9 @@
     <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Response_Values.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\03_Strukturen\TestStrukturSkill.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\04_Union\Array2_Int.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -110,6 +113,9 @@
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_Roboter\Skill_Position_anfahren.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\01_Roboter\Skill_Position_anfahren_erweitert.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\02_Greifer\Skill_Greifer_Oeffnen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -119,10 +125,10 @@
     <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Skills\02_Greifer\Skill_Greifer_Schliessen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_2.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_3.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Grundstruktur\GrundstrukturObjekt.TcPOU">
@@ -284,8 +290,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-        <Data>
-          <o xml:space="preserve" t="OptionKey">
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -360,14 +366,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-        </Data>
-        <TypeList>
-          <Type n="Boolean">System.Boolean</Type>
-          <Type n="Hashtable">System.Collections.Hashtable</Type>
-          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-          <Type n="String">System.String</Type>
-        </TypeList>
-      </XmlArchive>
+  </Data>
+  <TypeList>
+    <Type n="Boolean">System.Boolean</Type>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+  </TypeList>
+</XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

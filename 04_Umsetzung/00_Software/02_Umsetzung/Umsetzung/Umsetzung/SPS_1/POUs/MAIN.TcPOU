@@ -3,8 +3,8 @@
   <POU Name="MAIN" Id="{3072df51-7c74-4910-9d79-1ee236673122}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	TestAblauf_1				:Seq_2;
-	TestAblauf_2				:Seq_3;
+	TestAblauf_2				:Seq_2;
+	TestAblauf_1				:Seq_1;
 	
 	Execute					:BOOL;		
 	Position_1				:sRoboterProzessVariablen;
@@ -86,27 +86,7 @@ TestAblauf_1(
 	Position_2 := Position_2);
 	
 	
-Param1.Pos := 20;
-Param1.Geschw := 100;
 
-
-Param2.Pos := 70;
-Param2.Geschw := 50;
-
-Param3.Pos := 30;
-Param3.Geschw := 20;
-
-Param4.Pos := 40;	
-Param4.Geschw := 80;	
-	
-TestAblauf_2(
-	bExecute := Execute,
-	iSysCommand := GVL.SystemCommand,
-	Parameter_1 := Param1,
-	Parameter_2 := Param2,
-	Parameter_3 := Param3,
-	Parameter_4 := Param4);
-	
 ]]></ST>
     </Implementation>
   </POU>
