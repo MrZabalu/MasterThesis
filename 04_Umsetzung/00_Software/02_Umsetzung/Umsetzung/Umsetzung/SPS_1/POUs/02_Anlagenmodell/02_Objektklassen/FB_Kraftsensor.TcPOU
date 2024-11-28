@@ -56,7 +56,13 @@ VAR
 	sLimitGrenze		:sKraftVariablen;
 	sErreichtGrenze		:sKraftVariablen;
 	bLimit				:BOOL;
+	bLimitx				:BOOL;
+	bLimity				:BOOL;
+	bLimitz				:BOOL;
 	bErreicht			:BOOL;
+	bErreichtx			:BOOL;
+	bErreichty			:BOOL;
+	bErreichtz			:BOOL;
 	
 END_VAR
 ]]></Declaration>
@@ -121,7 +127,7 @@ Disconnect(sSrvNetId := sSrvNetId,
 	END_IF
 	
 	// Skill
-	IF iSkillCommand_1 = 1 THEN						// Skill startet Prozess
+	IF iSysState = 1 THEN						// Skill startet Prozess
 		bStarten := TRUE;
 	ELSE 
 		bStarten := FALSE;
@@ -262,7 +268,7 @@ CASE iState OF
 				bAusgeschalten := FALSE;
 				iState := 0;
 			END_IF
-																									// Manuell-Modus wird eingeschalten
+																								// Manuell-Modus wird eingeschalten
 													
 			 IF bStarten THEN																		// Objekt führt Prozessdurch
 				 iState := 3;
@@ -278,28 +284,40 @@ CASE iState OF
 		// DO
 			// Auswertung von Limit-Wert
 			IF sLimitGrenze.Fx <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sLimitGrenze.Fx, Ist_Wert := Messung.Fx);
+				bLimitx := Auswertung(Soll_Wert := sLimitGrenze.Fx, Ist_Wert := Messung.Fx);
 			END_IF
 			
 			IF sLimitGrenze.Fy <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sLimitGrenze.Fy, Ist_Wert := Messung.Fy);
+				bLimity := Auswertung(Soll_Wert := sLimitGrenze.Fy, Ist_Wert := Messung.Fy);
 			END_IF
 			
 			IF sLimitGrenze.Fz <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sLimitGrenze.Fz, Ist_Wert := Messung.Fz);
+				bLimitz := Auswertung(Soll_Wert := sLimitGrenze.Fz, Ist_Wert := Messung.Fz);
 			END_IF
 			
 			// Auswertung von Erreicht-Wert
 			IF sErreichtGrenze.Fx <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sErreichtGrenze.Fx, Ist_Wert := Messung.Fx);
+				bErreichtx := Auswertung(Soll_Wert := sErreichtGrenze.Fx, Ist_Wert := Messung.Fx);
 			END_IF
 			
 			IF sErreichtGrenze.Fy <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sErreichtGrenze.Fy, Ist_Wert := Messung.Fy);
+				bErreichty := Auswertung(Soll_Wert := sErreichtGrenze.Fy, Ist_Wert := Messung.Fy);
 			END_IF
 			
 			IF sErreichtGrenze.Fz <> 0 THEN
-				bLimit := Auswertung(Soll_Wert := sErreichtGrenze.Fz, Ist_Wert := Messung.Fz);
+				bErreichtz := Auswertung(Soll_Wert := sErreichtGrenze.Fz, Ist_Wert := Messung.Fz);
+			END_IF
+			
+			IF bLimitx OR bLimity OR bLimitz THEN
+				bLimit := TRUE;
+			ELSE
+				bLimit := FALSE;
+			END_IF
+			
+			IF bErreichtx OR bErreichty OR bErreichtz THEN
+				bErreicht := TRUE;
+			ELSE
+				bErreicht := FALSE;
 			END_IF
 		
 		// TRANSITION
@@ -380,7 +398,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Ist_Wert >= Soll_Wert THEN
+        <ST><![CDATA[IF ABS(Ist_Wert) >= ABS(Soll_Wert) THEN
 	Auswertung := TRUE;
 ELSE
 	Auswertung := FALSE;

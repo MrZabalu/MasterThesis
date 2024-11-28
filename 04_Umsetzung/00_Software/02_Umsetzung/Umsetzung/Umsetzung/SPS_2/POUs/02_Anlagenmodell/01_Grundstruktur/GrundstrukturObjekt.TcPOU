@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="GrundstrukturObjekt" Id="{7d24376e-998e-49c6-944b-4ea2031995c0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GrundstrukturObjekt IMPLEMENTS I_State_Object
+VAR_INPUT
+	bReset				:BOOL;				// Resett für den Manuell-Modus
+	iMode				:INT;				// Information über aktuellen Betriebsmodi 
+	iSysState			:eSystemState;		// Information über Stand von System
+	iSysCommand		  	:eSystemCommand;	// Steuerungsvariabel von System
+	iSkillCommand_1 	:eSkillCommand;		// Steuerungsvariabel von Skill_1
+END_VAR
+VAR_OUTPUT
+	bError				:BOOL;				// Information ob sich Objekt in Fehlerzustand befindet
+	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
+END_VAR
+VAR
+	iState				:eObjectState;		// Information über Zustand von Skill
+	
+	// Zustandsvariablen
+	bEinschalten			:BOOL;			// Objekt einschalten
+	bAusschalten			:BOOL;			// Objekt ausschalten
+ 	bStarten				:BOOL;			// Objekt starten
+	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
+	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
+	bStoppen				:BOOL;			// Objekt wurde gestoppt
+	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
+	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
+	bFehler					:BOOL;			// Das Objket hat einen Fehler
+	
+	iFehlerID				:UDINT;
+
+
+	
+	
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="P_State" Id="{3307aa82-6691-4aa6-a25c-02e35b1faa91}">
+      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Get Name="Get" Id="{79ea11cd-9b53-4da6-b889-a2b9ba7185fc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

@@ -79,9 +79,6 @@
     <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Response_Values.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\03_Strukturen\TestStrukturSkill.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\04_Union\Array2_Int.TcDUT">
       <SubType>Code</SubType>
     </Compile>

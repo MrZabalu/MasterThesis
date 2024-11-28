@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Skill" Id="{25b3bfeb-00e4-4acd-9a1d-6005f4a44449}">
+    <Declaration><![CDATA[INTERFACE I_Skill
+]]></Declaration>
+    <Method Name="M_Reset" Id="{481075a7-1007-4b1a-a4e7-52e95f56de75}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{b61f3d40-a0a5-4f5b-8e92-eb87af77ae9a}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{1b7f28ef-72c6-47b8-8835-125a6dec932c}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_State" Id="{ea9e5e5a-aafe-47f4-8fbb-aa835a327eff}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{ea1fbb68-b5ab-4772-9dbc-2585aa2a60a7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

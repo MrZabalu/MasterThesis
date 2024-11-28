@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Greifer_Pos_Anfahren" Id="{721a7c05-7f34-4eef-be9b-1a2be626d9ed}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren	IMPLEMENTS I_Skill_Greifer
+VAR_INPUT
+	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
+	eSysState					:eSystemState;							// Momentaner Zustand des Systems
+	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+END_VAR
+VAR_OUTPUT
+	eSkillCommand				:eSkillCommand;							// Skillbefehl für Objekt
+	eProzessvariable			:sSmartGreiferProzessVariablen;				// Prozessvariablen für Objekt
+	iErrorID					:INT;									// Fehlercode für System
+END_VAR
+VAR
+	// Managementvariablen
+	iState				:eSkillState;									// Information über Zustand von Skill
+	
+	// Managementvariablen 
+	bGestartet			:BOOL;
+	bGestoppt			:BOOL;
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bObjektFertig		:BOOL;
+	bWertErreicht		:BOOL;				
+	bLimitErreicht		:BOOL;				
+	bSkillFertig		:BOOL;
+	bFehler				:BOOL;
+	bResetten			:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Stoppen
+	IF eSysCommand = 3 THEN
+		bStoppen := M_Stop();
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF eSysCommand = 4 THEN
+		bResetten := M_Reset();
+	ELSE
+		bResetten := FALSE;
+	END_IF
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT	
+		// DO
+		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+			bStarten := TRUE;
+		END_IF
+		
+		// TRANSITION
+		IF bStarten	 THEN		
+			bStarten := FALSE;
+			eSkillCommand := 0;
+			iState := 1;	
+		END_IF
+		
+		
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO			
+			// Stoppen durch Sysezm
+			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
+				bGestoppt := TRUE;
+			END_IF
+			
+			// Objekt hat sich selber gestoppt
+			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;		
+			eSkillCommand := 0;																					
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+			eSkillCommand := 0;	
+			iState := 4;
+		END_IF
+		
+		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+			eSkillCommand := 0;	
+			iState := 5;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		M_Reset();
+		 
+		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		
+		// TRANSITION
+		IF bResetten THEN
+			iState := 0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="M_Reset" Id="{c7b96f77-51f4-4dcd-a143-369903cf4b4f}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eSkillCommand := 3;
+
+IF eSkillCommand = 3 THEN
+	M_Reset := TRUE;
+ELSE
+	M_Reset := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{6e60f0b5-2202-4238-bc5f-f3c4446d6107}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist der Skill im korrekten Status 
+		IF iState = 0 THEN
+			// Prüfen auf Fehler (Muss ergänzt werden)
+				eSkillCommand := 1;	
+		END_IF
+	END_IF
+
+IF eSkillCommand = 1 THEN
+	M_Start := TRUE;
+ELSE
+	M_Start := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{93d37525-d454-41a5-9fc1-9ffb825c5427}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eSkillCommand := 2;
+
+IF eSkillCommand = 2 THEN
+	M_Stop := TRUE;
+ELSE
+	M_Stop := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{03e33256-076b-466c-940e-aec79ce577a0}">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sSmartGreiferProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{2907ef82-3b13-469c-b1cc-0b5965df021c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{31a146bd-4d0b-4fbc-a602-f59f02885d45}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{e739112b-6db3-412b-80be-567d43471c19}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

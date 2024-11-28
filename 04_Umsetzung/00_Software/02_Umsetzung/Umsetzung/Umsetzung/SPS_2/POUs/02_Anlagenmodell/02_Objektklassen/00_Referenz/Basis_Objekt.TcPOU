@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Basis_Objekt" Id="{7cf36252-7d6b-44ad-be1c-9419ad240443}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Basis_Objekt EXTENDS GrundstrukturObjekt
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Instanziierungen
+	
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+	// System
+	IF iSysCommand = 2 AND iState = 0 THEN			// Objekt einschalten
+		bEinschalten := TRUE;
+	ELSE 
+		bEinschalten := FALSE;
+	END_IF
+	
+	IF iSysCommand = 1 AND iState = 1 THEN			// Objekt ausschalten
+		bAusschalten := TRUE;		
+	ELSE 
+		bAusschalten := FALSE;		
+	END_IF
+	
+	IF iSysCommand = 3 THEN							// Objekt beendet Prozess
+		bStoppen := TRUE;
+	ELSE
+		bStoppen := FALSE;
+	END_IF
+	
+	IF iSysCommand = 4 THEN							// System resettet Objekt
+		bResettenSystem := TRUE;
+	ELSE
+		bResettenSystem := FALSE;
+	END_IF
+	
+	// Skill
+	IF iSkillCommand_1 = 1 THEN						// Skill startet Prozess
+		bStarten := TRUE;
+	ELSE 
+		bStarten := FALSE;
+	END_IF
+	
+	IF iSkillCommand_1 = 2 THEN						// Skill beendet Prozess
+		bSkillFertig := TRUE;
+	ELSE
+		bSkillFertig := FALSE;
+	END_IF
+	
+	IF iSkillCommand_1 = 3 THEN						// Skill resettet Objekt
+ 		bResettenSkill := TRUE;
+	ELSE
+		bResettenSkill := FALSE;
+	END_IF
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bFehler THEN 
+	iState := 7;
+END_IF
+
+CASE iState OF 
+	0: // AUS
+		// DO
+		
+		// TRANSITION
+			IF bEinschalten THEN																	// Verbindung wird aufgebaut
+				iState := 1;
+			END_IF
+			
+	//____________________________________________________________________________________________
+	1: // BEREIT
+		// DO
+
+		// TRANSITION
+																									// Manuell-Modus wird eingeschalten
+													
+			 IF bStarten THEN																		// Objekt führt Prozessdurch
+				 iState := 3;
+			 END_IF			
+	//____________________________________________________________________________________________
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	//____________________________________________________________________________________________
+	3: // LAUFEND
+		// DO
+		
+		// TRANSITION
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bStoppen THEN	
+				
+				IF bSkillFertig THEN
+					iState := 5;
+				END_IF
+					
+				IF bStoppen THEN
+					iState := 6;
+				END_IF
+					
+			END_IF
+	
+	//____________________________________________________________________________________________
+	4: // ABGESCHLOSSEN_INTERN
+		// DO
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten		
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	6: // GESTOPPT
+		// DO
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
+		// DO
+			bError := bFehler;
+			
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bFehler	 := FALSE;
+				bError := FALSE;
+				iState := 1;
+			END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

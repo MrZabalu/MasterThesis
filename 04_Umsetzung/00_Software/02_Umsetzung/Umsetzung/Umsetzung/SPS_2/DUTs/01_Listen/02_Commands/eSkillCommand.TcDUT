@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eSkillCommand" Id="{1716bd6d-e6b5-4c1d-86bb-a53f9219e577}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eSkillCommand :
+(
+	KEINE		:= 0,
+	STARTEN		:= 1,
+	STOPPEN		:= 2,
+	RESETTEN 	:= 3
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

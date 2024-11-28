@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Kraftsensor" Id="{5c730e9d-e748-4b3b-acf2-93ce790f8fcc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Kraftsensor EXTENDS GrundstrukturObjekt
+VAR_INPUT
+	
+	// Kommunikationsvariablen
+	sIP					:T_IPv4Addr;
+	iPort				:UINT;
+	
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Instanziierung von Kommunikationsbausteine
+	Connect				:FB_SocketConnect;
+	Disconnect			:FB_SocketClose;
+	Send				:FB_SocketSend;
+	Receive				:FB_SocketReceive;
+	
+	// Kommunikationsvariablen
+	sSrvNetId   		:T_AmsNetId := '';
+	tTimeout    		:TIME := T#45S;(*!!!*)
+	hSocket    			:T_HSOCKET;
+	
+	// RealTimeDatenerfassung
+	RT_State			:INT;							// RealTime-State-Variable
+	{attribute 'TcSwapWord'}
+	SendData 			:Request;
+	{attribute 'TcSwapWord'}
+	ReceivedData		:Response_Values;				// Erhaltene Daten von Roboter
+	nRecBytes			:UDINT;							// Anzahl der erhaltenen Bytes
+	
+	CPF					:INT := 10000;					// Counts per Force value
+	CPT					:INT := 10000;					// Counts per Torque value (Noch mal 10 rechnen)
+	ScalefactorFx		:INT := 200;					// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScalefactorFy		:INT := 200;					// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScalefactorFz		:INT := 200;					// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScalefactorTx		:INT := 100;					// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScalefactorTy		:INT := 100;					// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	ScalefactorTz		:INT := 65;						// Additional scaling factor (for the Fx,Fy,Fz,Tx,Ty,Tz)
+	
+	RohArray			:Int_2Byte;
+	SwitchArray			:ARRAY[0..1] OF BYTE;
+	SwichValue			:Array2_Int;
+		
+	Rohdaten			:Kraftvariablen;				// Rohwerte der Messung 
+	Messung				:Kraftvariablen;				// Werte in Newton / Newtonmeter 
+
+	// Managementvariablen
+	bAusgeschalten		:BOOL;
+	bManOn				:BOOL;
+	m					:INT;
+	
+	// Eigenschaftsmethoden
+	sLimitGrenze		:sKraftVariablen;
+	sErreichtGrenze		:sKraftVariablen;
+	bLimit				:BOOL;
+	bLimitx				:BOOL;
+	bLimity				:BOOL;
+	bLimitz				:BOOL;
+	bErreicht			:BOOL;
+	bErreichtx			:BOOL;
+	bErreichty			:BOOL;
+	bErreichtz			:BOOL;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Instanziierungen
+Connect(sSrvNetId := sSrvNetId,
+		sRemoteHost := sIP,
+		nRemotePort := iPort,
+		tTimeout := tTimeout,
+		bError => bError,
+		nErrId => iErrorID,
+		hSocket => hSocket);	
+						
+Send(sSrvNetId := sSrvNetId,
+		hSocket := hSocket,
+		tTimeout := tTimeout,
+		cbLen := SIZEOF(SendData),
+		pSrc := ADR(SendData),
+		bError => bError,
+		nErrId => iErrorID);
+						
+Receive(sSrvNetId := sSrvNetId,
+		hSocket := hSocket,
+		cbLen := SIZEOF(ReceivedData),
+		pDest := ADR(ReceivedData),
+		tTimeout := tTimeout,
+		bError => bError,
+		nErrId => iErrorID,
+		nRecBytes => nRecBytes);
+						
+Disconnect(sSrvNetId := sSrvNetId,
+			hSocket := hSocket,
+			tTimeout := tTimeout,
+			bError => bError,
+			nErrId => iErrorID);
+	
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+	// System
+	IF iSysCommand = 2 AND iState = 0 THEN			// Objekt einschalten
+		bEinschalten := TRUE;
+	ELSE 
+		bEinschalten := FALSE;
+	END_IF
+	
+	IF iSysCommand = 1 AND iState = 1 THEN			// Objekt ausschalten
+		bAusschalten := TRUE;		
+	ELSE 
+		bAusschalten := FALSE;		
+	END_IF
+	
+	IF iSysCommand = 3 THEN							// Objekt beendet Prozess
+		bStoppen := TRUE;
+	ELSE
+		bStoppen := FALSE;
+	END_IF
+	
+	IF iSysCommand = 4 THEN							// System resettet Objekt
+		bResettenSystem := TRUE;
+	ELSE
+		bResettenSystem := FALSE;
+	END_IF
+	
+	// Skill
+	IF iSysState = 1 THEN						// Skill startet Prozess
+		bStarten := TRUE;
+	ELSE 
+		bStarten := FALSE;
+	END_IF
+	
+	IF iSkillCommand_1 = 2 THEN						// Skill beendet Prozess
+		bSkillFertig := TRUE;
+	ELSE
+		bSkillFertig := FALSE;
+	END_IF
+	
+	IF iSkillCommand_1 = 3 THEN						// Skill resettet Objekt
+ 		bResettenSkill := TRUE;
+	ELSE
+		bResettenSkill := FALSE;
+	END_IF
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+IF bManOn OR iState = 3 THEN
+	CASE RT_State OF 
+		0:	// Connect to RealTimePort
+				Connect(bExecute := TRUE);			
+					
+				IF NOT Connect.bBusy AND NOT Connect.bError THEN
+					Connect.bExecute := FALSE;
+					RT_State := 1;
+				END_IF
+				
+		1: 	// Send Data 
+					SendData.Command := 0;
+					Send(bExecute := TRUE);
+				
+					IF NOT Send.bBusy AND NOT Send.bError THEN
+						Send.bExecute := FALSE;
+						RT_State := 2;
+					END_IF
+		
+		2:	// Get Data 
+				Receive(bExecute := TRUE);
+			
+				IF NOT Receive.bBusy AND NOT Receive.bError THEN
+					Receive.bExecute := FALSE;
+					RT_State := 3;
+				END_IF
+				
+		3:	// Convert Data
+		
+			RohArray.sValue := ReceivedData.Fx;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Fx := SwichValue.sValue;
+			Messung.Fx := Rohdaten.Fx * ScalefactorFx / (CPF);
+			
+			RohArray.sValue := ReceivedData.Fy;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Fy := SwichValue.sValue;
+			Messung.Fy := Rohdaten.Fy * ScalefactorFy / (CPF);
+			
+			RohArray.sValue := ReceivedData.Fz;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Fz := SwichValue.sValue;
+			Messung.Fz := Rohdaten.Fz * ScalefactorFz / (CPF);
+			
+			RohArray.sValue := ReceivedData.Tx;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Tx := SwichValue.sValue;
+			Messung.Tx := Rohdaten.Tx * ScalefactorTx / (CPT);
+			
+			RohArray.sValue := ReceivedData.Ty;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Ty := SwichValue.sValue;
+			Messung.Ty := Rohdaten.Ty * ScalefactorTy / (CPT);
+			
+			RohArray.sValue := ReceivedData.Tz;
+			SwitchArray[0] := RohArray.arrByte[1];
+			SwitchArray[1] := RohArray.arrByte[0];
+			SwichValue.arrByte := SwitchArray;
+			Rohdaten.Tz := SwichValue.sValue;
+			Messung.Tz := Rohdaten.Tz * ScalefactorTz / (CPT);
+			
+		
+			RT_State := 4;
+				
+		4:	// Disconnect from RealTimePort
+				Disconnect(bExecute := TRUE);
+							
+				IF NOT Disconnect.bBusy AND NOT Disconnect.bError THEN
+					Disconnect.bExecute := FALSE;
+					RT_State := 0;
+				END_IF
+		
+	END_CASE
+END_IF
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bFehler THEN 
+	iState := 7;
+END_IF
+
+CASE iState OF 
+	0: // AUS
+		// DO
+		
+		// TRANSITION
+			IF bEinschalten THEN																	// Verbindung wird aufgebaut
+				iState := 1;
+			END_IF
+			
+	//____________________________________________________________________________________________
+	1: // BEREIT
+		// DO
+			IF bAusschalten THEN																	// Objekt ausschalten	
+				Disconnect(bExecute := TRUE);
+				IF NOT Disconnect.bBusy AND NOT Disconnect.bError THEN
+					Disconnect.bExecute := FALSE;
+					bAusgeschalten := TRUE;
+				END_IF	
+				
+			END_IF
+
+		// TRANSITION
+			IF bAusgeschalten THEN																	// Objekt ausschalten
+				bAusgeschalten := FALSE;
+				iState := 0;
+			END_IF
+																								// Manuell-Modus wird eingeschalten
+													
+			 IF bStarten THEN																		// Objekt führt Prozessdurch
+				 iState := 3;
+			 END_IF			
+	//____________________________________________________________________________________________
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	//____________________________________________________________________________________________
+	3: // LAUFEND
+		// DO
+			// Auswertung von Limit-Wert
+			IF sLimitGrenze.Fx <> 0 THEN
+				bLimitx := Auswertung(Soll_Wert := sLimitGrenze.Fx, Ist_Wert := Messung.Fx);
+			END_IF
+			
+			IF sLimitGrenze.Fy <> 0 THEN
+				bLimity := Auswertung(Soll_Wert := sLimitGrenze.Fy, Ist_Wert := Messung.Fy);
+			END_IF
+			
+			IF sLimitGrenze.Fz <> 0 THEN
+				bLimitz := Auswertung(Soll_Wert := sLimitGrenze.Fz, Ist_Wert := Messung.Fz);
+			END_IF
+			
+			// Auswertung von Erreicht-Wert
+			IF sErreichtGrenze.Fx <> 0 THEN
+				bErreichtx := Auswertung(Soll_Wert := sErreichtGrenze.Fx, Ist_Wert := Messung.Fx);
+			END_IF
+			
+			IF sErreichtGrenze.Fy <> 0 THEN
+				bErreichty := Auswertung(Soll_Wert := sErreichtGrenze.Fy, Ist_Wert := Messung.Fy);
+			END_IF
+			
+			IF sErreichtGrenze.Fz <> 0 THEN
+				bErreichtz := Auswertung(Soll_Wert := sErreichtGrenze.Fz, Ist_Wert := Messung.Fz);
+			END_IF
+			
+			IF bLimitx OR bLimity OR bLimitz THEN
+				bLimit := TRUE;
+			ELSE
+				bLimit := FALSE;
+			END_IF
+			
+			IF bErreichtx OR bErreichty OR bErreichtz THEN
+				bErreicht := TRUE;
+			ELSE
+				bErreicht := FALSE;
+			END_IF
+		
+		// TRANSITION
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bSkillFertig THEN
+				iState := 5;
+			END_IF
+					
+			IF bStoppen THEN
+				iState := 6;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	4: // ABGESCHLOSSEN_INTERN
+		// DO
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten		
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+			
+			Messung.Fx := 0;
+			Messung.Fy := 0;
+			Messung.Fz := 0;
+			Messung.Tx := 0;
+			Messung.Ty := 0;
+			Messung.Tz := 0;
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	6: // GESTOPPT
+		// DO
+			
+			Messung.Fx := 0;
+			Messung.Fy := 0;
+			Messung.Fz := 0;
+			Messung.Tx := 0;
+			Messung.Ty := 0;
+			Messung.Tz := 0;
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
+		// DO
+			bError := bFehler;
+			
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bFehler	 := FALSE;
+				bError := FALSE;
+				iState := 1;
+			END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Methoden" Id="{154a3dda-1856-4d39-894a-bf862695fa3e}" />
+    <Folder Name="02_Eigenschaften" Id="{aca65bc6-308a-46bb-a3ce-ddf6a4caa23c}" />
+    <Method Name="Auswertung" Id="{2436c5c0-8e4b-47d8-8d6e-3b106d76586b}" FolderPath="01_Methoden\">
+      <Declaration><![CDATA[METHOD Auswertung : BOOL
+VAR_INPUT
+	Soll_Wert			:LREAL;
+	Ist_Wert			:LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ABS(Ist_Wert) >= ABS(Soll_Wert) THEN
+	Auswertung := TRUE;
+ELSE
+	Auswertung := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Erreicht" Id="{f3ac0b94-01ef-4170-896c-0368ad6ce4f3}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Erreicht : BOOL]]></Declaration>
+      <Get Name="Get" Id="{82e02191-3076-4732-96d2-f61f44926ff0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Erreicht := bErreicht;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_ErreichtValue" Id="{e1a9d4ca-b251-4654-bce4-83c4ef11b185}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_ErreichtValue : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{5159c92a-1701-40f8-9fed-06f858e51435}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sErreichtGrenze := P_ErreichtValue;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Limit" Id="{5d78f0bb-d720-4d58-a4dc-93a7274b599b}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Limit : BOOL]]></Declaration>
+      <Get Name="Get" Id="{11d3de3c-b1dd-4df9-b96b-dacc2edbaf07}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Limit := bLimit;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_LimitValue" Id="{0786bf9f-775d-400a-a323-b6a1cdcacca6}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_LimitValue : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{148e2ff2-db52-42af-9e13-e4bf51caec31}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sLimitGrenze := P_LimitValue; ]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Messdaten" Id="{3d70f812-b13c-4cef-bfed-9d39a317e3ff}" FolderPath="02_Eigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Messdaten : Kraftvariablen]]></Declaration>
+      <Get Name="Get" Id="{8ab23b74-fe81-497c-994a-493e437b9368}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Messdaten := Messung;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

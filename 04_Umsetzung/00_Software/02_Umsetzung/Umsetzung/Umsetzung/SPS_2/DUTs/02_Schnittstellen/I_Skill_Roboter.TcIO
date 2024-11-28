@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Skill_Roboter" Id="{0153326d-f221-4d2a-92c1-c3fc213ce90f}">
+    <Declaration><![CDATA[INTERFACE I_Skill_Roboter
+]]></Declaration>
+    <Method Name="M_Reset" Id="{c4def971-72ce-48b4-a0a4-9fa2acf227ce}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{8f43df71-bec6-4446-85f5-964246aee3f0}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{13b51abf-449f-486d-924e-02b2761140f2}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{ec806130-2d22-478d-b07d-2d2f0af61c71}">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{40666ce4-1467-48ff-bba6-98ab0bb9df7f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{c1a99b67-8d9d-4891-b1a2-9533f209fe3d}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{f397b8fe-f1e2-4ae9-9c4b-c895c48d8558}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

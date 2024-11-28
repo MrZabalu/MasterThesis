@@ -73,11 +73,14 @@
 				<Task Id="4" Priority="30" CycleTime="2000000" AmsPort="351" DisableFpExceptions="true" AdtTasks="true">
 					<Name>VISU_TASK</Name>
 				</Task>
+				<Task Id="5" Priority="21" CycleTime="100000" AmsPort="352" AdtTasks="true">
+					<Name>PlcTask1</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CC25F818-B997-4B5A-8046-D637D41920AB}" Name="SPS_1" PrjFilePath="SPS_1\SPS_1.plcproj" TmcFilePath="SPS_1\SPS_1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{BE86482A-C123-1CD5-3E41-2F82F303A5C0}" TmcPath="SPS_1\SPS_1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{77C422DF-8F2C-A1F7-6CF6-FF56151F0A64}" TmcPath="SPS_1\SPS_1.tmc">
 					<Name>SPS_1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -124,15 +127,63 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
+			<Project GUID="{74ECB8D7-F7AC-4642-BC7C-DD15FFD0067B}" Name="SPS_2" PrjFilePath="SPS_2\SPS_2.plcproj" TmcFilePath="SPS_2\SPS_2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1875FD8C-B661-CD6B-FCD3-DD86247559AA}" TmcPath="SPS_2\SPS_2.tmc">
+					<Name>SPS_2 Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>Anlage.Gripper.Communication.OutData</Name>
+							<Type GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU">MB_KL6outData22B</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>Anlage.Gripper.Communication.InData</Name>
+							<Type GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}" Namespace="Tc2_ModbusRTU">MB_KL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>Anlage.Gripper.Communication.WcState</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010050</OTCID>
+							</ManualConfig>
+							<Priority>21</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+						<Context>
+							<Id>1</Id>
+							<Name>VISU_TASK</Name>
+							<ManualConfig>
+								<OTCID>#x02010040</OTCID>
+							</ManualConfig>
+							<Priority>30</Priority>
+							<CycleTime>200000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="21" OTCID="#x08502041"/>
+						<TaskPouOid Prio="30" OTCID="#x08502042"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
 		</Plc>
 		<Io>
 			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="147.87.172.51.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
 				<Name>Gerät 1 (EtherCAT)</Name>
 				<AddressInfo>
 					<Pnp>
-						<DeviceDesc>Ethernet (Lenovo USB Ethernet #2)</DeviceDesc>
-						<DeviceName>\DEVICE\{80AE4486-04C8-46CF-8092-0E8425816C87}</DeviceName>
-						<DeviceData>3c18a05a2b8f</DeviceData>
+						<DeviceDesc>Ethernet 5 (Realtek USB GbE Family Controller #2)</DeviceDesc>
+						<DeviceName>\DEVICE\{B435C36D-45F2-409A-9BA4-6BC72DBFA662}</DeviceName>
+						<DeviceData>144fd7c71f38</DeviceData>
 					</Pnp>
 				</AddressInfo>
 				<Image Id="1" AddrType="9" ImageType="3">
@@ -473,55 +524,55 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
-		<OwnerA Name="TIPC^SPS_1^SPS_1 Instance">
+		<MappingInfo Identifier="{00000000-2041-0850-4020-500810000403}" Id="#x02030010"/>
+		<OwnerA Name="TIPC^SPS_2^SPS_2 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Box 1 (BK1120)">
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[0]" VarB="Term 2 (KL6041)^Channel 1^Data In 0"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[10]" VarB="Term 2 (KL6041)^Channel 1^Data In 10"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[11]" VarB="Term 2 (KL6041)^Channel 1^Data In 11"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[12]" VarB="Term 2 (KL6041)^Channel 1^Data In 12"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[13]" VarB="Term 2 (KL6041)^Channel 1^Data In 13"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[14]" VarB="Term 2 (KL6041)^Channel 1^Data In 14"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[15]" VarB="Term 2 (KL6041)^Channel 1^Data In 15"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[16]" VarB="Term 2 (KL6041)^Channel 1^Data In 16"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[17]" VarB="Term 2 (KL6041)^Channel 1^Data In 17"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[18]" VarB="Term 2 (KL6041)^Channel 1^Data In 18"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[19]" VarB="Term 2 (KL6041)^Channel 1^Data In 19"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[1]" VarB="Term 2 (KL6041)^Channel 1^Data In 1"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[20]" VarB="Term 2 (KL6041)^Channel 1^Data In 20"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[21]" VarB="Term 2 (KL6041)^Channel 1^Data In 21"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[2]" VarB="Term 2 (KL6041)^Channel 1^Data In 2"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[3]" VarB="Term 2 (KL6041)^Channel 1^Data In 3"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[4]" VarB="Term 2 (KL6041)^Channel 1^Data In 4"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[5]" VarB="Term 2 (KL6041)^Channel 1^Data In 5"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[6]" VarB="Term 2 (KL6041)^Channel 1^Data In 6"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[7]" VarB="Term 2 (KL6041)^Channel 1^Data In 7"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[8]" VarB="Term 2 (KL6041)^Channel 1^Data In 8"/>
-				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D[9]" VarB="Term 2 (KL6041)^Channel 1^Data In 9"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 0"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 1" Size="8" OffsA="8"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 10" Size="8" OffsA="80"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 11" Size="8" OffsA="88"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 12" Size="8" OffsA="96"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 13" Size="8" OffsA="104"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 14" Size="8" OffsA="112"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 15" Size="8" OffsA="120"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 16" Size="8" OffsA="128"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 17" Size="8" OffsA="136"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 18" Size="8" OffsA="144"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 19" Size="8" OffsA="152"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 2" Size="8" OffsA="16"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 20" Size="8" OffsA="160"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 21" Size="8" OffsA="168"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 3" Size="8" OffsA="24"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 4" Size="8" OffsA="32"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 5" Size="8" OffsA="40"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 6" Size="8" OffsA="48"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 7" Size="8" OffsA="56"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 8" Size="8" OffsA="64"/>
+				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^D" VarB="Term 2 (KL6041)^Channel 1^Data In 9" Size="8" OffsA="72"/>
 				<Link VarA="PlcTask Inputs^Anlage.Gripper.Communication.InData^Status" VarB="Term 2 (KL6041)^Channel 1^Status"/>
 				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^Ctrl" VarB="Term 2 (KL6041)^Channel 1^Ctrl"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[0]" VarB="Term 2 (KL6041)^Channel 1^Data Out 0"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[10]" VarB="Term 2 (KL6041)^Channel 1^Data Out 10"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[11]" VarB="Term 2 (KL6041)^Channel 1^Data Out 11"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[12]" VarB="Term 2 (KL6041)^Channel 1^Data Out 12"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[13]" VarB="Term 2 (KL6041)^Channel 1^Data Out 13"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[14]" VarB="Term 2 (KL6041)^Channel 1^Data Out 14"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[15]" VarB="Term 2 (KL6041)^Channel 1^Data Out 15"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[16]" VarB="Term 2 (KL6041)^Channel 1^Data Out 16"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[17]" VarB="Term 2 (KL6041)^Channel 1^Data Out 17"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[18]" VarB="Term 2 (KL6041)^Channel 1^Data Out 18"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[19]" VarB="Term 2 (KL6041)^Channel 1^Data Out 19"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[1]" VarB="Term 2 (KL6041)^Channel 1^Data Out 1"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[20]" VarB="Term 2 (KL6041)^Channel 1^Data Out 20"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[21]" VarB="Term 2 (KL6041)^Channel 1^Data Out 21"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[2]" VarB="Term 2 (KL6041)^Channel 1^Data Out 2"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[3]" VarB="Term 2 (KL6041)^Channel 1^Data Out 3"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[4]" VarB="Term 2 (KL6041)^Channel 1^Data Out 4"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[5]" VarB="Term 2 (KL6041)^Channel 1^Data Out 5"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[6]" VarB="Term 2 (KL6041)^Channel 1^Data Out 6"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[7]" VarB="Term 2 (KL6041)^Channel 1^Data Out 7"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[8]" VarB="Term 2 (KL6041)^Channel 1^Data Out 8"/>
-				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D[9]" VarB="Term 2 (KL6041)^Channel 1^Data Out 9"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 0"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 1" Size="8" OffsA="8"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 10" Size="8" OffsA="80"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 11" Size="8" OffsA="88"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 12" Size="8" OffsA="96"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 13" Size="8" OffsA="104"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 14" Size="8" OffsA="112"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 15" Size="8" OffsA="120"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 16" Size="8" OffsA="128"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 17" Size="8" OffsA="136"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 18" Size="8" OffsA="144"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 19" Size="8" OffsA="152"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 2" Size="8" OffsA="16"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 20" Size="8" OffsA="160"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 21" Size="8" OffsA="168"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 3" Size="8" OffsA="24"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 4" Size="8" OffsA="32"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 5" Size="8" OffsA="40"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 6" Size="8" OffsA="48"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 7" Size="8" OffsA="56"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 8" Size="8" OffsA="64"/>
+				<Link VarA="PlcTask Outputs^Anlage.Gripper.Communication.OutData^D" VarB="Term 2 (KL6041)^Channel 1^Data Out 9" Size="8" OffsA="72"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

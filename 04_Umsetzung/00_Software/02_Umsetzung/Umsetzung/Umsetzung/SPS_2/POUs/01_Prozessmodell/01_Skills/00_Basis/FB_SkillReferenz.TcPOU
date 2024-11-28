@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SkillReferenz" Id="{2fa90232-ca12-4e6c-b27a-67def05ec1ba}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillReferenz	IMPLEMENTS I_Skill_Roboter  
+VAR_INPUT
+	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
+	eSysState					:eSystemState;							// Momentaner Zustand des Systems
+	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+	
+	bLimit						:BOOL;
+	bErreicht					:BOOL;
+END_VAR
+VAR_OUTPUT
+	eSkillCommand				:eSkillCommand;							// Skillbefehl für Objekt
+	eProzessvariable			:sRoboterProzessVariablen;				// Prozessvariablen für Objekt
+	iErrorID					:INT;									// Fehlercode für System
+END_VAR
+VAR
+	// Managementvariablen
+	iState				:eSkillState;									// Information über Zustand von Skill
+	
+	// Managementvariablen 
+	bGestartet			:BOOL;
+	bGestoppt			:BOOL;
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bObjektFertig		:BOOL;
+	bWertErreicht		:BOOL;				
+	bLimitErreicht		:BOOL;				
+	bSkillFertig		:BOOL;
+	bFehler				:BOOL;
+	bResetten			:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Stoppen
+	IF eSysCommand = 3 THEN
+		bStoppen := M_Stop();
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF eSysCommand = 4 THEN
+		bResetten := M_Reset();
+	ELSE
+		bResetten := FALSE;
+	END_IF
+	
+	// Limit
+	IF bLimit THEN
+		bLimitErreicht := M_Stop();
+	ELSE
+		bLimitErreicht := FALSE;
+	END_IF
+	
+	// Erreicht
+	IF bErreicht THEN
+		bWertErreicht := M_Stop();
+	ELSE
+		bWertErreicht := FALSE;
+	END_IF
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT	
+		// DO
+		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+			bStarten := TRUE;
+		END_IF
+		
+		// TRANSITION
+		IF bStarten	 THEN		
+			bStarten := FALSE;
+			eSkillCommand := 0;
+			iState := 1;	
+		END_IF
+		
+		
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO			
+			// Stoppen durch Sysezm
+			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
+				bGestoppt := TRUE;
+			END_IF
+			
+			// Objekt hat sich selber gestoppt
+			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;		
+			eSkillCommand := 0;																					
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+			eSkillCommand := 0;	
+			iState := 4;
+		END_IF
+		
+		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+			eSkillCommand := 0;	
+			iState := 5;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		
+		// TRANSITION
+		IF bResetten THEN
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________			
+4: 	// LIMIT
+		// DO		
+		M_Reset();
+		
+		IF eObjState = 1 THEN																								// Objekt wurde geresettet
+			bResetten := TRUE;								
+		END_IF
+	
+		// TRANSITION
+		IF bResetten THEN
+			bResetten := FALSE;
+			eSkillCommand := 0;
+			iState := 0;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________
+5: 	// ERREICHT		
+		// DO 
+		M_Reset();
+		
+		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+		
+		// TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;
+			eSkillCommand := 0;
+			iState := 0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="M_Reset" Id="{3bc44474-b525-42e0-9fa7-0be23fb76745}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eSkillCommand := 3;
+
+IF eSkillCommand = 3 THEN
+	M_Reset := TRUE;
+ELSE
+	M_Reset := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{69840cb2-fed3-4549-92e5-43c53bee9e2e}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist der Skill im korrekten Status 
+		IF iState = 0 THEN
+			// Prüfen auf Fehler (Muss ergänzt werden)
+				eSkillCommand := 1;	
+		END_IF
+	END_IF
+
+IF eSkillCommand = 1 THEN
+	M_Start := TRUE;
+ELSE
+	M_Start := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{ced64894-0e55-4c12-b382-3fa8eabe7454}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eSkillCommand := 2;
+
+IF eSkillCommand = 2 THEN
+	M_Stop := TRUE;
+ELSE
+	M_Stop := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{df559cc8-63ab-47f1-89bc-5a243f8f513d}">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{5da1decc-4b74-469e-a62b-b1540a716589}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{6ab9ca62-4963-43bb-b0fc-59816d3c5f8b}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{80ac7b2a-960d-4d55-b5da-09b0bf453fff}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Systemparameter" Id="{af4a7020-976b-475d-9afa-9c7a00ca4ce9}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Systemparameter
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Lesen
+	// Objektzustände
+	GVL.Robot_State 		:= Anlage.UR5.P_State;
+	GVL.Greifer_State 		:= Anlage.Gripper.P_State;
+	GVL.Sensor_State 		:= 1;
+
+// Zuweisen
+	// Eigenschaften	
+	Anlage.HEX_E.P_LimitValue 		:= GVL.eKraftLimitValue;
+	Anlage.HEX_E.P_ErreichtValue 	:= GVL.eKraftErreichtValue;
+	
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="sRoboterProzessVariablen" Id="{d1472d7c-0fd8-40a8-a42b-a004f1be73cd}">
+    <Declaration><![CDATA[TYPE sRoboterProzessVariablen :
+STRUCT
+	q1					:LREAL;				// X-Koordinate oder Gelenkwinkel 1
+	q2					:LREAL;				// Y-Koordinate oder Gelenkwinkel 2
+	q3					:LREAL;				// Z-Koordinate oder Gelenkwinkel 3
+	q4					:LREAL;				// Orintierung um X-Achse oder Gelenkwinkel 4
+	q5					:LREAL;				// Orientierung um Y-Achse oder Gelenkwinkel 5
+	q6					:LREAL;				// Orientierung um Z-Achse oder Gelenkwinkel 6
+	v					:LREAL;				// Geschwindigkeit
+	a					:LREAL;				// Beschleunigung
+	PosTyp				:eRobPosType;		// Position-Typ definieren (Absolut / Relativ)		
+	MoveTyp				:eRobMoveType;		// Bewegungsart definieren (Linear / Circular etc.)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

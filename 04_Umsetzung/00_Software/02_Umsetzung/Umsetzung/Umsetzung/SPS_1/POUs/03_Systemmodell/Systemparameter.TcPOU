@@ -15,7 +15,7 @@ END_VAR
 // Zuweisen
 	// Eigenschaften	
 	Anlage.HEX_E.P_LimitValue 		:= GVL.eKraftLimitValue;
-	Anlage.HEX_E.P_ErreichtValue 	:= GVL.eKraftErreichtValue
+	Anlage.HEX_E.P_ErreichtValue 	:= GVL.eKraftErreichtValue;
 	
 ]]></ST>
     </Implementation>

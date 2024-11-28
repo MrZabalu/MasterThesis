@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eSequenceState" Id="{3b85097c-4c5d-464c-8c73-7eb5716b1d72}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eSequenceState  :
+(
+	BEREIT	 		:= 0,				// Der Skill ist bereit einen Prozess auszuführen (Startzustand)
+	LAUFEND 		:= 1,				// Der Skill führt einen Prozess aus
+	ABGESCHLOSSEN 	:= 2,				// Der Prozess wurde abgeschlossen (Durch Objekt abgeschlossen)
+	FEHLER			:= 3				// Es gibt einen Fehler bezüglich des Prozesses 
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

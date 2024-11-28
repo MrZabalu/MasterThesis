@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Skill_Greifer" Id="{5b1f2908-35a8-49f3-8fce-00226a8b70c6}">
+    <Declaration><![CDATA[INTERFACE I_Skill_Greifer
+]]></Declaration>
+    <Method Name="M_Reset" Id="{4486e1d6-34b8-4173-912d-db62da3104f6}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{f37a3b6c-4f48-42b6-8dc8-4bc900f487e7}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{bd8ed30d-488f-4a68-a18a-6f406503ac38}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{c527beec-9cf5-4ccd-b894-e0869a933d9e}">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sSmartGreiferProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{1f534fd5-dfca-459d-a6ec-32711da8263b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{a7446a1c-b650-4e43-a09f-8e4874a64164}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{c41bd135-dfe5-4c21-983f-06024d6bcfc4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

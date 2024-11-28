@@ -23,12 +23,14 @@ END_IF
 	
 	IF fSwitch.Q1 AND iSysState = 1 THEN
 		bStarten := TRUE;
+		fSwitch.RESET := TRUE;
 	ELSE
 		bStarten := FALSE;
+		fSwitch.RESET := FALSE;
 	END_IF
 
 	// Stoppen
-	IF iSysCommand = 3 AND iSysState = 2 THEN
+	IF iSysCommand = 3 THEN
 		bStoppen := TRUE;
 	ELSE 
 		bStoppen := FALSE;
@@ -122,9 +124,9 @@ CASE iState OF
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
 		// DO
-		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
-			
 		iSkillCommand := 3;																								// Objekt resetten
+		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
+																													
 		
 		IF iObjState = 1 THEN																							// Objekt wurde geresettet
 			iSkillCommand := 0;																								// Zurücksetzen von Command
@@ -154,7 +156,6 @@ CASE iState OF
 // _________________________________________________________________________________________________________________________			
 4: 	// LIMIT
 		// DO 
-		iSkillCommand := 0;
 		bLimit := TRUE;																									// Limit wurde erreicht
 		
 		iSkillCommand := 3;																								// Objekt resetten
@@ -169,14 +170,12 @@ CASE iState OF
 		IF bResetten THEN
 			bResetten := FALSE;
 			bLimit := FALSE;																							// Zurücksetzen von Output-Variable
-			iSkillCommand := 3;																							// Resetten von Objekt 
 			iState := 0;
 		END_IF
 			
 // _________________________________________________________________________________________________________________________
 5: 	// ERREICHT		
 		// DO 
-		iSkillCommand := 0;
 		bDone := TRUE;																									// Skill wurde erfolgreich ausgeführt
 		
 		iSkillCommand := 3;																								// Objekt resetten

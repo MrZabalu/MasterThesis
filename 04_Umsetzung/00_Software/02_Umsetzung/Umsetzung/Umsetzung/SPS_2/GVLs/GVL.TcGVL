@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="GVL" Id="{935c66c4-3c1a-441a-babc-36b55c5306d6}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Schnittstellenvariablen 
+		// System: 
+		SystemState								:eSystemState; 
+		SystemCommand							:eSystemCommand; 
+		ErrorID									:INT;
+		
+		// Kontrollvariablen: 
+		Reset									:BOOL;
+		Execute									:BOOL;
+		
+		// Prozessvariablen
+		eKraftLimitValue						:sKraftVariablen;
+		eKraftErreichtValue						:sKraftVariablen;
+		
+		
+		// SkillStates
+		
+		// ObjectStates
+		Robot_State								:eObjectState;
+		Greifer_State							:eObjectState;
+		Sensor_State							:eObjectState;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
