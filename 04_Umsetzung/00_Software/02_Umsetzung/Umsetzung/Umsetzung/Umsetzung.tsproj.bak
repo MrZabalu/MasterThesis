@@ -128,7 +128,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{74ECB8D7-F7AC-4642-BC7C-DD15FFD0067B}" Name="SPS_2" PrjFilePath="SPS_2\SPS_2.plcproj" TmcFilePath="SPS_2\SPS_2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1875FD8C-B661-CD6B-FCD3-DD86247559AA}" TmcPath="SPS_2\SPS_2.tmc">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{73A288C8-5503-1708-BCC2-7FCF41E4F16B}" TmcPath="SPS_2\SPS_2.tmc">
 					<Name>SPS_2 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

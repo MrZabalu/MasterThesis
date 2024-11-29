@@ -711,9 +711,9 @@ END_VAR
 	
 	IF Prozessvariablen.MoveTyp = 1 THEN			// Move to position (linear in joint-space)
 													// movej(q, a=1.4, v=1.05, t=0, r =0)
-		q1 := DEG_TO_RAD(Prozessvariablen.q4);
-		q2 := DEG_TO_RAD(Prozessvariablen.q5);
-		q3 := DEG_TO_RAD(Prozessvariablen.q6);
+		q1 := DEG_TO_RAD(Prozessvariablen.q1);
+		q2 := DEG_TO_RAD(Prozessvariablen.q2);
+		q3 := DEG_TO_RAD(Prozessvariablen.q3);
 		q4 := DEG_TO_RAD(Prozessvariablen.q4);
 		q5 := DEG_TO_RAD(Prozessvariablen.q5);
 		q6 := DEG_TO_RAD(Prozessvariablen.q6);

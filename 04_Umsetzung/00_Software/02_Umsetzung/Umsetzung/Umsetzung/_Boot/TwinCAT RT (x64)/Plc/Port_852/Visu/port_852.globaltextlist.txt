@@ -9,6 +9,7 @@ Id;Default
 47;Gripper
 764;KEINE
 756;Kraft:
+713;Lesen
 304;mm
 423;Position
 839;Position:

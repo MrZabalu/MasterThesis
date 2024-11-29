@@ -15,8 +15,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_State" Id="{eb901849-fec2-4cf4-98f9-fad5290e4c0f}">
-      <Declaration><![CDATA[PROPERTY P_State : BOOL]]></Declaration>
+    <Property Name="P_Finished" Id="{eb901849-fec2-4cf4-98f9-fad5290e4c0f}">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL;]]></Declaration>
       <Get Name="Get" Id="{410229d3-4f33-4850-9625-8c82b5fc1174}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

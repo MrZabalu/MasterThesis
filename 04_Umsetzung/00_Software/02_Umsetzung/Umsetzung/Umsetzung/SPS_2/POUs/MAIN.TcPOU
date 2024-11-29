@@ -18,40 +18,11 @@ SkillSet();
 Systemparameter();
 // Aufrunfen des Zustandshandlings
 Zustandshandling();
+// Temporäre Punktedatenbank
+PunkteZuweisung_Temp();
 
 // Aufrufen von Testablauf
-AP_1();
-
-// Definieren der Prozessparameter
-Position_1.q1 := 0.1;
-Position_1.q2 := 0.475;
-Position_1.q3 := 0.4;
-Position_1.q4 := 127;
-Position_1.q5 := -127;
-Position_1.q6 := 0;
-Position_1.a := 0.5;
-Position_1.v := 0.5;
-Position_1.MoveTyp := 3;
-Position_1.PosTyp := 0;
-
-Position_2.q1 := -0.167;
-Position_2.q2 := 0.475;
-Position_2.q3 := 0.4;
-Position_2.q4 := 127;
-Position_2.q5 := -127;
-Position_2.q6 := 0;
-Position_2.a := 0.5;
-Position_2.v := 0.5;
-Position_2.MoveTyp := 3;
-Position_2.PosTyp := 0;
-
-GreifPos_1.F := 50;
-GreifPos_1.Geschw := 50;
-GreifPos_1.Pos := 30;
-
-GreifPos_2.F := 50;
-GreifPos_2.Geschw := 50;
-GreifPos_2.Pos := 60;]]></ST>
+AP_1();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

@@ -3,9 +3,6 @@
   <POU Name="FB_SmartGreifer" Id="{026c2ad0-e647-4b65-a953-a9ca741dc176}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer EXTENDS GrundstrukturObjekt
 VAR_INPUT
-	iSkillCommand_2			:eSkillCommand;		// Steuerungsvariabel von Skill_2
-	iSkillCommand_3			:eSkillCommand;		// Steuerungsvariabel von Skill_2
-	iSkillCommand_4			:eSkillCommand;		// Steuerungsvariabel von Skill_2
 	Prozessvariablen		:sSmartGreiferProzessVariablen; 
 END_VAR
 VAR_OUTPUT
@@ -26,7 +23,6 @@ VAR
 	// Managementvariablen
 	iStartUp			:INT;
 	iProzess			:INT;
-	iSkillOption		:INT;
 	
 	bGreiferReset		:BOOL;
 	bGreiferLesen		:BOOL;
@@ -96,35 +92,19 @@ Communication(
 	END_IF
 	
 	// Skill
-	IF iSkillCommand_1 = 1 OR iSkillCommand_2 = 1 OR  iSkillCommand_3 = 1 OR iSkillCommand_4 = 1 THEN	// Skill startet Prozess
-		IF iSkillCommand_1 = 1 THEN
-			iSkillOption := 1;
-		END_IF
-		
-		IF iSkillCommand_2 = 1 THEN
-			iSkillOption := 2;
-		END_IF
-		
-		IF iSkillCommand_3 = 1 THEN
-			iSkillOption := 3;
-		END_IF
-		
-		IF iSkillCommand_4 = 1 THEN
-			iSkillOption := 4;
-		END_IF
-		
+	IF iSkillCommand_1 = 1 THEN	// Skill startet Prozess		
 		bStarten := TRUE;
 	ELSE 
 		bStarten := FALSE;
 	END_IF
 	
-	IF iSkillCommand_1 = 2 OR iSkillCommand_2 = 2 THEN	// Skill beendet Prozess
+	IF iSkillCommand_1 = 2 THEN	// Skill beendet Prozess
 		bSkillFertig := TRUE;
 	ELSE
 		bSkillFertig := FALSE;
 	END_IF
 	
-	IF iSkillCommand_1 = 3 OR iSkillCommand_2 = 3 THEN	// Skill resettet Objekt
+	IF iSkillCommand_1 = 3 THEN	// Skill resettet Objekt
  		bResettenSkill := TRUE;
 	ELSE
 		bResettenSkill := FALSE;
@@ -212,249 +192,67 @@ CASE iState OF
 		// DO
 			
 			// Aktionsprozess 
-			CASE iSkillOption OF 
-				1:	// Definierte Position anfahren
-					CASE iProzess OF 
-					0: // Aktion durchführen
-						iPos := REAL_TO_BYTE((255.00/iPosMax) *  (iPosMax - Prozessvariablen.Pos));	
-						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
-						iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
-					
-						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
-						
-						IF bGestartet THEN
-							bGestartet := FALSE;
-							Delay(IN:= TRUE, PT := T#1S);
-						END_IF
-						
-						IF Delay.Q THEN
-							Delay(IN:= FALSE);
-							iProzess := 1;
-						END_IF
-					
-					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
-						CheckTimer(IN := TRUE, PT := T#5S);
-						
-						IF bGreiferLesen THEN
-							bGreiferLesen := FALSE;
-							
-							// Greifer hat Position erreicht
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 249 		AND
-								DataRead[2] = iPos 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		AND
-								DataRead[5] = iPos		THEN
-								
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bObjektFertig := TRUE;
-							END_IF
-							
-							// Greifer ist in Hinderniss gefahren
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 185 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		THEN
-								
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bFehler := TRUE;
-								iFehlerID := 202;
-							END_IF
-							
-						END_IF
-						
-						// Zeit wurde überschritten
-						IF CheckTimer.Q THEN		
-							iProzess := 0;
-							CheckTimer(IN := FALSE);
-							bFehler := TRUE;
-							iFehlerID := 201;
-						END_IF
-					END_CASE
-					
-				//______________________________________________________________________________________________________	
-				2:	// Greifabstand ermitteln
-					CASE iProzess OF 
-					0: // Aktion durchführen
-						iPos := REAL_TO_BYTE(((255/iPosMax) * (iPosMax - Prozessvariablen.Pos)));	
-						iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
-						iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
-					
-						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
-						
-						IF bGestartet THEN
-							bGestartet := FALSE;
-							Delay(IN:= TRUE, PT := T#1S);
-						END_IF
-						
-						IF Delay.Q THEN
-							Delay(IN:= FALSE);
-							iProzess := 1;
-						END_IF
-					
-					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
-						CheckTimer(IN := TRUE, PT := T#5S);
-						
-						IF bGreiferLesen THEN
-							bGreiferLesen := FALSE;
-							
-							// Greifer hat Position erreicht
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 249 		AND
-								DataRead[2] = iPos 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		AND
-								DataRead[5] = iPos		THEN
-								
-								CheckTimer(IN := FALSE);
-								Anschlag := iPos;
-								iProzess := 0;
-								bObjektFertig := TRUE;
-							END_IF
-							
-							// Greifer ist in Hinderniss gefahren
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 185 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		THEN
-								
-								Anschlag := DataRead[5];
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bObjektFertig := TRUE;								
-							END_IF
-							
-						END_IF
-						
-						// Zeit wurde überschritten
-						IF CheckTimer.Q THEN		
-							iProzess := 0;
-							CheckTimer(IN := FALSE);
-							bFehler := TRUE;
-							iFehlerID := 201;
-						END_IF
-					END_CASE
+				CASE iProzess OF 
+				0: // Aktion durchführen
+					iPos := REAL_TO_BYTE((255.00/iPosMax) *  (iPosMax - Prozessvariablen.Pos));	
+					iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
+					iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
 				
-				//______________________________________________________________________________________________________	
-				3:	// Grifer komplett schliessen
-					CASE iProzess OF 
-					0: // Aktion durchführen
-						iPos := 200;	
-						iGeschw := 100;
-						iKraft := 0;
-						
-							bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+					bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
 					
-						IF bGestartet THEN
-							bGestartet := FALSE;
-							Delay(IN:= TRUE, PT := T#1S);
-						END_IF
-						
-						IF Delay.Q THEN
-							Delay(IN:= FALSE);
-							iProzess := 1;
-						END_IF
+					IF bGestartet THEN
+						bGestartet := FALSE;
+						Delay(IN:= TRUE, PT := T#1S);
+					END_IF
 					
-					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
-						CheckTimer(IN := TRUE, PT := T#5S);
+					IF Delay.Q THEN
+						Delay(IN:= FALSE);
+						iProzess := 1;
+					END_IF
+				
+				1: // Prüfen ob Aktion erledigt 
+					bGreiferLesen := StatusLesen(NrOfReg := 3);
+					CheckTimer(IN := TRUE, PT := T#5S);
+					
+					IF bGreiferLesen THEN
+						bGreiferLesen := FALSE;
 						
-						IF bGreiferLesen THEN
-							bGreiferLesen := FALSE;
+						// Greifer hat Position erreicht
+						IF 	DataRead[0] = 0 		AND
+							DataRead[1] = 249 		AND
+							DataRead[2] = iPos 		AND
+							DataRead[3] = 0 		AND
+							DataRead[4] = 0 		AND
+							DataRead[5] = iPos		THEN
 							
-							// Greifer ist in Hinderniss gefahren
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 249 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		THEN
-								
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bObjektFertig := TRUE;								
-							END_IF
-							
-						END_IF
-						
-						// Zeit wurde überschritten
-						IF CheckTimer.Q THEN		
-							iProzess := 0;
 							CheckTimer(IN := FALSE);
-							bFehler := TRUE;
-							iFehlerID := 201;
-						END_IF
-					END_CASE
-					
-				//______________________________________________________________________________________________________
-				4: 	// Greifer komplett öffnen
-					CASE iProzess OF 
-					0: // Aktion durchführen
-						iPos := 0;	
-						iGeschw := 100;
-						iKraft := 100;
-						
-						bGestartet := A_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
-		
-						
-						IF bGestartet THEN
-							bGestartet := FALSE;
-							Delay(IN:= TRUE, PT := T#1S);
-						END_IF
-						
-						IF Delay.Q THEN
-							Delay(IN:= FALSE);
-							iProzess := 1;
-						END_IF
-					
-					
-					1: // Prüfen ob Aktion erledigt 
-						bGreiferLesen := StatusLesen(NrOfReg := 3);
-						
-						CheckTimer(IN := TRUE, PT := T#5S);
-						
-						IF bGreiferLesen THEN
-							bGreiferLesen := FALSE;
-							
-							// Greifer hat Position erreicht
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 249 		AND
-								DataRead[2] = 0 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		THEN
-								
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bObjektFertig := TRUE;
-							END_IF
-							
-							// Greifer ist in Hinderniss gefahren
-							IF 	DataRead[0] = 0 		AND
-								DataRead[1] = 185 		AND
-								DataRead[3] = 0 		AND
-								DataRead[4] = 0 		THEN
-								
-								CheckTimer(IN := FALSE);
-								iProzess := 0;
-								bFehler := TRUE;
-								iFehlerID := 202;
-							END_IF
-					
-							
-						END_IF
-						
-						// Zeit wurde überschritten
-						IF CheckTimer.Q THEN		
 							iProzess := 0;
-							CheckTimer(IN := FALSE);
-							bFehler := TRUE;
-							iFehlerID := 201;
+							bObjektFertig := TRUE;
 						END_IF
-					END_CASE
-			END_CASE			
-		
+						
+						// Greifer ist in Hinderniss gefahren
+						IF 	DataRead[0] = 0 		AND
+							DataRead[1] = 185 		AND
+							DataRead[2] = iPos 		AND
+							DataRead[3] = 0 		THEN
+							
+							Anschlag := DataRead[5];
+							CheckTimer(IN := FALSE);
+							iProzess := 0;
+							bObjektFertig := TRUE;
+						END_IF
+						
+					END_IF
+					
+					// Zeit wurde überschritten
+					IF CheckTimer.Q THEN		
+						iProzess := 0;
+						CheckTimer(IN := FALSE);
+						bFehler := TRUE;
+						iFehlerID := 201;
+					END_IF
+				END_CASE
+						
 		// TRANSITION
 			IF bObjektFertig THEN
 				bObjektFertig := FALSE;

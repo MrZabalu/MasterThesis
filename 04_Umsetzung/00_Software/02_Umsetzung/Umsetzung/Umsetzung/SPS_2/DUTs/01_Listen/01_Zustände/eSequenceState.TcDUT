@@ -7,9 +7,7 @@
 TYPE eSequenceState  :
 (
 	BEREIT	 		:= 0,				// Der Skill ist bereit einen Prozess auszuführen (Startzustand)
-	LAUFEND 		:= 1,				// Der Skill führt einen Prozess aus
-	ABGESCHLOSSEN 	:= 2,				// Der Prozess wurde abgeschlossen (Durch Objekt abgeschlossen)
-	FEHLER			:= 3				// Es gibt einen Fehler bezüglich des Prozesses 
+	LAUFEND 		:= 1				// Der Skill führt einen Prozess aus
 );
 END_TYPE
 ]]></Declaration>

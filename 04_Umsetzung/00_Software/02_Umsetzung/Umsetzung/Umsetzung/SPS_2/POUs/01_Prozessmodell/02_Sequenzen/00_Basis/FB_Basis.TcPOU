@@ -9,6 +9,7 @@ END_VAR
 VAR
 	bStart			:BOOL;		// Variable für internes handling der Eigenschaft 
 	bStop			:BOOL;		// Variable für internes handling der Eigenschaft 
+	bFinished		:BOOL;	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -20,8 +21,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bStart := TRUE;
-bStop := FALSE;]]></ST>
+        <ST><![CDATA[bStop := FALSE;
+bFinished := FALSE;
+bStart := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{645c63c8-13f0-478f-ae7b-32e8477e4722}">
@@ -31,17 +33,18 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[bStart := FALSE;
+bFinished := TRUE;
 bStop := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_State" Id="{ffbbd73b-900a-4aee-bc8d-5f319a8cfba9}">
-      <Declaration><![CDATA[PROPERTY P_State : BOOL]]></Declaration>
+    <Property Name="P_Finished" Id="{ffbbd73b-900a-4aee-bc8d-5f319a8cfba9}">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL;]]></Declaration>
       <Get Name="Get" Id="{7a5f06a2-1350-4bac-a53f-e294f574a899}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_State := bStop;]]></ST>
+          <ST><![CDATA[P_Finished := bFinished;]]></ST>
         </Implementation>
       </Get>
     </Property>
