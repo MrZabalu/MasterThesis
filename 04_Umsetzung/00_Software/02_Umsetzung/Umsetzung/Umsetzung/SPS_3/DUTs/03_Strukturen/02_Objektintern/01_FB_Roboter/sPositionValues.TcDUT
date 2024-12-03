@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="sPositionValues" Id="{0e1353d3-ff89-4c38-a4ae-23fb72b3e5e0}">
+    <Declaration><![CDATA[TYPE sPositionValues :
+STRUCT
+	q1			:LREAL;
+	q2			:LREAL;
+	q3			:LREAL;
+	q4			:LREAL;
+	q5			:LREAL;
+	q6			:LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

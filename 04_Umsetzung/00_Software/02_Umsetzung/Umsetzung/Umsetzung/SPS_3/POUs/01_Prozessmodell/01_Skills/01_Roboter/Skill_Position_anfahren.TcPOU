@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Position_anfahren" Id="{cf3b1eba-086e-44a5-acab-9f86e78909b4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren	IMPLEMENTS I_Skill_Roboter  
+VAR_INPUT
+	// Zu verwendetes Objekt
+	Objekt						:I_Objekt_Roboter;	
+	
+	// Betriebsvariablen 
+	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
+	eSysState					:eSystemState;							// Momentaner Zustand des Systems
+	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+END_VAR
+VAR_OUTPUT
+	iErrorID					:INT;									// Fehlercode für System
+END_VAR
+VAR
+	// Managementvariablen
+	iState				:eSkillState;									// Information über Zustand von Skill
+	
+	// Managementvariablen 
+	bGestartet			:BOOL;
+	bGestoppt			:BOOL;
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bObjektFertig		:BOOL;
+	bWertErreicht		:BOOL;				
+	bLimitErreicht		:BOOL;				
+	bSkillFertig		:BOOL;
+	bFehler				:BOOL;
+	bResetten			:BOOL;
+	
+	// Prozessvariablen
+	eProzessvariable 	:sRoboterProzessVariablen;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Stoppen
+	IF eSysCommand = 3 THEN
+		bStoppen := M_Stop();
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF eSysCommand = 4 THEN
+		bResetten := M_Reset();
+	ELSE
+		bResetten := FALSE;
+	END_IF
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT	
+		// DO
+		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+			bStarten := TRUE;
+		END_IF
+		
+		// TRANSITION
+		IF bStarten	 THEN		
+			bStarten := FALSE;
+			iState := 1;	
+		END_IF
+		
+		
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO			
+			// Stoppen durch Sysezm
+			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
+				bGestoppt := TRUE;
+			END_IF
+			
+			// Objekt hat sich selber gestoppt
+			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;																					
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+			iState := 4;
+		END_IF
+		
+		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+			iState := 5;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		M_Reset();
+		
+		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		IF ParameterError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		IF PositionError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		// TRANSITION
+		IF bResetten THEN
+			bFehler := FALSE;
+			iState := 0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="00_Error" Id="{1e671027-5eff-41b6-b8ce-a9f6fce139bf}" />
+    <Folder Name="01_Steuerungsmethoden" Id="{e3df1077-d0b9-4dd1-bde0-ac62b919365f}" />
+    <Folder Name="02_Steuerungseigenschaften" Id="{6403485e-9029-45e8-9698-e15018f301ec}" />
+    <Folder Name="03_Prozesseigenschaften" Id="{0ae6ade9-560d-45be-9729-3eb88ce5c09e}" />
+    <Method Name="M_Reset" Id="{d758bb4d-2a25-43b2-b560-06eebbc31fcc}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eProzessvariable.q1 := 0;
+eProzessvariable.q2 := 0;
+eProzessvariable.q3 := 0;
+eProzessvariable.q4 := 0;
+eProzessvariable.q5 := 0;
+eProzessvariable.q6 := 0;
+eProzessvariable.v := 0;
+eProzessvariable.a := 0;
+eProzessvariable.MoveTyp := 0;
+eProzessvariable.PosTyp := 0;
+
+
+Objekt.M_Reset();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{a5da1c20-9102-47a3-8436-6be73b86cd12}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist der Skill im korrekten Status 
+		IF iState = 0 THEN
+			// Prüfen auf Fehler
+			IF ParameterError OR PositionError THEN
+				bFehler := TRUE;
+			ELSE
+				Objekt.P_Prozessparameter := eProzessvariable;
+				Objekt.M_Start();
+			END_IF
+		END_IF
+	END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{90eca483-aa75-4c84-a067-9cf6e95855b2}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Objekt.M_Stop();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{fe2831bd-b531-45d9-a924-af49462c3e2b}" FolderPath="03_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{7aecbb74-50d0-4d7f-a9a5-9ef52a006d42}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{a412d7ef-feb6-49a8-ad43-e905afdf16a0}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{a5d652e7-001f-4709-a800-c23d918cfe48}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Transition Name="ParameterError" Id="{34a8b958-0d77-4ae6-b913-ce2705a40518}" FolderPath="00_Error\">
+      <Implementation>
+        <ST><![CDATA[IF eProzessvariable.a = 0 OR eProzessvariable.v = 0 THEN
+	ParameterError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+    <Transition Name="PositionError" Id="{80900285-c02d-42ed-9c70-1e54911b7b57}" FolderPath="00_Error\">
+      <Implementation>
+        <ST><![CDATA[IF eProzessvariable.q1 = 0 AND eProzessvariable.q2 = 0 AND eProzessvariable.q3 = 0 AND eProzessvariable.q4 = 0 AND eProzessvariable.q5 = 0 AND eProzessvariable.q6 = 0 THEN
+	PositionError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+  </POU>
+</TcPlcObject>

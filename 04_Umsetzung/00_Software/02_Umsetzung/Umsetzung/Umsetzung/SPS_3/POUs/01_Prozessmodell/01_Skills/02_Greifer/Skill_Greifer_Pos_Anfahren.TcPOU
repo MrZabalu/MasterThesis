@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Greifer_Pos_Anfahren" Id="{98210e8f-b577-460a-824e-a40bbe292bb9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren	IMPLEMENTS I_Skill_Greifer
+VAR_INPUT
+	// Zu verwendetes Objekt
+	Objekt						:I_Objekt_SmartGreifer;	
+	
+	// Betriebsvariablen 
+	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
+	eSysState					:eSystemState;							// Momentaner Zustand des Systems
+	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+END_VAR
+VAR_OUTPUT
+	iErrorID					:INT;									// Fehlercode für System
+END_VAR
+VAR
+	// Managementvariablen
+	iState				:eSkillState;									// Information über Zustand von Skill
+	
+	// Managementvariablen 
+	bGestartet			:BOOL;
+	bGestoppt			:BOOL;
+	
+	// Zustandsvariablen
+	bStarten			:BOOL;
+	bStoppen			:BOOL;
+	bObjektFertig		:BOOL;
+	bWertErreicht		:BOOL;				
+	bLimitErreicht		:BOOL;				
+	bSkillFertig		:BOOL;
+	bFehler				:BOOL;
+	bResetten			:BOOL;
+	
+	// Prozessvariablen
+	eProzessvariable 	:sSmartGreiferProzessVariablen;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Stoppen
+	IF eSysCommand = 3 THEN
+		bStoppen := M_Stop();
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF eSysCommand = 4 THEN
+		bResetten := M_Reset();
+	ELSE
+		bResetten := FALSE;
+	END_IF
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT	
+		// DO
+		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+			bStarten := TRUE;
+		END_IF
+		
+		// TRANSITION
+		IF bStarten	 THEN		
+			bStarten := FALSE;
+			iState := 1;	
+		END_IF
+		
+		
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO			
+			// Stoppen durch Sysezm
+			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
+				bGestoppt := TRUE;
+			END_IF
+			
+			// Objekt hat sich selber gestoppt
+			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;																				
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+			iState := 4;
+		END_IF
+		
+		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+			iState := 5;
+		END_IF
+			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		M_Reset();
+		 
+		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+		
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		
+		// TRANSITION
+		IF bResetten THEN
+			iState := 0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Steuerungsmethoden" Id="{ce4f4fae-0d80-421d-ad11-2f1af775784f}" />
+    <Folder Name="02_Steuerungseigenschaften" Id="{9bc7b88e-6bad-4969-9dcc-a138a59804b7}" />
+    <Folder Name="03_Prozesseigenschaften" Id="{5db72f72-6102-41c8-bd66-5df785722fa3}" />
+    <Method Name="M_Reset" Id="{9681675d-c826-49e1-9762-1d6a3b1f0fd3}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Objekt.M_Reset();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{adfcfbf0-fd5e-42b6-8ae7-e20aed73ac37}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist der Skill im korrekten Status 
+		IF iState = 0 THEN
+			// Prüfen auf Fehler (Muss ergänzt werden)
+				Objekt.P_Prozessparameter := eProzessvariable;
+				Objekt.M_Start();
+		END_IF
+	END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{fa3fe864-0fc2-487f-b91b-4465f36ebd46}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Objekt.M_Stop();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{ca97a2b2-861f-4a12-b61c-26d696b312b6}" FolderPath="03_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sSmartGreiferProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{6675b4e0-1e0d-4252-ab92-53ba6180b183}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{0f0ba2d7-8962-499e-bf02-77f7f3aa889f}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{77be5290-7de1-4b4e-a3f0-fb8b4aa0a089}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

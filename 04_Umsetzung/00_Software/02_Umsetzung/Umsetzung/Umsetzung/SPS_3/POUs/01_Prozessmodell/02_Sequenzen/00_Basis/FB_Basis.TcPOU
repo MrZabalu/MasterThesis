@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Basis" Id="{f85c9ba4-7c23-49dd-97a7-335305937fa5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Basis
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bStart			:BOOL;		// Variable für internes handling der Eigenschaft 
+	bStop			:BOOL;		// Variable für internes handling der Eigenschaft 
+	bFinished		:BOOL;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Start" Id="{3b8d54a5-f826-4c91-bb15-3ca6280995f7}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bStop := FALSE;
+bFinished := FALSE;
+bStart := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{aeab132f-14e3-468c-af3a-a7afa26bb694}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bStart := FALSE;
+bFinished := TRUE;
+bStop := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Finished" Id="{424b331b-368b-4080-a1ab-e6d22be996db}">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL;]]></Declaration>
+      <Get Name="Get" Id="{7d3a29b1-e786-46aa-a0eb-253fc5114027}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Finished := bFinished;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

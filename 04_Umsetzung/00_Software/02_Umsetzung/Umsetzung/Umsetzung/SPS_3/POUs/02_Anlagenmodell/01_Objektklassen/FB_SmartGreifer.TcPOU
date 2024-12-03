@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SmartGreifer" Id="{8b7ec867-3ea1-4c5b-be47-e02c5d143357}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SmartGreifer IMPLEMENTS I_Objekt_SmartGreifer
+VAR_INPUT
+	eSysState			:eSystemState;		// Information über Stand von System
+	eSysCommand		  	:eSystemCommand;	// Steuerungsvariabel von System
+	iMode				:INT;				// Information über aktuellen Betriebsmodi 
+END_VAR
+VAR_OUTPUT
+	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
+END_VAR
+VAR
+	
+	iState				:eObjectState;		// Information über Zustand von Skill
+	
+	// Zustandsvariablen
+	bEinschalten			:BOOL;			// Objekt einschalten
+	bAusschalten			:BOOL;			// Objekt ausschalten
+ 	bStarten				:BOOL;			// Objekt starten
+	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
+	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
+	bStoppen				:BOOL;			// Objekt wurde gestoppt
+	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
+	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
+	bFehler					:BOOL;			// Das Objket hat einen Fehler
+	
+	iFehlerID				:UDINT;
+
+
+	// Instanziierung von Kommunikationsbausteine 
+	Communication			:ModbusRtuMasterV2_KL6x22B;
+	
+	// Kommunikationsvariablen
+	UnitID      			:BYTE := 9;
+    Quantity    			:WORD;
+    MBAddr      			:WORD;
+	Timeout     			:TIME := T#5S;
+	cbRead					:UINT;
+	DataSend				:ARRAY[0..5] OF BYTE;
+	DataRead				:ARRAY[0..5] OF BYTE;
+	
+	// Managementvariablen
+	iStartUp			:INT;
+	iProzess			:INT;
+	
+	bGreiferReset		:BOOL;
+	bGreiferLesen		:BOOL;
+	
+	bAmEinschalten		:BOOL;
+	bEingeschalten		:BOOL;
+	
+	bGestartet			:BOOL;
+	
+	
+	CheckTimer			:TON;
+	Delay				:TON;
+	
+	// Prozessvariablen
+	iPos				:BYTE;
+	iGeschw				:BYTE;
+	iKraft				:BYTE;
+	
+	// Eigenschaftsvariablen
+	iPosMax				:REAL := 85;
+	iGeschwMin			:REAL := 20;
+	iGeschwMax			:REAL := 150;
+	iKraftMin			:REAL := 20;
+	iKraftMax			:REAL := 235;
+	Anschlag			:BYTE;
+	Prozessvariablen 	:sSmartGreiferProzessVariablen;
+
+	
+	
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Instanziierungen	
+Communication(
+	UnitID 		:= UnitID,
+	Timeout 	:= Timeout,
+	Error 		=> bFehler,
+	ErrorId 	=> iErrorID,
+	cbRead 		=> cbRead);
+
+
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+	// System
+	IF eSysCommand = 2 AND iState = 0 THEN			// Objekt einschalten
+		bEinschalten := TRUE;
+	ELSE 
+		bEinschalten := FALSE;
+	END_IF
+	
+	IF eSysCommand = 1 AND iState = 1 THEN				// Objekt ausschalten
+		bAusschalten := TRUE;		
+	ELSE 
+		bAusschalten := FALSE;		
+	END_IF
+	
+	IF eSysCommand = 3 THEN								// Objekt beendet Prozess
+		bStoppen := TRUE;
+	ELSE
+		bStoppen := FALSE;
+	END_IF
+	
+	IF eSysCommand = 4 THEN								// System resettet Objekt
+		bResettenSystem := TRUE;
+	ELSE
+		bResettenSystem := FALSE;
+	END_IF
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bFehler THEN 
+	iState := 7;
+END_IF
+
+CASE iState OF 
+	0: // AUS
+		// DO
+		IF bEinschalten THEN
+			CASE iStartUP OF
+				0: // Greifer Resetten
+					bGreiferReset := M_Resetten();
+					
+					IF bGreiferReset THEN
+						bGreiferReset := FALSE;
+						iStartUp := 1;
+					END_IF
+				1: // Greifer Aktivieren
+					bAmEinschalten := M_Aktivieren();
+					
+					IF bAmEinschalten THEN 
+						bAmEinschalten := FALSE;
+						Delay(IN:= TRUE, PT := T#1S);
+					END_IF
+					
+					IF Delay.Q THEN
+						Delay(IN:= FALSE);
+						iStartUp := 2;
+					END_IF
+					
+				2:
+					bGreiferLesen := M_StatusLesen(NrOfReg := 1);
+					
+					IF bGreiferLesen THEN
+						bGreiferLesen := FALSE;
+						IF DataRead[1] = 49  AND DataRead[0] = 0 THEN
+							bEingeschalten := TRUE;
+						END_IF
+					END_IF
+			END_CASE
+		END_IF
+		
+		// TRANSITION
+		IF bEingeschalten THEN																			// Verbindung wird aufgebaut
+			bEingeschalten := FALSE;
+			iStartUp := 0;
+			iState := 1;
+		END_IF
+			
+	//____________________________________________________________________________________________
+	1: // BEREIT
+		// DO
+			Anschlag := 0;
+
+		// TRANSITION		
+			IF bAusschalten THEN
+				iState := 0;
+			END_IF
+																									// Manuell-Modus wird eingeschalten
+													
+			 IF bStarten THEN																		// Objekt führt Prozessdurch
+				 bStarten := FALSE;
+				 iState := 3;
+			 END_IF			
+	//____________________________________________________________________________________________
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	//____________________________________________________________________________________________
+	3: // LAUFEND
+		// DO
+			
+			// Aktionsprozess 
+				CASE iProzess OF 
+				0: // Aktion durchführen
+					iPos := REAL_TO_BYTE((255.00/iPosMax) *  (iPosMax - Prozessvariablen.Pos));	
+					iGeschw := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.Geschw );
+					iKraft := REAL_TO_BYTE((255.00 / 100.00) * Prozessvariablen.F);
+				
+					bGestartet := M_PositionAnfahren(iPos := iPos, iGeschw := iGeschw, iKraft := iKraft);
+					
+					IF bGestartet THEN
+						bGestartet := FALSE;
+						Delay(IN:= TRUE, PT := T#1S);
+					END_IF
+					
+					IF Delay.Q THEN
+						Delay(IN:= FALSE);
+						iProzess := 1;
+					END_IF
+				
+				1: // Prüfen ob Aktion erledigt 
+					bGreiferLesen := M_StatusLesen(NrOfReg := 3);
+					CheckTimer(IN := TRUE, PT := T#5S);
+					
+					IF bGreiferLesen THEN
+						bGreiferLesen := FALSE;
+						
+						// Greifer hat Position erreicht
+						IF 	DataRead[0] = 0 		AND
+							DataRead[1] = 249 		AND
+							DataRead[2] = iPos 		AND
+							DataRead[3] = 0 		AND
+							DataRead[4] = 0 		AND
+							DataRead[5] = iPos		THEN
+							
+							CheckTimer(IN := FALSE);
+							iProzess := 0;
+							bObjektFertig := TRUE;
+						END_IF
+						
+						// Greifer ist in Hinderniss gefahren
+						IF 	DataRead[0] = 0 		AND
+							DataRead[1] = 185 		AND
+							DataRead[2] = iPos 		AND
+							DataRead[3] = 0 		THEN
+							
+							Anschlag := DataRead[5];
+							CheckTimer(IN := FALSE);
+							iProzess := 0;
+							bObjektFertig := TRUE;
+						END_IF
+						
+					END_IF
+					
+					// Zeit wurde überschritten
+					IF CheckTimer.Q THEN		
+						iProzess := 0;
+						CheckTimer(IN := FALSE);
+						bFehler := TRUE;
+						iFehlerID := 201;
+					END_IF
+				END_CASE
+						
+		// TRANSITION
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bSkillFertig THEN
+				bSkillFertig := FALSE;
+				iState := 5;
+			END_IF
+				
+			IF bStoppen THEN
+				iState := 6;
+			END_IF
+					
+	
+	//____________________________________________________________________________________________
+	4: // ABGESCHLOSSEN_INTERN
+		// DO
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				bResettenSkill := FALSE;		
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				bResettenSkill := FALSE;
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	6: // GESTOPPT
+		// DO
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
+		// DO
+			iErrorID := iFehlerID;
+			
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bFehler	 := FALSE;
+				iErrorID := 0;
+				iState := 1;
+			END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Folder Name="01_Steuerungsmethoden" Id="{ccccd696-14a1-42f6-8a3b-5facec2ca19a}" />
+    <Folder Name="02_Steuerungseigenschaften" Id="{81aaafc9-acde-456f-8726-3666ec894e28}" />
+    <Folder Name="03_Prozessmethoden" Id="{33fd0d22-adc7-47d3-a720-408d9c10787c}" />
+    <Folder Name="04_Prozesseigenschaften" Id="{7cc5e2c0-cadc-40e6-8de8-532780a07bca}" />
+    <Method Name="M_Aktivieren" Id="{bbdcdbdd-b103-4089-baa5-feadf1841e27}" FolderPath="03_Prozessmethoden\">
+      <Declaration><![CDATA[METHOD M_Aktivieren : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 1;
+DataSend[2] := 0;
+DataSend[3] := 0;
+DataSend[4] := 0;
+DataSend[5] := 0;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE);
+	
+IF NOT Communication.BUSY THEN
+	Communication.WriteRegs(Execute := FALSE);
+	M_Aktivieren := TRUE;
+END_IF
+	
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_PositionAnfahren" Id="{84b53238-2034-460e-9761-77ff982cc09d}" FolderPath="03_Prozessmethoden\">
+      <Declaration><![CDATA[METHOD M_PositionAnfahren : BOOL
+VAR_INPUT
+	iPos		:BYTE;
+	iGeschw		:BYTE;
+	iKraft		:BYTE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 9;
+DataSend[2] := iPos;
+DataSend[3] := 0;
+DataSend[4] := iKraft;
+DataSend[5] := iGeschw;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE);
+	
+IF NOT Communication.BUSY THEN
+	Communication.WriteRegs(Execute := FALSE);
+	M_PositionAnfahren := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{8f683bd3-bc4a-4946-aa24-a4f2f07c6480}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bResettenSkill := TRUE;
+
+IF bResettenSkill THEN
+	M_Reset := TRUE;
+ELSE
+	M_Reset := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetten" Id="{eb2ce799-9b71-4e27-ab43-24e6ed4e3bf5}" FolderPath="03_Prozessmethoden\">
+      <Declaration><![CDATA[METHOD M_Resetten : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren der Anzahl von Daten-Bytes 
+Quantity := 3;
+
+// Definieren von Register
+MBAddr := 1000;
+
+// Definieren der Daten
+DataSend[0] := 0;
+DataSend[1] := 0;
+DataSend[2] := 0;
+DataSend[3] := 0;
+DataSend[4] := 0;
+DataSend[5] := 0;
+
+// Senden von Daten an entsprechendes Register
+Communication.WriteRegs(
+	Quantity 	:= Quantity,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataSend),
+	pMemoryAddr := ADR(DataSend),
+	Execute 	:= TRUE);
+	
+IF NOT Communication.BUSY THEN
+	Communication.WriteRegs(Execute := FALSE);
+	M_Resetten := TRUE;
+END_IF
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{607061fe-b22e-4613-ba30-7f7dc849ca28}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist das Objekt im korrekten Status 
+		IF iState = 1 THEN
+			// Prüfen auf Fehler (Muss ergänzt werden)
+				bStarten := TRUE;
+		END_IF
+	END_IF
+
+IF bStarten THEN
+	M_Start := TRUE;
+ELSE
+	M_Start := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_StatusLesen" Id="{2471f5bf-2569-4829-86ea-bc9d6e113de1}" FolderPath="03_Prozessmethoden\">
+      <Declaration><![CDATA[METHOD M_StatusLesen : BOOL
+VAR_INPUT
+	NrOfReg			:WORD;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Definieren von Register
+MBAddr := 2000;
+
+
+// Lesen von Daten des entsprechenden Registers
+Communication.ReadRegs(
+	Quantity 	:= NrOfReg,
+	MBAddr 		:= MBAddr,
+	cbLength 	:= SIZEOF(DataRead),
+	pMemoryAddr := ADR(DataRead),
+	Execute 	:= TRUE);
+	
+	
+IF NOT Communication.BUSY THEN
+	Communication.ReadRegs(Execute := FALSE);
+	M_StatusLesen := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{29e8fead-8945-41f6-b04a-d7adf36ef171}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Ist das Objekt im korrekten Status 
+	IF iState = 3 THEN
+		bStoppen := TRUE;
+	END_IF
+
+IF bStoppen THEN
+	M_Stop := TRUE;
+ELSE
+	M_Stop := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_AnschlagPos" Id="{b7dfa3da-653b-4ad3-ac99-5e402d332e0c}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_AnschlagPos : BYTE]]></Declaration>
+      <Get Name="Get" Id="{2bc3ae71-53e5-4ca4-b308-3253c579829d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_AnschlagPos := Anschlag;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Prozessparameter" Id="{1a8a7e83-8615-4a47-b853-cf3b62bc0abe}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sSmartGreiferProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{46debd85-2c4d-48e2-946c-92ef6ea21f8f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Prozessvariablen := P_Prozessparameter;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{f2d8c320-ace5-4998-b827-c36b82400972}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Get Name="Get" Id="{0ed1ddd3-78f4-40dc-821e-7d55f89930c7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

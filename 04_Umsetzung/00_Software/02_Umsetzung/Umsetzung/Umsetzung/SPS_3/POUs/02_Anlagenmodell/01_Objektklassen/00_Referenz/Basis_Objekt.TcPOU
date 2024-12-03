@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Basis_Objekt" Id="{46321486-8f7b-490a-86ec-b1c0fe4e0596}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Basis_Objekt IMPLEMENTS I_Objekt_Roboter
+VAR_INPUT
+	eSysState			:eSystemState;		// Information über Stand von System
+	eSysCommand		  	:eSystemCommand;	// Steuerungsvariabel von System
+	iMode				:INT;				// Information über aktuellen Betriebsmodi 
+END_VAR
+VAR_OUTPUT
+	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
+END_VAR
+VAR
+	iState				:eObjectState;		// Information über Zustand von Skill
+	
+	// Zustandsvariablen
+	bEinschalten			:BOOL;			// Objekt einschalten
+	bAusschalten			:BOOL;			// Objekt ausschalten
+ 	bStarten				:BOOL;			// Objekt starten
+	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
+	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
+	bStoppen				:BOOL;			// Objekt wurde gestoppt
+	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
+	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
+	bFehler					:BOOL;			// Das Objket hat einen Fehler
+	
+	iFehlerID				:UDINT;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Instanziierungen
+	
+//____________________________________________________________________________________________
+// Input-Command-Verwaltung
+	// System
+	IF eSysCommand = 2 AND iState = 0 THEN			// Objekt einschalten
+		bEinschalten := TRUE;
+	ELSE 
+		bEinschalten := FALSE;
+	END_IF
+	
+	IF eSysCommand = 1 AND iState = 1 THEN			// Objekt ausschalten
+		bAusschalten := TRUE;		
+	ELSE 
+		bAusschalten := FALSE;		
+	END_IF
+	
+	IF eSysCommand = 3 THEN							// Objekt beendet Prozess
+		bStoppen := TRUE;
+	ELSE
+		bStoppen := FALSE;
+	END_IF
+	
+	IF eSysCommand = 4 THEN							// System resettet Objekt
+		bResettenSystem := TRUE;
+	ELSE
+		bResettenSystem := FALSE;
+	END_IF
+
+//____________________________________________________________________________________________
+// Interner Methodenaufruf (Durch System oder Skill)
+
+//____________________________________________________________________________________________
+// Datenerfassungsprozess
+
+//____________________________________________________________________________________________
+// Zustandsmanagement
+
+IF bFehler THEN 
+	iState := 7;
+END_IF
+
+CASE iState OF 
+	0: // AUS
+		// DO
+		
+		// TRANSITION
+			IF bEinschalten THEN																	// Verbindung wird aufgebaut
+				iState := 1;
+			END_IF
+			
+	//____________________________________________________________________________________________
+	1: // BEREIT
+		// DO
+
+		// TRANSITION
+																									// Manuell-Modus wird eingeschalten
+													
+			 IF bStarten THEN																		// Objekt führt Prozessdurch
+				 bStarten := FALSE;
+				 iState := 3;
+			 END_IF			
+	//____________________________________________________________________________________________
+	2: // MANUELL
+		// DO
+		
+		// TRANSITION
+	
+	//____________________________________________________________________________________________
+	3: // LAUFEND
+		// DO
+		
+		// TRANSITION
+			IF bObjektFertig THEN
+				bObjektFertig := FALSE;
+				iState := 4;
+			END_IF
+			
+			IF bStoppen THEN	
+				
+				IF bSkillFertig THEN
+					bSkillFertig := FALSE;
+					iState := 5;
+				END_IF
+					
+				IF bStoppen THEN
+					iState := 6;
+				END_IF
+					
+			END_IF
+	
+	//____________________________________________________________________________________________
+	4: // ABGESCHLOSSEN_INTERN
+		// DO
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten		
+				bResettenSkill := FALSE;
+				iState := 1;
+			END_IF
+	//____________________________________________________________________________________________
+	5: // ABGESCHLOSSEN_EXTERN
+		// DO																					
+		
+		// TRANSITION
+			IF bResettenSkill THEN																	// Objekt resetten
+				bResettenSkill := FALSE;
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	6: // GESTOPPT
+		// DO
+		
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				iState := 1;
+			END_IF
+	
+	//____________________________________________________________________________________________
+	7: // FEHLER
+		// DO
+			
+		// TRANSITION
+			IF bResettenSystem THEN																	// Objekt resetten
+				bFehler	 := FALSE;
+				iState := 1;
+			END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="M_Reset" Id="{a63d8d48-0217-4368-a176-474df741fd0f}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bResettenSkill := TRUE;
+
+IF bResettenSkill THEN
+	M_Reset := TRUE;
+ELSE
+	M_Reset := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{d046405e-a213-48d4-a6a9-9e2b7d0ce361}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prüfen von Bedingungen
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 THEN
+		// Ist das Objekt im korrekten Status 
+		IF iState = 0 THEN
+			// Prüfen auf Fehler (Muss ergänzt werden)
+				bStarten := TRUE;
+		END_IF
+	END_IF
+
+IF bStarten THEN
+	M_Start := TRUE;
+ELSE
+	M_Start := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{9131df50-82ef-440e-bda2-7fb191ef9669}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Ist das Objekt im korrekten Status 
+	IF iState = 3 THEN
+		bStoppen := TRUE;
+	END_IF
+
+IF bStoppen THEN
+	M_Stop := TRUE;
+ELSE
+	M_Stop := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Prozessparameter" Id="{ab8f0a23-7c38-4ff4-af8c-326c901f5cf3}">
+      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{4d61280c-cb13-42ba-8913-5f7874b1bdd3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{cb943eb1-4304-4cad-8797-289509153f95}">
+      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Get Name="Get" Id="{d8e99ece-dc05-42df-b300-64a8375e57dc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="sSmartGreiferProzessVariablen" Id="{0de7dd35-0f64-4cea-9481-828e33ae91c2}">
+    <Declaration><![CDATA[TYPE sSmartGreiferProzessVariablen :
+STRUCT
+	Pos				:USINT;			// Position von Greifer in mm
+	Geschw			:USINT;			// Geschwindigkeit in %
+	F				:USINT;			// Kraft in %
+END_STRUCT
+	
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

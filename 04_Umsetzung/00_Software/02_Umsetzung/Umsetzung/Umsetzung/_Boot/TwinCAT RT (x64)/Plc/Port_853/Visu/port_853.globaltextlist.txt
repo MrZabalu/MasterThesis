@@ -1,0 +1,17 @@
+Id;Default
+142;%
+560;%s
+874;AUSCHALTEN
+468;EINSCHALTEN
+683;Fahren
+769;Geschwindigkeit:
+47;Gripper
+764;KEINE
+756;Kraft:
+713;Lesen
+304;mm
+839;Position:
+303;RESETTEN
+281;START
+351;STOPPEN
+785;SystemCommand

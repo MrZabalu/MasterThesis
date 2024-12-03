@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PunkteZuweisung_Temp" Id="{e27c1e8c-74c6-45f8-95be-d72073b9deab}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PunkteZuweisung_Temp
+VAR
+	PHome			:sRoboterProzessVariablen;
+	PPlate1			:sRoboterProzessVariablen;
+	PPlate2			:sRoboterProzessVariablen;
+	PMount1			:sRoboterProzessVariablen;
+		
+	Read_Plate		:sSmartGreiferProzessVariablen;
+	Grip_Plate		:sSmartGreiferProzessVariablen;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[pHome.q1 := 90;
+pHome.q2 := -90;
+pHome.q3 := -90;
+pHome.q4 := -90;
+pHome.q5 := 90;
+pHome.q6 := 180;
+pHome.v := 0.5;
+pHome.a := 0.5;
+pHome.MoveTyp := 1;
+pHome.PosTyp := 0;
+
+PPlate1.q1 := 0.070;
+PPlate1.q2 := 0.582;
+PPlate1.q3 := 0.306;
+PPlate1.q4 := 0;
+PPlate1.q5 := -180;
+PPlate1.q6 := 0;
+PPlate1.v := 0.5;
+PPlate1.a := 0.5;
+PPlate1.MoveTyp := 3;
+PPlate1.PosTyp := 0;
+
+PPlate2.q1 := 0.166;
+PPlate2.q2 := 0.582;
+PPlate2.q3 := 0.306;
+PPlate2.q4 := 0;
+PPlate2.q5 := -180;
+PPlate2.q6 := 0;
+PPlate2.v := 0.5;
+PPlate2.a := 0.5;
+PPlate2.MoveTyp := 3;
+PPlate2.PosTyp := 0;
+
+PMount1.q1 := 0.070;
+PMount1.q2 := 0.490;
+PMount1.q3 := 0.306;
+PMount1.q4 := 0;
+PMount1.q5 := -180;
+PMount1.q6 := 0;
+PMount1.v := 0.5;
+PMount1.a := 0.5;
+PMount1.MoveTyp := 3;
+PMount1.PosTyp := 0;
+
+
+Read_Plate.Pos := 25;
+Read_Plate.F := 60;
+Read_Plate.Geschw := 20;
+
+Grip_Plate.Pos := 15;
+Grip_Plate.F := 60;
+Grip_Plate.Geschw := 20;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
