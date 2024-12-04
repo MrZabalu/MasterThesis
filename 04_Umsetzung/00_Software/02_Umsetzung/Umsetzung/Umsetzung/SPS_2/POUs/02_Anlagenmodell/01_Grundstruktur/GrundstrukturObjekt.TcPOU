@@ -14,7 +14,7 @@ VAR_OUTPUT
 	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
 END_VAR
 VAR
-	iState				:eObjectState;		// Information über Zustand von Skill
+	iState				:eObjectAktorState;		// Information über Zustand von Skill
 	
 	// Zustandsvariablen
 	bEinschalten			:BOOL;			// Objekt einschalten
@@ -39,7 +39,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Property Name="P_State" Id="{3307aa82-6691-4aa6-a25c-02e35b1faa91}">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{79ea11cd-9b53-4da6-b889-a2b9ba7185fc}">
         <Declaration><![CDATA[VAR
 END_VAR

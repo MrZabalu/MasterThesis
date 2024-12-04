@@ -21,7 +21,7 @@ END_VAR
 
 VAR
 	
-	iState				:eObjectState;		// Information über Zustand von Objekt
+	iState				:eObjectAktorState;		// Information über Zustand von Objekt
 	
 	
 	// Zustandsvariablen
@@ -105,11 +105,8 @@ VAR
 	bSetValues				:BOOL;							// Definiert ob Targetposition noch ermittelt werden muss
 	Prozessvariablen		:sRoboterProzessVariablen;
 	
-	Test1					:BOOL;
-	Test2					:BOOL;
-	Test3					:BOOL;
 	Count 					:INT;
-	Count_ 					:INT;
+	Test					:sRoboterProzessVariablen;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -317,8 +314,8 @@ CASE iState OF
 	1: // BEREIT
 		// DO
 			IF bStarten THEN
-				bStarten := FALSE;
 				bAmStarten := M_BewegungZuPosition();
+				bStarten := FALSE;
 			END_IF
 			
 			IF bAmStarten  THEN
@@ -462,7 +459,6 @@ CASE iState OF
 				
 			// Objekt wird gestoppt durch Skill
 			IF bSkillFertig THEN
-				bSkillFertig := FALSE;
 				
 				bQ1 := FALSE;
 				bQ2 := FALSE;
@@ -551,6 +547,7 @@ CASE iState OF
 				bGestoppt := FALSE;	
 				
 				IF bSkillFertig THEN
+					bSkillFertig := FALSE;
 					iState := 5;
 				END_IF
 					
@@ -565,8 +562,7 @@ CASE iState OF
 		// DO
 		
 		// TRANSITION
-			IF bResettenSkill THEN																	// Objekt resetten
-				bResettenSkill := FALSE;		
+			IF bResettenSkill THEN																	// Objekt resetten	
 				iState := 1;
 			END_IF
 	//____________________________________________________________________________________________
@@ -575,7 +571,6 @@ CASE iState OF
 		
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten
-				bResettenSkill := FALSE;
 				iState := 1;
 			END_IF
 	
@@ -630,6 +625,8 @@ END_VAR
 	Send_STOP(cbLen := LEN(CommandArray.sValue),
 			pSrc := ADR(CommandArray.arrByte),
 			bExecute := TRUE);
+			
+			Count := Count + 1;
 			
 	IF NOT Send_STOP.bBusy THEN
 		Send_STOP(bExecute := FALSE);
@@ -792,10 +789,11 @@ END_IF]]></ST>
       <Implementation>
         <ST><![CDATA[// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
-	IF eSysState = 1 THEN
+	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist das Objekt im korrekten Status 
 		IF iState = 1 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
+				bResettenSkill := FALSE;
 				bStarten := TRUE;
 		END_IF
 	END_IF
@@ -813,10 +811,10 @@ END_IF]]></ST>
       <Implementation>
         <ST><![CDATA[// Ist das Objekt im korrekten Status 
 	IF iState = 3 THEN
-		bStoppen := TRUE;
+		bSkillFertig := TRUE;
 	END_IF
 
-IF bStoppen THEN
+IF bSkillFertig THEN
 	M_Stop := TRUE;
 ELSE
 	M_Stop := FALSE;
@@ -880,7 +878,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="P_State" Id="{2b35b1c1-d12b-4b07-8a8b-a10362e6b20a}" FolderPath="02_Steuerungseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{32253eef-5435-4455-9434-a3580a8c020b}">
         <Declaration><![CDATA[VAR
 END_VAR

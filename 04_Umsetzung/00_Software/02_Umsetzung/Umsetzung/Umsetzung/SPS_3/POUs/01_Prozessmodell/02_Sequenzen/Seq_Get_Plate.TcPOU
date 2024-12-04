@@ -3244,7 +3244,7 @@ R_Offset_Pos.a := 0.1;
 R_Offset_Pos.MoveTyp := 0;
 R_Offset_Pos.PosTyp := 1;
 
-Move_Robot.P_Prozessparameter := R_Offset_Pos;
+Move_Robot.P_Roboterposition := R_Offset_Pos;
 ]]></ST>
       </Implementation>
     </Action>
@@ -3256,12 +3256,12 @@ R_Offset_Pos.a := 0.2;
 R_Offset_Pos.MoveTyp := 0;
 R_Offset_Pos.PosTyp := 1;
 
-Move_Robot.P_Prozessparameter := R_Offset_Pos;]]></ST>
+Move_Robot.P_Roboterposition := R_Offset_Pos;]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_R_Plate_Pos" Id="{13041c63-9977-45b2-bcb1-7b7b9c747e8d}" FolderPath="01_Zuweisung\">
       <Implementation>
-        <ST><![CDATA[Move_Robot.P_Prozessparameter := R_Plate_Pos; 
+        <ST><![CDATA[Move_Robot.P_Roboterposition := R_Plate_Pos; 
 ]]></ST>
       </Implementation>
     </Action>

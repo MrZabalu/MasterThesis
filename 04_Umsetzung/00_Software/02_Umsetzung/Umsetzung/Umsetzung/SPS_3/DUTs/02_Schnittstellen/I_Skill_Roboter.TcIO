@@ -21,8 +21,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_Prozessparameter" Id="{d5bc063a-0693-4aae-8d75-ce595bf68605}">
-      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+    <Property Name="P_Roboterposition" Id="{d5bc063a-0693-4aae-8d75-ce595bf68605}">
+      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
       <Set Name="Set" Id="{03e93a44-91e9-48e3-a623-fa8d82eb39e9}">
         <Declaration><![CDATA[]]></Declaration>
       </Set>

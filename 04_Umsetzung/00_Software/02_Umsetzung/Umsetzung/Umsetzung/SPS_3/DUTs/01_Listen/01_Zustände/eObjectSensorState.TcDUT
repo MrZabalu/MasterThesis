@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eObjectSensorState" Id="{dbbc4957-3eda-4333-800c-8a51ebe3ba0a}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eObjectSensorState :
+(
+	AUS 					:= 0,				// Das Objekt ist ausgeschalten
+	LAUFEND 				:= 1,				// Das Objekt ist aktiv
+	FEHLER					:= 2				// Es gibt einen Fehler bezüglich des Objektes
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -5,7 +5,7 @@
 VAR_INPUT
 	bExecute			:BOOL;				// Trigger für Ausführung von Skill
 	iSysCommand			:eSystemCommand;	// Steuerungsvariabel von System (Resetten)
-	iObjState			:eObjectState;		// Information über Zustand von Objekt
+	iObjState			:eObjectAktorState;		// Information über Zustand von Objekt
 	iSysState			:eSystemState;		// Information über Zustand von System
 END_VAR
 VAR_OUTPUT

@@ -12,7 +12,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	
-	iState				:eObjectState;		// Information über Zustand von Skill
+	iState				:eObjectAktorState;		// Information über Zustand von Skill
 	
 	// Zustandsvariablen
 	bEinschalten			:BOOL;			// Objekt einschalten
@@ -445,10 +445,11 @@ END_IF
       <Implementation>
         <ST><![CDATA[// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
-	IF eSysState = 1 THEN
+	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist das Objekt im korrekten Status 
 		IF iState = 1 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
+				bResettenSkill := FALSE;
 				bStarten := TRUE;
 		END_IF
 	END_IF
@@ -526,7 +527,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="P_State" Id="{f2d8c320-ace5-4998-b827-c36b82400972}" FolderPath="02_Steuerungseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{0ed1ddd3-78f4-40dc-821e-7d55f89930c7}">
         <Declaration><![CDATA[VAR
 END_VAR

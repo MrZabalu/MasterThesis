@@ -9,7 +9,7 @@ VAR_INPUT
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="eObjectAktorState" Id="{87e4c9a5-f3d5-427b-9029-e2b0d468a835}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE eObjectAktorState :
+(
+	AUS 					:= 0,				// Das Objekt ist ausgeschalten
+	BEREIT 					:= 1,				// Das Objekt ist eingeschalten und bereit
+	MANUELL					:= 2,				// Das Objekt befindet sich im Manuell-Modus
+	LAUFEND 				:= 3,				// Das Objekt ist aktiv
+	ABGESCHLOSSEN_INTERN 	:= 4,				// Das Objekt hat den Prozess durchgeführt und hat selbständig gestoppt
+	ABGESCHLOSSEN_EXTERN	:= 5,				// Das Objekt wurde durch den Skill gestoppt (ERREICHT / LIMIT)
+	GESTOPPT 				:= 6,				// Das Objekt wurde durch das System gestoppt
+	FEHLER					:= 7				// Es gibt einen Fehler bezüglich des Objektes
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

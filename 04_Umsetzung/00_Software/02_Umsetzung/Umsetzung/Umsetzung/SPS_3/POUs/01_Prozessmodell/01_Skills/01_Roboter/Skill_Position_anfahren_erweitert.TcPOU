@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Position_anfahren_erweitert" Id="{20d2290a-8794-4965-a133-9ad0acf7b5f9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert	IMPLEMENTS I_Skill_Roboter  
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert	IMPLEMENTS I_Skill_Roboter_Erweitert
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
 	
+	// Betriebsvariablen
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
-	bLimit						:BOOL;
-	bErreicht					:BOOL;
+	eObjState					:eObjectAktorState; 					// Momentaner Zustand des Objektes
+	sMessdaten					:Kraftvariablen; 
+	
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System
@@ -18,8 +19,6 @@ END_VAR
 VAR
 	// Managementvariablen
 	iState				:eSkillState;									// Information über Zustand von Skill
-	
-	// Managementvariablen 
 	bGestartet			:BOOL;
 	bGestoppt			:BOOL;
 	
@@ -27,14 +26,17 @@ VAR
 	bStarten			:BOOL;
 	bStoppen			:BOOL;
 	bObjektFertig		:BOOL;
-	bWertErreicht		:BOOL;				
-	bLimitErreicht		:BOOL;				
+	bErreicht			:BOOL;				
+	bLimit				:BOOL;				
 	bSkillFertig		:BOOL;
 	bFehler				:BOOL;
 	bResetten			:BOOL;
 	
 	// Prozessvariablen
 	eProzessvariable 	:sRoboterProzessVariablen;
+	sLimit				:sKraftVariablen;
+	sErreicht			:sKraftVariablen;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -58,20 +60,6 @@ END_IF
 	ELSE
 		bResetten := FALSE;
 	END_IF
-	
-	// Limit
-	IF bLimit THEN
-		bLimitErreicht := M_Stop();
-	ELSE
-		bLimitErreicht := FALSE;
-	END_IF
-	
-	// Erreicht
-	IF bErreicht THEN
-		bWertErreicht := M_Stop();
-	ELSE
-		bWertErreicht := FALSE;
-	END_IF
 //_______________________________________________________________
 // Zustandsmanagement
 CASE iState OF 
@@ -90,7 +78,10 @@ CASE iState OF
 		
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
-		// DO			
+		// DO		
+			// Auswerten
+			M_Auswertung();
+				
 			// Stoppen durch Sysezm
 			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
 				bGestoppt := TRUE;
@@ -99,6 +90,16 @@ CASE iState OF
 			// Objekt hat sich selber gestoppt
 			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
 				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+			// Limit Erreicht -> Objekt wird gestoppt
+			IF bLimit THEN
+				Objekt.M_Stop();
+			END_IF
+			
+			// Wert Erreicht -> Objekt wird gestoppt
+			IF bErreicht THEN
+				Objekt.M_Stop();
 			END_IF
 			
 		// TRANSITION 
@@ -112,11 +113,13 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+		IF bLimit AND eObjState = 5 THEN																							// Transition zu LIMIT
+			bLimit := FALSE;
 			iState := 4;
 		END_IF
 		
-		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+		IF bErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+			bErreicht := FALSE;
 			iState := 5;
 		END_IF
 			
@@ -176,7 +179,70 @@ END_CASE]]></ST>
     </Implementation>
     <Folder Name="01_Steuerungsmethoden" Id="{24108a3b-139b-4abc-9ee1-f7b20236da36}" />
     <Folder Name="02_Steuerungseigenschaften" Id="{81dfad2e-6b4f-4546-926f-b569be2ebe07}" />
-    <Folder Name="03_Prozesseigenschaften" Id="{dd74a067-ae87-4bd8-ac55-cd491d80091d}" />
+    <Folder Name="03_Prozessmethoden" Id="{2f427658-d188-4219-be86-1c49d4b928f8}" />
+    <Folder Name="04_Prozesseigenschaften" Id="{dd74a067-ae87-4bd8-ac55-cd491d80091d}" />
+    <Method Name="M_Auswertung" Id="{466dc7d6-1b9c-4401-885b-20f06b59f3fc}" FolderPath="03_Prozessmethoden\">
+      <Declaration><![CDATA[METHOD M_Auswertung : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	bLimit_x		:BOOL;
+	bLimit_y		:BOOL;
+	bLimit_z		:BOOL;
+	
+	bErreicht_x		:BOOL;
+	bErreicht_y		:BOOL;
+	bErreicht_z		:BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF sLimit.Fx <> 0 THEN
+	IF ABS(sMessdaten.Fx) >= ABS(sLimit.Fx) THEN
+		bLimit_x := TRUE;
+	END_IF
+END_IF
+
+IF sLimit.Fy <> 0 THEN
+	IF ABS(sMessdaten.Fy) >= ABS(sLimit.Fy) THEN
+		bLimit_y := TRUE;
+	END_IF
+END_IF
+
+IF sLimit.Fz <> 0 THEN
+	IF ABS(sMessdaten.Fz) >= ABS(sLimit.Fz) THEN
+		bLimit_x := TRUE;
+	END_IF
+END_IF
+
+// Auswertung von Erreicht-Wert
+IF sErreicht.Fx <> 0 THEN
+	IF ABS(sMessdaten.Fx) >= ABS(sErreicht.Fx) THEN
+		bErreicht_x := TRUE;
+	END_IF
+END_IF
+
+IF sErreicht.Fy <> 0 THEN
+	IF ABS(sMessdaten.Fy) >= ABS(sErreicht.Fy) THEN
+		bErreicht_y := TRUE;
+	END_IF
+END_IF
+
+IF sErreicht.Fz <> 0 THEN
+	IF ABS(sMessdaten.Fz) >= ABS(sErreicht.Fz) THEN
+		bErreicht_z := TRUE;
+	END_IF
+END_IF
+
+IF bLimit_x OR bLimit_y OR bLimit_z THEN
+	bLimit := TRUE;
+END_IF
+
+IF bErreicht_x OR bErreicht_y OR bErreicht_z THEN
+	bErreicht := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Reset" Id="{2e9015dd-f485-4671-90bc-8e693338c9f5}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
@@ -190,7 +256,7 @@ END_CASE]]></ST>
       <Implementation>
         <ST><![CDATA[// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
-	IF eSysState = 1 THEN
+	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
@@ -206,14 +272,36 @@ END_CASE]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Prozessparameter" Id="{863f8152-8c1c-4a86-9f2a-e5585699e56c}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+    <Property Name="P_Erreicht" Id="{534e02e9-edba-4bca-a9e1-26115c727999}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Erreicht : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{f4540d57-6dec-4787-becf-d0252c615837}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sErreicht := P_Erreicht;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Limit" Id="{aa8f489c-a097-4166-94f0-1dedb4f551c9}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Limit : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{0bd71c28-9ddb-4675-b40e-ca344ca28138}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sLimit := P_Limit;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Roboterposition" Id="{863f8152-8c1c-4a86-9f2a-e5585699e56c}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
       <Set Name="Set" Id="{770259d5-6ad2-4f05-bad3-f33c6f5f52b9}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Prozessparameter; 
+          <ST><![CDATA[eProzessvariable := P_Roboterposition; 
 Objekt.P_Prozessparameter := eProzessvariable;]]></ST>
         </Implementation>
       </Set>

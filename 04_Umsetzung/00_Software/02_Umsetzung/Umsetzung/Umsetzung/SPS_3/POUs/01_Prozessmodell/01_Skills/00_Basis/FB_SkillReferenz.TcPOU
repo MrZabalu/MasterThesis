@@ -9,7 +9,7 @@ VAR_INPUT
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
 	bLimit						:BOOL;
 	bErreicht					:BOOL;
 END_VAR
@@ -207,14 +207,14 @@ END_CASE]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Prozessparameter" Id="{08a86a84-7e5c-4d6e-94c2-005efe6199ef}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+    <Property Name="P_Roboterposition" Id="{08a86a84-7e5c-4d6e-94c2-005efe6199ef}" FolderPath="03_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
       <Set Name="Set" Id="{30210183-04f1-4a15-ac78-1642ab18abb8}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+          <ST><![CDATA[eProzessvariable := P_Roboterposition; ]]></ST>
         </Implementation>
       </Set>
     </Property>

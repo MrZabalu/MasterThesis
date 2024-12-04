@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Skill_Roboter_Erweitert" Id="{56be7f36-2ba2-4a62-ac0c-da988620b2cd}">
+    <Declaration><![CDATA[INTERFACE I_Skill_Roboter_Erweitert
+]]></Declaration>
+    <Method Name="M_Reset" Id="{d3fa8aad-0eba-4efe-a62e-622566017fb9}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{f996823d-0a6a-4b75-a29d-925b0e03a6fd}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{b503c177-c0b8-4e3f-b975-9d18dcfc89ee}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Erreicht" Id="{6401b69d-71a1-4968-9df2-e69ab692064e}">
+      <Declaration><![CDATA[PROPERTY P_Erreicht : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{738ada45-7ba2-4158-9703-1cc297d505a6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_Limit" Id="{2fa88caf-d84b-4b2b-8259-00c40bd917fe}">
+      <Declaration><![CDATA[PROPERTY P_Limit : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{fd81d98f-d438-403f-9d2d-5c6b7caede69}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_Roboterposition" Id="{f0d7b625-f54b-4284-9533-fc10bd07b59e}">
+      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{1b10dff8-a1dc-410f-8fe5-b6b5271371f4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{b402ea62-4909-47be-bc64-47bdef77291f}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{77fec5d9-b2da-49ee-9fb6-a5ff3f3fada2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

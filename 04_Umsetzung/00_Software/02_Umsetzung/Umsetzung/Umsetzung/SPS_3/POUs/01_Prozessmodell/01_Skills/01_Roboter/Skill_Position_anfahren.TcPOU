@@ -9,7 +9,7 @@ VAR_INPUT
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectState; 							// Momentaner Zustand des Objektes
+	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System
@@ -168,7 +168,7 @@ Objekt.M_Reset();]]></ST>
       <Implementation>
         <ST><![CDATA[// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
-	IF eSysState = 1 THEN
+	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler
@@ -190,14 +190,14 @@ Objekt.M_Reset();]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Prozessparameter" Id="{fe2831bd-b531-45d9-a924-af49462c3e2b}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sRoboterProzessVariablen]]></Declaration>
+    <Property Name="P_Roboterposition" Id="{fe2831bd-b531-45d9-a924-af49462c3e2b}" FolderPath="03_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
       <Set Name="Set" Id="{7aecbb74-50d0-4d7f-a9a5-9ef52a006d42}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+          <ST><![CDATA[eProzessvariable := P_Roboterposition; ]]></ST>
         </Implementation>
       </Set>
     </Property>

@@ -3,32 +3,14 @@
   <Itf Name="I_Objekt_Kraftsensor" Id="{34c6d966-f690-48ba-a1bd-ed1894f12a35}">
     <Declaration><![CDATA[INTERFACE I_Objekt_Kraftsensor
 ]]></Declaration>
-    <Method Name="M_Reset" Id="{c4fc82c1-2566-4560-bc34-8a21defad95d}">
-      <Declaration><![CDATA[METHOD M_Reset : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Start" Id="{7d80f80a-d841-4d70-9ff9-570cfe19cc55}">
-      <Declaration><![CDATA[METHOD M_Start : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Stop" Id="{9c5eb06c-fdff-4a1b-88df-4fc47fa334c2}">
-      <Declaration><![CDATA[METHOD M_Stop : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Property Name="P_Messdaten" Id="{ddcec799-a659-4273-8a13-41d51747c2b1}">
-      <Declaration><![CDATA[PROPERTY P_Messdaten : sKraftVariablen]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_Messdaten : Kraftvariablen]]></Declaration>
       <Get Name="Get" Id="{2cd84dd6-ace6-4b1c-8cd0-e0aeae67ed50}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_State" Id="{6fb96125-7fe6-4bc6-93c4-01a8fd74fab8}">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectSensorState]]></Declaration>
       <Get Name="Get" Id="{ca6cf9e5-23e5-4cc0-9dd6-a1654dbf9690}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

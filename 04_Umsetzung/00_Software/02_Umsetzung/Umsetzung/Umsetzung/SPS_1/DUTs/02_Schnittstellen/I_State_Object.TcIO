@@ -4,7 +4,7 @@
     <Declaration><![CDATA[INTERFACE I_State_Object
 ]]></Declaration>
     <Property Name="P_State" Id="{9bda4547-8f5e-4062-91ef-9247743ef5b9}">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{f1871584-17f5-411e-ba06-f74a4c5a52c7}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

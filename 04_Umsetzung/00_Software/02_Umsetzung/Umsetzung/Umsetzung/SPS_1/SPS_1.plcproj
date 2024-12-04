@@ -19,7 +19,7 @@
     <CompilerDefines>VISU_USEPROPERTYINFO</CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\01_Liste\01_Zustände\eObjectState.TcDUT">
+    <Compile Include="DUTs\01_Liste\01_Zustände\eObjectAktorState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\01_Liste\01_Zustände\eSequenceState.TcDUT">

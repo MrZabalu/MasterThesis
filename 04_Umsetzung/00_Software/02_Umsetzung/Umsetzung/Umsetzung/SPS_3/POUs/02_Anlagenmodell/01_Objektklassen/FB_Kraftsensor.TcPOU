@@ -17,7 +17,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	
-	iState				:eObjectState;		// Information über Zustand von Skill
+	iState				:eObjectAktorState;		// Information über Zustand von Skill
 	
 	// Zustandsvariablen
 	bEinschalten			:BOOL;			// Objekt einschalten
@@ -261,7 +261,6 @@ CASE iState OF
 					Disconnect.bExecute := FALSE;
 					bAusgeschalten := TRUE;
 				END_IF	
-				
 			END_IF
 
 		// TRANSITION
@@ -517,7 +516,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_State" Id="{da350415-3709-464a-b4ce-d4e526eacbd1}" FolderPath="02_Steuerungseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{6c4bd434-2ae4-4813-bb67-b061d607d3f1}">
         <Declaration><![CDATA[VAR
 END_VAR

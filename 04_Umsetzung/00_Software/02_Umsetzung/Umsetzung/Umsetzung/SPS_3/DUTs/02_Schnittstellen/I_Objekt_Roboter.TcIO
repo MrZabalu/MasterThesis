@@ -28,7 +28,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="P_State" Id="{ea621a6c-f313-43a3-9a01-9581043d7e55}">
-      <Declaration><![CDATA[PROPERTY P_State : eObjectState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY P_State : eObjectAktorState]]></Declaration>
       <Get Name="Get" Id="{aa61956f-e124-4b0d-8039-0892f041c089}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

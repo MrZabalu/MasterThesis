@@ -21,9 +21,9 @@ VAR_GLOBAL
 		// SkillStates
 		
 		// ObjectStates
-		Robot_State								:eObjectState;
-		Greifer_State							:eObjectState;
-		Sensor_State							:eObjectState;
+		Robot_State								:eObjectAktorState;
+		Greifer_State							:eObjectAktorState;
+		Sensor_State							:eObjectSensorState;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
