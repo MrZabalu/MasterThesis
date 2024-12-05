@@ -83,7 +83,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CC25F818-B997-4B5A-8046-D637D41920AB}" Name="SPS_1" PrjFilePath="SPS_1\SPS_1.plcproj" TmcFilePath="SPS_1\SPS_1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{3F99BB82-2609-2DA5-CCCA-EA8B7C8C763A}" TmcPath="SPS_1\SPS_1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9EAA643B-A3C8-B5DF-0137-2E1AFB76B4E9}" TmcPath="SPS_1\SPS_1.tmc">
 					<Name>SPS_1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -131,7 +131,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{74ECB8D7-F7AC-4642-BC7C-DD15FFD0067B}" Name="SPS_2" PrjFilePath="SPS_2\SPS_2.plcproj" TmcFilePath="SPS_2\SPS_2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A50DBCDA-F395-BC27-5111-5D5C646E4D22}" TmcPath="SPS_2\SPS_2.tmc">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{75C79FFB-F682-CA04-CB29-92FED931002E}" TmcPath="SPS_2\SPS_2.tmc">
 					<Name>SPS_2 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -179,7 +179,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{FC7F9661-0FB6-4129-8235-1F9901372C7B}" Name="SPS_3" PrjFilePath="SPS_3\SPS_3.plcproj" TmcFilePath="SPS_3\SPS_3.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{267BAA45-84B9-CEC0-315C-60B253B023DC}" TmcPath="SPS_3\SPS_3.tmc">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1BF7AE6F-608B-A093-78BD-331CE804A52D}" TmcPath="SPS_3\SPS_3.tmc">
 					<Name>SPS_3 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

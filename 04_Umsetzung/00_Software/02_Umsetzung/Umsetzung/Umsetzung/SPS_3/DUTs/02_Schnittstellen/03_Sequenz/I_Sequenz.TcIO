@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Sequenz" Id="{28ceae57-4089-44a8-ae28-9022f28b8d95}">
+    <Declaration><![CDATA[INTERFACE I_Sequenz
+]]></Declaration>
+    <Method Name="M_Reset" Id="{f1f5cbc4-ea4f-4e1f-94b4-19b42d581bee}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{7595f5ae-7473-40a2-b38e-71430a151be1}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{3ff0a064-1a84-478c-95ab-766dafd5e58d}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Finished" Id="{d4f0c874-60ab-44ff-b287-3e5c50ec6755}">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8f2f7291-dc2d-4e33-80a7-4abdfeb82956}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

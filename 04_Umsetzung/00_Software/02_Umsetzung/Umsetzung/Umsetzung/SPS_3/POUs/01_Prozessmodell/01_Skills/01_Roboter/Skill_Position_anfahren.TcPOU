@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Position_anfahren" Id="{cf3b1eba-086e-44a5-acab-9f86e78909b4}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren	IMPLEMENTS I_Skill_Roboter  
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren	IMPLEMENTS I_Skill_Roboter
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
@@ -9,7 +9,6 @@ VAR_INPUT
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System
@@ -32,8 +31,8 @@ VAR
 	bFehler				:BOOL;
 	bResetten			:BOOL;
 	
-	// Prozessvariablen
-	eProzessvariable 	:sRoboterProzessVariablen;
+	// Prozessparameter
+	eRoboterPos		 			:sRoboterProzessVariablen;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -62,7 +61,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -82,7 +81,7 @@ CASE iState OF
 			END_IF
 			
 			// Objekt hat sich selber gestoppt
-			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			IF Objekt.P_State = 4 THEN																							// Objekt hat Prozess abgeschlossen
 				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 			END_IF
 			
@@ -97,11 +96,11 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+		IF bLimitErreicht AND Objekt.P_State = 5 THEN																							// Transition zu LIMIT
 			iState := 4;
 		END_IF
 		
-		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+		IF bWertErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT
 			iState := 5;
 		END_IF
 			
@@ -110,7 +109,7 @@ CASE iState OF
 		// DO
 		M_Reset();
 		
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 			
@@ -142,24 +141,12 @@ END_CASE]]></ST>
     <Folder Name="00_Error" Id="{1e671027-5eff-41b6-b8ce-a9f6fce139bf}" />
     <Folder Name="01_Steuerungsmethoden" Id="{e3df1077-d0b9-4dd1-bde0-ac62b919365f}" />
     <Folder Name="02_Steuerungseigenschaften" Id="{6403485e-9029-45e8-9698-e15018f301ec}" />
-    <Folder Name="03_Prozesseigenschaften" Id="{0ae6ade9-560d-45be-9729-3eb88ce5c09e}" />
+    <Folder Name="03_prozesseigenschaften" Id="{a72cb7c0-888d-4d8f-adeb-00b3d5ba2aff}" />
     <Method Name="M_Reset" Id="{d758bb4d-2a25-43b2-b560-06eebbc31fcc}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[eProzessvariable.q1 := 0;
-eProzessvariable.q2 := 0;
-eProzessvariable.q3 := 0;
-eProzessvariable.q4 := 0;
-eProzessvariable.q5 := 0;
-eProzessvariable.q6 := 0;
-eProzessvariable.v := 0;
-eProzessvariable.a := 0;
-eProzessvariable.MoveTyp := 0;
-eProzessvariable.PosTyp := 0;
-
-
-Objekt.M_Reset();]]></ST>
+        <ST><![CDATA[Objekt.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{a5da1c20-9102-47a3-8436-6be73b86cd12}" FolderPath="01_Steuerungsmethoden\">
@@ -175,7 +162,7 @@ Objekt.M_Reset();]]></ST>
 			IF ParameterError OR PositionError THEN
 				bFehler := TRUE;
 			ELSE
-				Objekt.P_Prozessparameter := eProzessvariable;
+				Objekt.P_Prozessparameter := eRoboterPos;
 				Objekt.M_Start();
 			END_IF
 		END_IF
@@ -190,14 +177,14 @@ Objekt.M_Reset();]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Roboterposition" Id="{fe2831bd-b531-45d9-a924-af49462c3e2b}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
-      <Set Name="Set" Id="{7aecbb74-50d0-4d7f-a9a5-9ef52a006d42}">
+    <Property Name="P_RobotParam" Id="{a1b7619a-85cc-409f-8c99-f7e7fef990cf}" FolderPath="03_prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_RobotParam : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{c0d55926-a2c3-41f2-b0a1-0251e4e5f7d8}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Roboterposition; ]]></ST>
+          <ST><![CDATA[eRoboterPos := P_RobotParam;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -214,14 +201,14 @@ END_VAR
     </Property>
     <Transition Name="ParameterError" Id="{34a8b958-0d77-4ae6-b913-ce2705a40518}" FolderPath="00_Error\">
       <Implementation>
-        <ST><![CDATA[IF eProzessvariable.a = 0 OR eProzessvariable.v = 0 THEN
+        <ST><![CDATA[IF eRoboterPos.a = 0 OR eRoboterPos.v = 0 THEN
 	ParameterError := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Transition>
     <Transition Name="PositionError" Id="{80900285-c02d-42ed-9c70-1e54911b7b57}" FolderPath="00_Error\">
       <Implementation>
-        <ST><![CDATA[IF eProzessvariable.q1 = 0 AND eProzessvariable.q2 = 0 AND eProzessvariable.q3 = 0 AND eProzessvariable.q4 = 0 AND eProzessvariable.q5 = 0 AND eProzessvariable.q6 = 0 THEN
+        <ST><![CDATA[IF eRoboterPos.q1 = 0 AND eRoboterPos.q2 = 0 AND eRoboterPos.q3 = 0 AND eRoboterPos.q4 = 0 AND eRoboterPos.q5 = 0 AND eRoboterPos.q6 = 0 THEN
 	PositionError := TRUE;
 END_IF]]></ST>
       </Implementation>

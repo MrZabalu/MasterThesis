@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Skill_RoboterErweitert" Id="{e2d1cd4d-0af3-4bdf-a370-2bb2a0007c52}">
+    <Declaration><![CDATA[INTERFACE I_Skill_RoboterErweitert
+]]></Declaration>
+    <Method Name="M_Reset" Id="{b6ae5578-e81b-4948-b312-0c318809c1a1}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Start" Id="{b6618813-d193-4b86-a2e9-1449f0a7f8b3}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{7674e0b9-c88f-4588-b850-020e9f541814}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Erreicht" Id="{d6f9089f-3c67-49dd-8b6a-3d7c5b7d3083}">
+      <Declaration><![CDATA[PROPERTY P_Erreicht : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{80788c3c-21e3-4396-b662-e3fd0325bd45}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_Limit" Id="{631cb066-0c7c-4b39-a9bd-28dbd6482768}">
+      <Declaration><![CDATA[PROPERTY P_Limit : sKraftVariablen]]></Declaration>
+      <Set Name="Set" Id="{bad53743-5c4e-4d00-b4f5-0a3573daa2fb}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_RobotParam" Id="{c1f9be14-e652-476d-91a4-fce89d221794}">
+      <Declaration><![CDATA[PROPERTY P_RobotParam : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{97851a4a-6624-4bd3-a0d4-54b8c92d2ac3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{55efd3f7-15fa-4776-bbf3-efdf75362085}">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{f4c65372-93b7-4b2f-a55e-a642f1d854ed}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Greifer_Pos_Anfahren" Id="{98210e8f-b577-460a-824e-a40bbe292bb9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren	IMPLEMENTS I_Skill_Greifer
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren	IMPLEMENTS I_Skill_SmartGreifer
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_SmartGreifer;	
@@ -9,7 +9,6 @@ VAR_INPUT
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System
@@ -32,8 +31,9 @@ VAR
 	bFehler				:BOOL;
 	bResetten			:BOOL;
 	
-	// Prozessvariablen
-	eProzessvariable 	:sSmartGreiferProzessVariablen;
+	// Prozessparameter
+	eGreiferParam	 			:sSmartGreiferProzessVariablen;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -62,7 +62,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -82,7 +82,7 @@ CASE iState OF
 			END_IF
 			
 			// Objekt hat sich selber gestoppt
-			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			IF Objekt.P_State = 4 THEN																							// Objekt hat Prozess abgeschlossen
 				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 			END_IF
 			
@@ -97,11 +97,11 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+		IF bLimitErreicht AND Objekt.P_State = 5 THEN																							// Transition zu LIMIT
 			iState := 4;
 		END_IF
 		
-		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+		IF bWertErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT
 			iState := 5;
 		END_IF
 			
@@ -110,7 +110,7 @@ CASE iState OF
 		// DO
 		M_Reset();
 		 
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 			
@@ -133,7 +133,7 @@ END_CASE]]></ST>
     </Implementation>
     <Folder Name="01_Steuerungsmethoden" Id="{ce4f4fae-0d80-421d-ad11-2f1af775784f}" />
     <Folder Name="02_Steuerungseigenschaften" Id="{9bc7b88e-6bad-4969-9dcc-a138a59804b7}" />
-    <Folder Name="03_Prozesseigenschaften" Id="{5db72f72-6102-41c8-bd66-5df785722fa3}" />
+    <Folder Name="03_Prozesseigenschaften" Id="{f245a847-91cc-4c3b-ae26-c2f97efdc277}" />
     <Method Name="M_Reset" Id="{9681675d-c826-49e1-9762-1d6a3b1f0fd3}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
@@ -151,7 +151,7 @@ END_CASE]]></ST>
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
-				Objekt.P_Prozessparameter := eProzessvariable;
+				Objekt.P_Prozessparameter := eGreiferParam;
 				Objekt.M_Start();
 		END_IF
 	END_IF
@@ -165,14 +165,14 @@ END_CASE]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Prozessparameter" Id="{ca97a2b2-861f-4a12-b61c-26d696b312b6}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Prozessparameter : sSmartGreiferProzessVariablen]]></Declaration>
-      <Set Name="Set" Id="{6675b4e0-1e0d-4252-ab92-53ba6180b183}">
+    <Property Name="P_SGripperParam" Id="{24a56df2-d061-4605-a850-faa49bdd332b}" FolderPath="03_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_SGripperParam : sSmartGreiferProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{94fe09d4-c7e2-4360-93ce-cdf0ae2858fd}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Prozessparameter; ]]></ST>
+          <ST><![CDATA[eGreiferParam := P_SGripperParam;]]></ST>
         </Implementation>
       </Set>
     </Property>

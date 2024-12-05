@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_SkillReferenz" Id="{49177925-01bb-437e-a9bc-56984c504ca6}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillReferenz	IMPLEMENTS I_Skill_Roboter  
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillReferenz	IMPLEMENTS I_Skill 
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
+	
+	// Prozessparameter
 
 	// Betriebsvariablen 
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectAktorState; 							// Momentaner Zustand des Objektes
+	
 	bLimit						:BOOL;
 	bErreicht					:BOOL;
 END_VAR
@@ -77,7 +79,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -97,7 +99,7 @@ CASE iState OF
 			END_IF
 			
 			// Objekt hat sich selber gestoppt
-			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			IF Objekt.P_State = 4 THEN																							// Objekt hat Prozess abgeschlossen
 				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 			END_IF
 			
@@ -112,18 +114,18 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bLimitErreicht AND eObjState = 5 THEN																							// Transition zu LIMIT
+		IF bLimitErreicht AND Objekt.P_State = 5 THEN																							// Transition zu LIMIT
 			iState := 4;
 		END_IF
 		
-		IF bWertErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT	
+		IF bWertErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT	
 			iState := 5;
 		END_IF
 			
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
 		// DO
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 			
@@ -147,7 +149,7 @@ CASE iState OF
 		// DO		
 		M_Reset();
 		
-		IF eObjState = 1 THEN																								// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																								// Objekt wurde geresettet
 			bResetten := TRUE;								
 		END_IF
 	
@@ -162,7 +164,7 @@ CASE iState OF
 		// DO 
 		M_Reset();
 		
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 		
@@ -176,7 +178,6 @@ END_CASE]]></ST>
     </Implementation>
     <Folder Name="01_Steuerungsmethoden" Id="{25f1923f-5ff7-4491-877a-9805ee9e60d5}" />
     <Folder Name="02_Steuerungseigenschaften" Id="{e5d2e899-3eae-4199-8033-03400cea0335}" />
-    <Folder Name="03_Prozesseigenschaften" Id="{6b7b3629-1278-4264-9820-829d43face94}" />
     <Method Name="M_Reset" Id="{ef2062a0-04ed-4e7f-a607-9c2af05351fc}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
@@ -207,17 +208,6 @@ END_CASE]]></ST>
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Roboterposition" Id="{08a86a84-7e5c-4d6e-94c2-005efe6199ef}" FolderPath="03_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
-      <Set Name="Set" Id="{30210183-04f1-4a15-ac78-1642ab18abb8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Roboterposition; ]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="P_State" Id="{1f96171f-1f3c-44fa-a62d-5a6b95dd9cd5}" FolderPath="02_Steuerungseigenschaften\">
       <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
       <Get Name="Get" Id="{9573abb8-6a0a-46e3-8b8a-d8b49d1a7f61}">

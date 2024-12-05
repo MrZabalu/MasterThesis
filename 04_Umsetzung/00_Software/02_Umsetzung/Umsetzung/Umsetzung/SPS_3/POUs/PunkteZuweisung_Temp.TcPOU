@@ -3,17 +3,43 @@
   <POU Name="PunkteZuweisung_Temp" Id="{e27c1e8c-74c6-45f8-95be-d72073b9deab}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PunkteZuweisung_Temp
 VAR
+	// Roboterpositionen
 	PHome			:sRoboterProzessVariablen;
 	PPlate1			:sRoboterProzessVariablen;
 	PPlate2			:sRoboterProzessVariablen;
 	PMount1			:sRoboterProzessVariablen;
-		
+	PMount2			:sRoboterProzessVariablen;
+	
+	POffsetDown		:sRoboterProzessVariablen;
+	POffsetUP		:sRoboterProzessVariablen;
+	POffsetX		:sRoboterProzessVariablen;
+	POffsetY		:sRoboterProzessVariablen;
+	
+	// Greiferpositionen		
 	Read_Plate		:sSmartGreiferProzessVariablen;
 	Grip_Plate		:sSmartGreiferProzessVariablen;
+	
+	// Kraftvariablen
+	AnstossX		:sKraftVariablen;
+	AnstossY		:sKraftVariablen;
+	
+	// Datenpakete
+	RobParam1				:ARRAY[0..2] OF sRoboterProzessVariablen;
+	GripParam1				:ARRAY[0..1] OF sSmartGreiferProzessVariablen;
+	
+	RobParam2				:ARRAY[0..4] OF sRoboterProzessVariablen;
+	ErreichtParam2			:ARRAY[0..1] OF sKraftVariablen;
+	
+	RobParam3				:ARRAY[0..2] OF sRoboterProzessVariablen;
+	
+	RobParam4				:ARRAY[0..3] OF sRoboterProzessVariablen;
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[pHome.q1 := 90;
+      <ST><![CDATA[// Homeposition
+pHome.q1 := 90;
 pHome.q2 := -90;
 pHome.q3 := -90;
 pHome.q4 := -90;
@@ -24,6 +50,63 @@ pHome.a := 0.5;
 pHome.MoveTyp := 1;
 pHome.PosTyp := 0;
 
+// Offset Down
+POffsetDown.q1 := 0;
+POffsetDown.q2 := 0;
+POffsetDown.q3 := -0.1;
+POffsetDown.q4 := 0;
+POffsetDown.q5 := 0;
+POffsetDown.q6 := 0;
+POffsetDown.v := 0.05;
+POffsetDown.a := 0.05;
+POffsetDown.MoveTyp := 0;
+POffsetDown.PosTyp := 1;
+
+// Offset Up
+POffsetUP.q1 := 0;
+POffsetUP.q2 := 0;
+POffsetUP.q3 := 0.1;
+POffsetUP.q4 := 0;
+POffsetUP.q5 := 0;
+POffsetUP.q6 := 0;
+POffsetUP.v := 0.05;
+POffsetUP.a := 0.05;
+POffsetUP.MoveTyp := 0;
+POffsetUP.PosTyp := 1;
+
+// Offset X für Platte 1
+POffsetX.q1 := -0.3;
+POffsetX.q2 := 0;
+POffsetX.q3 := 0;
+POffsetX.q4 := 0;
+POffsetX.q5 := 0;
+POffsetX.q6 := 0;
+POffsetX.v := 0.02;
+POffsetX.a := 0.02;
+POffsetX.MoveTyp := 0;
+POffsetX.PosTyp := 1;
+
+// Offset Y für Platte 1
+POffsetY.q1 := 0;
+POffsetY.q2 := -0.3;
+POffsetY.q3 := 0;
+POffsetY.q4 := 0;
+POffsetY.q5 := 0;
+POffsetY.q6 := 0;
+POffsetY.v := 0.02;
+POffsetY.a := 0.02;
+POffsetY.MoveTyp := 0;
+POffsetY.PosTyp := 1;
+
+AnstossX.Fx := 0;
+AnstossX.Fy := -5;
+AnstossX.Fz := 0;
+
+AnstossY.Fx := -5;
+AnstossY.Fy := 0;
+AnstossY.Fz := 0;
+
+// Lagerposition von Platte 1
 PPlate1.q1 := 0.070;
 PPlate1.q2 := 0.582;
 PPlate1.q3 := 0.306;
@@ -35,6 +118,7 @@ PPlate1.a := 0.5;
 PPlate1.MoveTyp := 3;
 PPlate1.PosTyp := 0;
 
+// Lagerposition von Platte 2
 PPlate2.q1 := 0.166;
 PPlate2.q2 := 0.582;
 PPlate2.q3 := 0.306;
@@ -46,6 +130,7 @@ PPlate2.a := 0.5;
 PPlate2.MoveTyp := 3;
 PPlate2.PosTyp := 0;
 
+// Startposition für Platzierung von Platte 1
 PMount1.q1 := 0.070;
 PMount1.q2 := 0.490;
 PMount1.q3 := 0.306;
@@ -57,14 +142,53 @@ PMount1.a := 0.5;
 PMount1.MoveTyp := 3;
 PMount1.PosTyp := 0;
 
+// Startposition für Platzierung von Platte 2
+PMount2.q1 := 0.165;
+PMount2.q2 := 0.471;
+PMount2.q3 := 0.306;
+PMount2.q4 := 0;
+PMount2.q5 := -180;
+PMount2.q6 := 0;
+PMount2.v := 0.5;
+PMount2.a := 0.5;
+PMount2.MoveTyp := 3;
+PMount2.PosTyp := 0;
 
+// Idleposition für Platte
 Read_Plate.Pos := 25;
 Read_Plate.F := 60;
 Read_Plate.Geschw := 20;
 
+// Greifposition für Platte
 Grip_Plate.Pos := 15;
 Grip_Plate.F := 60;
-Grip_Plate.Geschw := 20;]]></ST>
+Grip_Plate.Geschw := 20;
+
+// Zuweisung
+RobParam1[0] := PPlate1;
+RobParam1[1] := POffsetDown;
+RobParam1[2] := POffsetUP;
+
+GripParam1[0] := Read_Plate;
+GripParam1[1] := Grip_Plate;
+
+RobParam2[0] := PMount1;
+RobParam2[1] := POffsetDown;
+RobParam2[2] := POffsetY;
+RobParam2[3] := POffsetX;
+RobParam2[4] := POffsetUP;
+
+ErreichtParam2[0] := AnstossY;
+ErreichtParam2[1] := AnstossX;
+
+RobParam3[0] := PPlate2;
+RobParam3[1] := POffsetDown;
+RobParam3[2] := POffsetUP;
+
+RobParam4[0] := PMount2;
+RobParam4[1] := POffsetDown;
+RobParam4[2] := POffsetX;
+RobParam4[3] := POffsetUP;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

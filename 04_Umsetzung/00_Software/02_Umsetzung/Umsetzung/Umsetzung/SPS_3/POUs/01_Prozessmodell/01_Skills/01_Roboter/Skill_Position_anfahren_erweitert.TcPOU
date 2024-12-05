@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Position_anfahren_erweitert" Id="{20d2290a-8794-4965-a133-9ad0acf7b5f9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert	IMPLEMENTS I_Skill_Roboter_Erweitert
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert	IMPLEMENTS I_Skill_RoboterErweitert
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
 	
+	sMessdaten					:Kraftvariablen; 
+	
 	// Betriebsvariablen
 	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
 	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	eObjState					:eObjectAktorState; 					// Momentaner Zustand des Objektes
-	sMessdaten					:Kraftvariablen; 
 	
 END_VAR
 VAR_OUTPUT
@@ -32,10 +32,10 @@ VAR
 	bFehler				:BOOL;
 	bResetten			:BOOL;
 	
-	// Prozessvariablen
-	eProzessvariable 	:sRoboterProzessVariablen;
-	sLimit				:sKraftVariablen;
-	sErreicht			:sKraftVariablen;
+	// Prozessparameter
+	eRoboterPos		 			:sRoboterProzessVariablen;
+	sLimit						:sKraftVariablen;
+	sErreicht					:sKraftVariablen;
 	
 END_VAR
 ]]></Declaration>
@@ -65,7 +65,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF eObjState = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -88,7 +88,7 @@ CASE iState OF
 			END_IF
 			
 			// Objekt hat sich selber gestoppt
-			IF eObjState = 4 THEN																							// Objekt hat Prozess abgeschlossen
+			IF Objekt.P_State = 4 THEN																							// Objekt hat Prozess abgeschlossen
 				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
 			END_IF
 			
@@ -113,12 +113,12 @@ CASE iState OF
 			iState := 2;																									// Objekt ist fertig und wieder bereit
 		END_IF
 		
-		IF bLimit AND eObjState = 5 THEN																							// Transition zu LIMIT
+		IF bLimit AND Objekt.P_State = 5 THEN																							// Transition zu LIMIT
 			bLimit := FALSE;
 			iState := 4;
 		END_IF
 		
-		IF bErreicht AND eObjState = 5 THEN																							// Transition zu ERREICHT
+		IF bErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT
 			bErreicht := FALSE;
 			iState := 5;
 		END_IF
@@ -126,7 +126,7 @@ CASE iState OF
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
 		// DO
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 			
@@ -150,7 +150,7 @@ CASE iState OF
 		// DO		
 		M_Reset();
 		
-		IF eObjState = 1 THEN																								// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																								// Objekt wurde geresettet
 			bResetten := TRUE;								
 		END_IF
 	
@@ -165,7 +165,7 @@ CASE iState OF
 		// DO 
 		M_Reset();
 		
-		IF eObjState = 1 THEN																							// Objekt wurde geresettet
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
 		
@@ -180,7 +180,7 @@ END_CASE]]></ST>
     <Folder Name="01_Steuerungsmethoden" Id="{24108a3b-139b-4abc-9ee1-f7b20236da36}" />
     <Folder Name="02_Steuerungseigenschaften" Id="{81dfad2e-6b4f-4546-926f-b569be2ebe07}" />
     <Folder Name="03_Prozessmethoden" Id="{2f427658-d188-4219-be86-1c49d4b928f8}" />
-    <Folder Name="04_Prozesseigenschaften" Id="{dd74a067-ae87-4bd8-ac55-cd491d80091d}" />
+    <Folder Name="04_Prozesseigenschaften" Id="{a2461b16-3250-454b-89ff-eb78ad4ff0ad}" />
     <Method Name="M_Auswertung" Id="{466dc7d6-1b9c-4401-885b-20f06b59f3fc}" FolderPath="03_Prozessmethoden\">
       <Declaration><![CDATA[METHOD M_Auswertung : BOOL
 VAR_INPUT
@@ -260,6 +260,7 @@ END_IF
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
+				Objekt.P_Prozessparameter := eRoboterPos;
 				Objekt.M_Start();	
 		END_IF
 	END_IF]]></ST>
@@ -272,9 +273,9 @@ END_IF
         <ST><![CDATA[Objekt.M_Stop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Erreicht" Id="{534e02e9-edba-4bca-a9e1-26115c727999}" FolderPath="04_Prozesseigenschaften\">
+    <Property Name="P_Erreicht" Id="{65ff26fd-bd5b-4448-b176-bea996d64888}" FolderPath="04_Prozesseigenschaften\">
       <Declaration><![CDATA[PROPERTY P_Erreicht : sKraftVariablen]]></Declaration>
-      <Set Name="Set" Id="{f4540d57-6dec-4787-becf-d0252c615837}">
+      <Set Name="Set" Id="{e9f2cea9-274a-4473-a8e1-84efb25603cf}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -283,9 +284,9 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="P_Limit" Id="{aa8f489c-a097-4166-94f0-1dedb4f551c9}" FolderPath="04_Prozesseigenschaften\">
+    <Property Name="P_Limit" Id="{d6272a96-2f33-45dc-be76-82f80d521d23}" FolderPath="04_Prozesseigenschaften\">
       <Declaration><![CDATA[PROPERTY P_Limit : sKraftVariablen]]></Declaration>
-      <Set Name="Set" Id="{0bd71c28-9ddb-4675-b40e-ca344ca28138}">
+      <Set Name="Set" Id="{997dbb89-0df6-40fe-8bb6-a14113d7e3ed}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -294,15 +295,14 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="P_Roboterposition" Id="{863f8152-8c1c-4a86-9f2a-e5585699e56c}" FolderPath="04_Prozesseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Roboterposition : sRoboterProzessVariablen]]></Declaration>
-      <Set Name="Set" Id="{770259d5-6ad2-4f05-bad3-f33c6f5f52b9}">
+    <Property Name="P_RobotParam" Id="{8624615e-7d1d-4a98-af5b-70ce2c99259c}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_RobotParam : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{d4382561-34b8-4238-9b23-e9a998a335f2}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[eProzessvariable := P_Roboterposition; 
-Objekt.P_Prozessparameter := eProzessvariable;]]></ST>
+          <ST><![CDATA[eRoboterPos := P_RobotParam;]]></ST>
         </Implementation>
       </Set>
     </Property>

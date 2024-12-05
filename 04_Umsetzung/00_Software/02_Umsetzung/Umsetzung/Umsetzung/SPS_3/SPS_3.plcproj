@@ -25,9 +25,6 @@
     <Compile Include="DUTs\01_Listen\01_Zustände\eObjectSensorState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\01_Listen\01_Zustände\eSequenceState.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\01_Listen\01_Zustände\eSkillState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -43,28 +40,28 @@
     <Compile Include="DUTs\01_Listen\03_Konfigurationen\eRobPosType.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Objekt_Kraftsensor.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\01_Skills\I_Skill.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Objekt_Roboter.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\01_Skills\I_Skill_RoboterErweitert.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Objekt_SmartGreifer.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\01_Skills\I_Skill_SmartGreifer.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Sequenz.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\01_Skills\I_Skill_Roboter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Skill.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\02_Objekte\I_Objekt_Kraftsensor.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Skill_Greifer.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\02_Objekte\I_Objekt_Roboter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Skill_Roboter.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\02_Objekte\I_Objekt_SmartGreifer.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\02_Schnittstellen\I_Skill_Roboter_Erweitert.TcIO">
+    <Compile Include="DUTs\02_Schnittstellen\03_Sequenz\I_Sequenz.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\03_Strukturen\01_Prozessparameter\sKraftVariablen.TcDUT">
@@ -140,6 +137,9 @@
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_Plate_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_Plate_2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -194,6 +194,9 @@
     <Folder Include="DUTs\01_Listen\02_Commands" />
     <Folder Include="DUTs\01_Listen\03_Konfigurationen" />
     <Folder Include="DUTs\02_Schnittstellen" />
+    <Folder Include="DUTs\02_Schnittstellen\01_Skills" />
+    <Folder Include="DUTs\02_Schnittstellen\02_Objekte" />
+    <Folder Include="DUTs\02_Schnittstellen\03_Sequenz" />
     <Folder Include="DUTs\03_Strukturen" />
     <Folder Include="DUTs\03_Strukturen\01_Prozessparameter" />
     <Folder Include="DUTs\03_Strukturen\02_Objektintern" />

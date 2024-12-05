@@ -3,48 +3,66 @@
   <POU Name="FB_Basis" Id="{f85c9ba4-7c23-49dd-97a7-335305937fa5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Basis
 VAR_INPUT
+	// Betriebsvariablen
+	eSysCommand				:eSystemCommand;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bStart			:BOOL;		// Variable für internes handling der Eigenschaft 
-	bStop			:BOOL;		// Variable für internes handling der Eigenschaft 
-	bFinished		:BOOL;	
+	// Managementvariablen
+	iState					:INT;
+	
+	// Transitionsvariablen
+	bStart					:BOOL;
+	bBeendet 				:BOOL;
+	bReset					:BOOL;
+	
+	// SFC-Variablen
+	SFCReset				:BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Start" Id="{3b8d54a5-f826-4c91-bb15-3ca6280995f7}">
+    <Folder Name="01_Steuerungsmethoden" Id="{c078cb8f-4ec6-40ed-9e3e-dc504220165d}" />
+    <Folder Name="02_Steuerungseigenschaften" Id="{dd619586-3472-4567-846d-1e7ffd186aea}" />
+    <Method Name="M_Reset" Id="{f2c3cb40-97ad-4b16-b682-86e7a7aa9936}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SFCReset := TRUE;
+bReset := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{3b8d54a5-f826-4c91-bb15-3ca6280995f7}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Start : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bStop := FALSE;
-bFinished := FALSE;
+        <ST><![CDATA[bBeendet := FALSE;
 bStart := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stop" Id="{aeab132f-14e3-468c-af3a-a7afa26bb694}">
+    <Method Name="M_Stop" Id="{aeab132f-14e3-468c-af3a-a7afa26bb694}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bStart := FALSE;
-bFinished := TRUE;
-bStop := TRUE;]]></ST>
+        <ST><![CDATA[bBeendet := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Finished" Id="{424b331b-368b-4080-a1ab-e6d22be996db}">
+    <Property Name="P_Finished" Id="{424b331b-368b-4080-a1ab-e6d22be996db}" FolderPath="02_Steuerungseigenschaften\">
       <Declaration><![CDATA[PROPERTY P_Finished : BOOL;]]></Declaration>
       <Get Name="Get" Id="{7d3a29b1-e786-46aa-a0eb-253fc5114027}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Finished := bFinished;]]></ST>
+          <ST><![CDATA[P_Finished := bBeendet; ]]></ST>
         </Implementation>
       </Get>
     </Property>
