@@ -60,6 +60,7 @@ VAR
 	bAmStoppen				:BOOL;
 	bGestoppt				:BOOL;
 	
+	bStopCommand			:BOOL;
 	bTurnedOn 				:BOOL;
 	
 	bBewegungStoppen		:BOOL;
@@ -145,7 +146,7 @@ END_VAR
 							bError => bFehler,
 							nErrId => iErrorID);
 	
-	Delay_1(IN := Execute_TON1, PT := T#2MS);
+	Delay_1(IN := Execute_TON1, PT := T#3MS);
 
 //____________________________________________________________________________________________
 // Input-Command-Verwaltung
@@ -544,7 +545,8 @@ CASE iState OF
 			END_IF
 			
 			IF bGestoppt THEN	
-				bGestoppt := FALSE;	
+				bGestoppt := FALSE;
+				bStopCommand := FALSE;
 				
 				IF bSkillFertig THEN
 					bSkillFertig := FALSE;
@@ -622,11 +624,14 @@ END_VAR
 	CommandArray.arrByte[LEN(CommandArray.sValue)] := 10;
 	
 // Senden von Array
-	Send_STOP(cbLen := LEN(CommandArray.sValue),
+	IF NOT bStopCommand THEN
+		Send_STOP(cbLen := LEN(CommandArray.sValue),
 			pSrc := ADR(CommandArray.arrByte),
 			bExecute := TRUE);
 			
-			Count := Count + 1;
+		Count := Count + 1;
+		bStopCommand := TRUE;
+	END_IF
 			
 	IF NOT Send_STOP.bBusy THEN
 		Send_STOP(bExecute := FALSE);

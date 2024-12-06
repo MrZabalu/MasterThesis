@@ -179,7 +179,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{FC7F9661-0FB6-4129-8235-1F9901372C7B}" Name="SPS_3" PrjFilePath="SPS_3\SPS_3.plcproj" TmcFilePath="SPS_3\SPS_3.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1BF7AE6F-608B-A093-78BD-331CE804A52D}" TmcPath="SPS_3\SPS_3.tmc">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{F12F8388-7A72-1146-6106-CC347BC63BB6}" TmcPath="SPS_3\SPS_3.tmc">
 					<Name>SPS_3 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

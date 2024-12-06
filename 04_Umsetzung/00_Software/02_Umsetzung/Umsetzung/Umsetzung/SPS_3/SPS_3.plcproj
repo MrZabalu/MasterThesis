@@ -131,7 +131,13 @@
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\00_Basis\FB_Basis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Get_Plate.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Ausrichten_Plates.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Get_Part.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_MountingPlate.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_Plate_1.TcPOU">
@@ -147,9 +153,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\00_Referenz\Basis_Objekt.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\FB_Kraftsensor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\FB_Kraftsensor_V2.TcPOU">
