@@ -106,8 +106,8 @@ VAR
 	bSetValues				:BOOL;							// Definiert ob Targetposition noch ermittelt werden muss
 	Prozessvariablen		:sRoboterProzessVariablen;
 	
-	Count 					:INT;
-	Test					:sRoboterProzessVariablen;
+	TestArray				:ARRAY[0..50] OF sRoboterProzessVariablen;
+	Counter					:INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -629,7 +629,6 @@ END_VAR
 			pSrc := ADR(CommandArray.arrByte),
 			bExecute := TRUE);
 			
-		Count := Count + 1;
 		bStopCommand := TRUE;
 	END_IF
 			
@@ -770,6 +769,9 @@ END_VAR
 		Send_START(bExecute := FALSE);
 		M_BewegungZuPosition := TRUE;
 	END_IF
+	
+	TestArray[Counter] := Prozessvariablen;
+	Counter := Counter + 1;
 	
 	
 						]]></ST>

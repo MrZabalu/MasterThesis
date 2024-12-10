@@ -4,296 +4,422 @@
     <Declaration><![CDATA[PROGRAM PunkteZuweisung_Temp
 VAR
 	// Roboterpositionen
-	PHome			:sRoboterProzessVariablen;
-	PPlate1			:sRoboterProzessVariablen;
-	PPlate2			:sRoboterProzessVariablen;
-	PMount1			:sRoboterProzessVariablen;
-	PMount2			:sRoboterProzessVariablen;
-	PAusricht		:sRoboterProzessVariablen;
-	PMountPlate		:sRoboterProzessVariablen;
-	PMountPlate2	:sRoboterProzessVariablen;
-	
-	POffsetDown		:sRoboterProzessVariablen;
-	POffsetUP		:sRoboterProzessVariablen;
-	POffsetX		:sRoboterProzessVariablen;
-	POffsetY		:sRoboterProzessVariablen;
-	POffsetZ		:sRoboterProzessVariablen;
-	POffsetXs		:sRoboterProzessVariablen;
+		// Fixe Postionene
+		PHome				:sRoboterProzessVariablen;
+		PGetPlate1			:sRoboterProzessVariablen;
+		PGetPlate2			:sRoboterProzessVariablen;
+		PStartSetPlate1		:sRoboterProzessVariablen;
+		PStartSetPlate2		:sRoboterProzessVariablen;
+		PStartAPlate		:sRoboterProzessVariablen;
+		PStartAXFixPlate	:sRoboterProzessVariablen;
+		PStartAYFixPlate	:sRoboterProzessVariablen;
+		PGetFixPlate		:sRoboterProzessVariablen;
+		PStartSetFixPlate	:sRoboterProzessVariablen;
+		
+		
+		// Offsets
+		POffsetZ		:sRoboterProzessVariablen;
+		POffsetnZ		:sRoboterProzessVariablen;
+		POffsetXs		:sRoboterProzessVariablen;
+		POffsetnXs		:sRoboterProzessVariablen;
+		POffsetnYs		:sRoboterProzessVariablen;
+		
+		// Ausrichtungs_Offsets
+		POffsetAX		:sRoboterProzessVariablen;
+		POffsetAnX		:sRoboterProzessVariablen;
+		POffsetAY		:sRoboterProzessVariablen;
+		POffsetAnY		:sRoboterProzessVariablen;
+		POffsetAnZ		:sRoboterProzessVariablen;
 	
 	// Greiferpositionen		
-	Read_Plate		:sSmartGreiferProzessVariablen;
-	Grip_Plate		:sSmartGreiferProzessVariablen;
-	Mount_Plate		:sSmartGreiferProzessVariablen;
-	Grip_MountPlate	:sSmartGreiferProzessVariablen;
+		Plate_Open		:sSmartGreiferProzessVariablen;
+		Plate_Closed	:sSmartGreiferProzessVariablen;
+		FixPlate_Open	:sSmartGreiferProzessVariablen;
+		FixPlate_Closed	:sSmartGreiferProzessVariablen;
+		GripperClossed	:sSmartGreiferProzessVariablen;
 	
 	// Kraftvariablen
 	AnstossX		:sKraftVariablen;
+	AnstossnX		:sKraftVariablen;
 	AnstossY		:sKraftVariablen;
+	AnstossnY		:sKraftVariablen;
 	AnstossZ		:sKraftVariablen;
 	
 	// Datenpakete
-	RobParam1				:ARRAY[0..2] OF sRoboterProzessVariablen;
-	GripParam1				:ARRAY[0..1] OF sSmartGreiferProzessVariablen;
+	R_Data_1				:ARRAY[0..2] OF sRoboterProzessVariablen;	
+	R_Data_2				:ARRAY[0..4] OF sRoboterProzessVariablen;
+	R_Data_3				:ARRAY[0..2] OF sRoboterProzessVariablen;
+	R_Data_4				:ARRAY[0..3] OF sRoboterProzessVariablen;
+	R_Data_5				:ARRAY[0..4] OF sRoboterProzessVariablen;
+	R_Data_6				:ARRAY[0..4] OF sRoboterProzessVariablen;
+	R_Data_7				:ARRAY[0..4] OF sRoboterProzessVariablen;
+	R_Data_8				:ARRAY[0..2] OF sRoboterProzessVariablen;
+	R_Data_9				:ARRAY[0..2] OF sRoboterProzessVariablen;
 	
-	RobParam2				:ARRAY[0..4] OF sRoboterProzessVariablen;
-	ErreichtParam2			:ARRAY[0..1] OF sKraftVariablen;
+	G_Data_1				:ARRAY[0..1] OF sSmartGreiferProzessVariablen;
+	G_Data_2				:ARRAY[0..1] OF sSmartGreiferProzessVariablen;
 	
-	RobParam3				:ARRAY[0..2] OF sRoboterProzessVariablen;
+	S_Data_1				:ARRAY[0..1] OF sKraftVariablen;
 	
-	RobParam4				:ARRAY[0..3] OF sRoboterProzessVariablen;
-	
-	RobParam5				:ARRAY[0..4] OF sRoboterProzessVariablen;
-	
-	RobParam6				:ARRAY[0..2] OF sRoboterProzessVariablen;
-	GripParam2				:ARRAY[0..1] OF sSmartGreiferProzessVariablen;
-	
-	RobParam7				:ARRAY[0..2] OF sRoboterProzessVariablen;
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Homeposition
-pHome.q1 := 90;
-pHome.q2 := -90;
-pHome.q3 := -90;
-pHome.q4 := -90;
-pHome.q5 := 90;
-pHome.q6 := 180;
-pHome.v := 0.5;
-pHome.a := 0.5;
-pHome.MoveTyp := 1;
-pHome.PosTyp := 0;
+      <ST><![CDATA[// Roboterpositionen
+	// Fixe Positionen
+		// Homeposition
+		pHome.q1 := 90;
+		pHome.q2 := -90;
+		pHome.q3 := -90;
+		pHome.q4 := -90;
+		pHome.q5 := 90;
+		pHome.q6 := 180;
+		pHome.v := 0.5;
+		pHome.a := 0.5;
+		pHome.MoveTyp := 1;
+		pHome.PosTyp := 0;
+		
+		// Lagerposition von Platte 1
+		PGetPlate1.q1 := 0.070;
+		PGetPlate1.q2 := 0.582;
+		PGetPlate1.q3 := 0.306;
+		PGetPlate1.q4 := 0;
+		PGetPlate1.q5 := -180;
+		PGetPlate1.q6 := 0;
+		PGetPlate1.v := 1;
+		PGetPlate1.a := 1;
+		PGetPlate1.MoveTyp := 3;
+		PGetPlate1.PosTyp := 0;
+		
+		// Lagerposition von Platte 2
+		PGetPlate2.q1 := 0.166;
+		PGetPlate2.q2 := 0.582;
+		PGetPlate2.q3 := 0.306;
+		PGetPlate2.q4 := 0;
+		PGetPlate2.q5 := -180;
+		PGetPlate2.q6 := 0;
+		PGetPlate2.v := 1;
+		PGetPlate2.a := 1;
+		PGetPlate2.MoveTyp := 3;
+		PGetPlate2.PosTyp := 0;
+		
+		// Startposition für Platzierung von Platte 1
+		PStartSetPlate1.q1 := 0.070;
+		PStartSetPlate1.q2 := 0.490;
+		PStartSetPlate1.q3 := 0.306;
+		PStartSetPlate1.q4 := 0;
+		PStartSetPlate1.q5 := -180;
+		PStartSetPlate1.q6 := 0;
+		PStartSetPlate1.v := 0.5;
+		PStartSetPlate1.a := 0.5;
+		PStartSetPlate1.MoveTyp := 3;
+		PStartSetPlate1.PosTyp := 0;
+		
+		// Startposition für Platzierung von Platte 2
+		PStartSetPlate2.q1 := 0.165;
+		PStartSetPlate2.q2 := 0.471;
+		PStartSetPlate2.q3 := 0.306;
+		PStartSetPlate2.q4 := 0;
+		PStartSetPlate2.q5 := -180;
+		PStartSetPlate2.q6 := 0;
+		PStartSetPlate2.v := 0.5;
+		PStartSetPlate2.a := 0.5;
+		PStartSetPlate2.MoveTyp := 3;
+		PStartSetPlate2.PosTyp := 0;
+		
+		// Startposition für Ausrichtung von Platten
+		PStartAPlate.q1 := 0.175;
+		PStartAPlate.q2 := 0.471;
+		PStartAPlate.q3 := 0.306;
+		PStartAPlate.q4 := 0;
+		PStartAPlate.q5 := -180;
+		PStartAPlate.q6 := 0;
+		PStartAPlate.v := 0.5;
+		PStartAPlate.a := 0.5;
+		PStartAPlate.MoveTyp := 3;
+		PStartAPlate.PosTyp := 0;
+		
+		// Lagerposition von Fixierungsplatte
+		PGetFixPlate.q1 := 0.240;
+		PGetFixPlate.q2 := 0.5266;
+		PGetFixPlate.q3 := 0.311;
+		PGetFixPlate.q4 := 3;
+		PGetFixPlate.q5 := -180;
+		PGetFixPlate.q6 := 0;
+		PGetFixPlate.v := 1;
+		PGetFixPlate.a := 1;
+		PGetFixPlate.MoveTyp := 3;
+		PGetFixPlate.PosTyp := 0;
+		
+		// Startposition für Platzierung von MontagePlatte
+		PStartSetFixPlate.q1 := 0.0937;
+		PStartSetFixPlate.q2 := 0.473;
+		PStartSetFixPlate.q3 := 0.316;
+		PStartSetFixPlate.q4 := 0;
+		PStartSetFixPlate.q5 := -180;
+		PStartSetFixPlate.q6 := 0;
+		PStartSetFixPlate.v := 0.5;
+		PStartSetFixPlate.a := 0.5;
+		PStartSetFixPlate.MoveTyp := 3;
+		PStartSetFixPlate.PosTyp := 0;
+		
+		// Startposition für Ausrichtung von Fixierplatte in X-Richtung
+		PStartAXFixPlate.q1 := 0.211;
+		PStartAXFixPlate.q2 := 0.527;
+		PStartAXFixPlate.q3 := 0.311;
+		PStartAXFixPlate.q4 := 3;
+		PStartAXFixPlate.q5 := -180;
+		PStartAXFixPlate.q6 := 0;
+		PStartAXFixPlate.v := 0.5;
+		PStartAXFixPlate.a := 0.5;
+		PStartAXFixPlate.MoveTyp := 3;
+		PStartAXFixPlate.PosTyp := 0;
+		
+		// Startposition für Ausrichtung von Fixierplatte in Y-Richtung
+		PStartAYFixPlate.q1 := 0.2397;
+		PStartAYFixPlate.q2 := 0.5037;
+		PStartAYFixPlate.q3 := 0.3116;
+		PStartAYFixPlate.q4 := 3;
+		PStartAYFixPlate.q5 := -180;
+		PStartAYFixPlate.q6 := 0;
+		PStartAYFixPlate.v := 0.5;
+		PStartAYFixPlate.a := 0.5;
+		PStartAYFixPlate.MoveTyp := 3;
+		PStartAYFixPlate.PosTyp := 0;
+		
+		
+	// Offsets
+		// Offset X (klein - positiv)
+		POffsetXs.q1 := 0.02;
+		POffsetXs.q2 := 0;
+		POffsetXs.q3 := 0;
+		POffsetXs.q4 := 0;
+		POffsetXs.q5 := 0;
+		POffsetXs.q6 := 0;
+		POffsetXs.v := 0.02;
+		POffsetXs.a := 0.02;
+		POffsetXs.MoveTyp := 0;
+		POffsetXs.PosTyp := 1;
+		
+		// Offset X (klein - negativ)
+		POffsetnXs.q1 := -0.02;
+		POffsetnXs.q2 := 0;
+		POffsetnXs.q3 := 0;
+		POffsetnXs.q4 := 0;
+		POffsetnXs.q5 := 0;
+		POffsetnXs.q6 := 0;
+		POffsetnXs.v := 0.02;
+		POffsetnXs.a := 0.02;
+		POffsetnXs.MoveTyp := 0;
+		POffsetnXs.PosTyp := 1;
+		
+		// Offset Y (klein - negativ)
+		POffsetnYs.q1 := 0;
+		POffsetnYs.q2 := -0.02;
+		POffsetnYs.q3 := 0;
+		POffsetnYs.q4 := 0;
+		POffsetnYs.q5 := 0;
+		POffsetnYs.q6 := 0;
+		POffsetnYs.v := 0.02;
+		POffsetnYs.a := 0.02;
+		POffsetnYs.MoveTyp := 0;
+		POffsetnYs.PosTyp := 1;
+		
+		// Z-Richtung (negativ)
+		POffsetnZ.q1 := 0;
+		POffsetnZ.q2 := 0;
+		POffsetnZ.q3 := -0.1;
+		POffsetnZ.q4 := 0;
+		POffsetnZ.q5 := 0;
+		POffsetnZ.q6 := 0;
+		POffsetnZ.v := 0.05;
+		POffsetnZ.a := 0.05;
+		POffsetnZ.MoveTyp := 0;
+		POffsetnZ.PosTyp := 1;
+		
+		// Z-Richtung (positiv)
+		POffsetZ.q1 := 0;
+		POffsetZ.q2 := 0;
+		POffsetZ.q3 := 0.1;
+		POffsetZ.q4 := 0;
+		POffsetZ.q5 := 0;
+		POffsetZ.q6 := 0;
+		POffsetZ.v := 0.05;
+		POffsetZ.a := 0.05;
+		POffsetZ.MoveTyp := 0;
+		POffsetZ.PosTyp := 1;
+		
+	// Ausrichtungs_Offsets
+		// Offset X  (positiv)
+		POffsetAX.q1 := 0.3;
+		POffsetAX.q2 := 0;
+		POffsetAX.q3 := 0;
+		POffsetAX.q4 := 0;
+		POffsetAX.q5 := 0;
+		POffsetAX.q6 := 0;
+		POffsetAX.v := 0.02;
+		POffsetAX.a := 0.02;
+		POffsetAX.MoveTyp := 0;
+		POffsetAX.PosTyp := 1;
+		
+		// Offset X für Platte 1 (negativ)
+		POffsetAnX.q1 := -0.3;
+		POffsetAnX.q2 := 0;
+		POffsetAnX.q3 := 0;
+		POffsetAnX.q4 := 0;
+		POffsetAnX.q5 := 0;
+		POffsetAnX.q6 := 0;
+		POffsetAnX.v := 0.02;
+		POffsetAnX.a := 0.02;
+		POffsetAnX.MoveTyp := 0;
+		POffsetAnX.PosTyp := 1;
+		
+		// Offset Y (positiv)
+		POffsetAY.q1 := 0;
+		POffsetAY.q2 := 0.3;
+		POffsetAY.q3 := 0;
+		POffsetAY.q4 := 0;
+		POffsetAY.q5 := 0;
+		POffsetAY.q6 := 0;
+		POffsetAY.v := 0.02;
+		POffsetAY.a := 0.02;
+		POffsetAY.MoveTyp := 0;
+		POffsetAY.PosTyp := 1;
 
-// Offset Down
-POffsetDown.q1 := 0;
-POffsetDown.q2 := 0;
-POffsetDown.q3 := -0.1;
-POffsetDown.q4 := 0;
-POffsetDown.q5 := 0;
-POffsetDown.q6 := 0;
-POffsetDown.v := 0.05;
-POffsetDown.a := 0.05;
-POffsetDown.MoveTyp := 0;
-POffsetDown.PosTyp := 1;
+		// Offset Y für Platte 1 (negativ)
+		POffsetAnY.q1 := 0;
+		POffsetAnY.q2 := -0.3;
+		POffsetAnY.q3 := 0;
+		POffsetAnY.q4 := 0;
+		POffsetAnY.q5 := 0;
+		POffsetAnY.q6 := 0;
+		POffsetAnY.v := 0.02;
+		POffsetAnY.a := 0.02;
+		POffsetAnY.MoveTyp := 0;
+		POffsetAnY.PosTyp := 1;
+		
+		// Offset Z für Fixierungsplatte (negativ)
+		POffsetAnZ.q1 := 0;
+		POffsetAnZ.q2 := 0;
+		POffsetAnZ.q3 := -0.3;
+		POffsetAnZ.q4 := 0;
+		POffsetAnZ.q5 := 0;
+		POffsetAnZ.q6 := 0;
+		POffsetAnZ.v := 0.02;
+		POffsetAnZ.a := 0.02;
+		POffsetAnZ.MoveTyp := 0;
+		POffsetAnZ.PosTyp := 1;
 
-// Offset Up
-POffsetUP.q1 := 0;
-POffsetUP.q2 := 0;
-POffsetUP.q3 := 0.1;
-POffsetUP.q4 := 0;
-POffsetUP.q5 := 0;
-POffsetUP.q6 := 0;
-POffsetUP.v := 0.05;
-POffsetUP.a := 0.05;
-POffsetUP.MoveTyp := 0;
-POffsetUP.PosTyp := 1;
+// Greiferpositionen
+	// Platte offen
+	Plate_Open.Pos := 25;
+	Plate_Open.F := 60;
+	Plate_Open.Geschw := 20;
+	
+	// Platte zu
+	Plate_Closed.Pos := 15;
+	Plate_Closed.F := 60;
+	Plate_Closed.Geschw := 20;
+	
+	// Fixierungsplatte offen
+	FixPlate_Open.Pos := 35;
+	FixPlate_Open.F := 60;
+	FixPlate_Open.Geschw := 20;
+	
+	// Fixierungsplatte zu
+	FixPlate_Closed.Pos := 25;
+	FixPlate_Closed.F := 60;
+	FixPlate_Closed.Geschw := 20;
+	
+	// Greifer geschlossen
+	GripperClossed.Pos := 1;
+	GripperClossed.F := 60;
+	GripperClossed.Geschw := 20;
 
-// Offset X für Platte 1
-POffsetX.q1 := -0.3;
-POffsetX.q2 := 0;
-POffsetX.q3 := 0;
-POffsetX.q4 := 0;
-POffsetX.q5 := 0;
-POffsetX.q6 := 0;
-POffsetX.v := 0.02;
-POffsetX.a := 0.02;
-POffsetX.MoveTyp := 0;
-POffsetX.PosTyp := 1;
+// Kraftvariablen
+	// X-Richtung (Bewegungsrichtung: negativ)
+	AnstossX.Fx := 0;
+	AnstossX.Fy := -5;
+	AnstossX.Fz := 0;
+	
+	// X-Richtung (Bewegungsrichtung: positiv)
+	AnstossnX.Fx := 0;
+	AnstossnX.Fy := 5;
+	AnstossnX.Fz := 0;
+	
+	// Y-Richtung (Bewegungsrichtung: negativ)
+	AnstossY.Fx := -5;
+	AnstossY.Fy := 0;
+	AnstossY.Fz := 0;
+	
+	// Y-Richtung (Bewegungsrichtung: positiv)
+	AnstossnY.Fx := 5;
+	AnstossnY.Fy := 0;
+	AnstossnY.Fz := 0;
+	
+	// Z-Richtung (Bewegungsrichtung: negativ)
+	AnstossZ.Fx := 0;
+	AnstossZ.Fy := 0;
+	AnstossZ.Fz := -20;
 
-// Offset Y für Platte 1
-POffsetY.q1 := 0;
-POffsetY.q2 := -0.3;
-POffsetY.q3 := 0;
-POffsetY.q4 := 0;
-POffsetY.q5 := 0;
-POffsetY.q6 := 0;
-POffsetY.v := 0.02;
-POffsetY.a := 0.02;
-POffsetY.MoveTyp := 0;
-POffsetY.PosTyp := 1;
 
-// Offset Z für MountPlatte
-POffsetZ.q1 := 0;
-POffsetZ.q2 := 0;
-POffsetZ.q3 := -0.3;
-POffsetZ.q4 := 0;
-POffsetZ.q5 := 0;
-POffsetZ.q6 := 0;
-POffsetZ.v := 0.02;
-POffsetZ.a := 0.02;
-POffsetZ.MoveTyp := 0;
-POffsetZ.PosTyp := 1;
-
-AnstossX.Fx := 0;
-AnstossX.Fy := -5;
-AnstossX.Fz := 0;
-
-AnstossY.Fx := -5;
-AnstossY.Fy := 0;
-AnstossY.Fz := 0;
-
-AnstossZ.Fx := 0;
-AnstossZ.Fy := 0;
-AnstossZ.Fz := -20;
-
-// Lagerposition von Platte 1
-PPlate1.q1 := 0.070;
-PPlate1.q2 := 0.582;
-PPlate1.q3 := 0.306;
-PPlate1.q4 := 0;
-PPlate1.q5 := -180;
-PPlate1.q6 := 0;
-PPlate1.v := 1;
-PPlate1.a := 1;
-PPlate1.MoveTyp := 3;
-PPlate1.PosTyp := 0;
-
-// Lagerposition von Platte 2
-PPlate2.q1 := 0.166;
-PPlate2.q2 := 0.582;
-PPlate2.q3 := 0.306;
-PPlate2.q4 := 0;
-PPlate2.q5 := -180;
-PPlate2.q6 := 0;
-PPlate2.v := 1;
-PPlate2.a := 1;
-PPlate2.MoveTyp := 3;
-PPlate2.PosTyp := 0;
-
-// Lagerposition von MountPlatte
-PMountPlate.q1 := 0.240;
-PMountPlate.q2 := 0.527;
-PMountPlate.q3 := 0.311;
-PMountPlate.q4 := 0;
-PMountPlate.q5 := -180;
-PMountPlate.q6 := 0;
-PMountPlate.v := 1;
-PMountPlate.a := 1;
-PMountPlate.MoveTyp := 3;
-PMountPlate.PosTyp := 0;
-
-// Startposition für Platzierung von Platte 1
-PMount1.q1 := 0.070;
-PMount1.q2 := 0.490;
-PMount1.q3 := 0.306;
-PMount1.q4 := 0;
-PMount1.q5 := -180;
-PMount1.q6 := 0;
-PMount1.v := 0.5;
-PMount1.a := 0.5;
-PMount1.MoveTyp := 3;
-PMount1.PosTyp := 0;
-
-// Offset X für Platte 1
-POffsetXs.q1 := 0.02;
-POffsetXs.q2 := 0;
-POffsetXs.q3 := 0;
-POffsetXs.q4 := 0;
-POffsetXs.q5 := 0;
-POffsetXs.q6 := 0;
-POffsetXs.v := 0.02;
-POffsetXs.a := 0.02;
-POffsetXs.MoveTyp := 0;
-POffsetXs.PosTyp := 1;
-
-// Startposition für Platzierung von Platte 2
-PMount2.q1 := 0.165;
-PMount2.q2 := 0.471;
-PMount2.q3 := 0.306;
-PMount2.q4 := 0;
-PMount2.q5 := -180;
-PMount2.q6 := 0;
-PMount2.v := 0.5;
-PMount2.a := 0.5;
-PMount2.MoveTyp := 3;
-PMount2.PosTyp := 0;
-
-// Startposition für Ausrichtung von Platten
-PAusricht.q1 := 0.175;
-PAusricht.q2 := 0.471;
-PAusricht.q3 := 0.306;
-PAusricht.q4 := 0;
-PAusricht.q5 := -180;
-PAusricht.q6 := 0;
-PAusricht.v := 0.5;
-PAusricht.a := 0.5;
-PAusricht.MoveTyp := 3;
-PAusricht.PosTyp := 0;
-
-// Startposition für Platzierung  von MontagePlatte
-PMountPlate2.q1 := 0.0937;
-PMountPlate2.q2 := 0.473;
-PMountPlate2.q3 := 0.316;
-PMountPlate2.q4 := 0;
-PMountPlate2.q5 := -180;
-PMountPlate2.q6 := 0;
-PMountPlate2.v := 0.5;
-PMountPlate2.a := 0.5;
-PMountPlate2.MoveTyp := 3;
-PMountPlate2.PosTyp := 0;
-
-// Idleposition für Platte
-Read_Plate.Pos := 25;
-Read_Plate.F := 60;
-Read_Plate.Geschw := 20;
-
-// Greifposition für Platte
-Grip_Plate.Pos := 15;
-Grip_Plate.F := 60;
-Grip_Plate.Geschw := 20;
-
-// Idleposition für Mountplatte
-Mount_Plate.Pos := 35;
-Mount_Plate.F := 60;
-Mount_Plate.Geschw := 20;
-
-// Greifposition für Platte
-Grip_MountPlate.Pos := 25;
-Grip_MountPlate.F := 60;
-Grip_MountPlate.Geschw := 20;
 
 // Zuweisung
-RobParam1[0] := PPlate1;
-RobParam1[1] := POffsetDown;
-RobParam1[2] := POffsetUP;
+R_Data_1[0] := PGetPlate1;
+R_Data_1[1] := POffsetnZ;
+R_Data_1[2] := POffsetZ;
 
-GripParam1[0] := Read_Plate;
-GripParam1[1] := Grip_Plate;
+G_Data_1[0] := Plate_Open;
+G_Data_1[1] := Plate_Closed;
 
-RobParam2[0] := PMount1;
-RobParam2[1] := POffsetDown;
-RobParam2[2] := POffsetY;
-RobParam2[3] := POffsetX;
-RobParam2[4] := POffsetUP;
+R_Data_2[0] := PStartSetPlate1;
+R_Data_2[1] := POffsetnZ;
+R_Data_2[2] := POffsetAnY;
+R_Data_2[3] := POffsetAnX;
+R_Data_2[4] := POffsetZ;
 
-ErreichtParam2[0] := AnstossY;
-ErreichtParam2[1] := AnstossX;
+S_Data_1[0] := AnstossY;
+S_Data_1[1] := AnstossX;
 
-RobParam3[0] := PPlate2;
-RobParam3[1] := POffsetDown;
-RobParam3[2] := POffsetUP;
+R_Data_3[0] := PGetPlate2;
+R_Data_3[1] := POffsetnZ;
+R_Data_3[2] := POffsetZ;
 
-RobParam4[0] := PMount2;
-RobParam4[1] := POffsetDown;
-RobParam4[2] := POffsetX;
-RobParam4[3] := POffsetUP;
+R_Data_4[0] := PStartSetPlate2;
+R_Data_4[1] := POffsetnZ;
+R_Data_4[2] := POffsetAnX;
+R_Data_4[3] := POffsetZ;
 
-RobParam5[0] := PAusricht;
-RobParam5[1] := POffsetDown;
-RobParam5[2] := POffsetX;
-RobParam5[3] := POffsetXs;
-RobParam5[4] := POffsetUP;
+R_Data_5[0] := PStartAPlate;
+R_Data_5[1] := POffsetnZ;
+R_Data_5[2] := POffsetAnX;
+R_Data_5[3] := POffsetXs;
+R_Data_5[4] := POffsetZ;
 
-RobParam6[0] := PMountPlate;
-RobParam6[1] := POffsetDown;
-RobParam6[2] := POffsetUP;
+R_Data_6[0] := PStartAXFixPlate;
+R_Data_6[1] := POffsetnZ;
+R_Data_6[2] := POffsetAX;
+R_Data_6[3] := POffsetnXs;
+R_Data_6[4] := POffsetZ;
 
-GripParam2[0] := Mount_Plate;
-GripParam2[1] := Grip_MountPlate;
+R_Data_7[0] := PStartAYFixPlate;
+R_Data_7[1] := POffsetnZ;
+R_Data_7[2] := POffsetAY;
+R_Data_7[3] := POffsetnYs;
+R_Data_7[4] := POffsetZ;
 
-RobParam7[0] := PMountPlate2;
-RobParam7[1] := POffsetZ;
-RobParam7[2] := POffsetUP;]]></ST>
+R_Data_8[0] := PGetFixPlate;
+R_Data_8[1] := POffsetnZ;
+R_Data_8[2] := POffsetZ;
+
+G_Data_2[0] := FixPlate_Open;
+G_Data_2[1] := FixPlate_Closed;
+
+R_Data_9[0] := PStartSetFixPlate;
+R_Data_9[1] := POffsetAnZ;
+R_Data_9[2] := POffsetZ;
+
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

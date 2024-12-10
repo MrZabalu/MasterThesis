@@ -260,10 +260,12 @@ END_IF
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
+			
 				Objekt.P_Prozessparameter := eRoboterPos;
 				Objekt.M_Start();	
 		END_IF
-	END_IF]]></ST>
+	END_IF
+	]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{ec311155-7585-4e1e-a8e1-ec23ba2ba7f7}" FolderPath="01_Steuerungsmethoden\">

@@ -17,8 +17,9 @@ VAR
 	bBeendet 				:BOOL;
 	bReset					:BOOL;
 	
-	// SFC-Variablen
+	// SFC-Flags
 	SFCReset				:BOOL;
+	SFCCurrentStep			:BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -32,8 +33,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SFCReset := TRUE;
-bReset := TRUE;]]></ST>
+        <ST><![CDATA[bReset := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{3b8d54a5-f826-4c91-bb15-3ca6280995f7}" FolderPath="01_Steuerungsmethoden\">
@@ -52,17 +52,29 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bBeendet := TRUE;]]></ST>
+        <ST><![CDATA[bStart := FALSE;
+bBeendet := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Finished" Id="{424b331b-368b-4080-a1ab-e6d22be996db}" FolderPath="02_Steuerungseigenschaften\">
-      <Declaration><![CDATA[PROPERTY P_Finished : BOOL;]]></Declaration>
+    <Property Name="P_Finished" Id="{a66d494a-965d-4cb7-82b2-665c252cc716}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a1a0563e-e419-4637-b3d5-a4a7a86c2f9d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Finished := bBeendet;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{424b331b-368b-4080-a1ab-e6d22be996db}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : INT;]]></Declaration>
       <Get Name="Get" Id="{7d3a29b1-e786-46aa-a0eb-253fc5114027}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Finished := bBeendet; ]]></ST>
+          <ST><![CDATA[P_State := iState; ]]></ST>
         </Implementation>
       </Get>
     </Property>

@@ -21,8 +21,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_Finished" Id="{d4f0c874-60ab-44ff-b287-3e5c50ec6755}">
+    <Property Name="P_Finished" Id="{5d7265bd-3769-47df-a5d8-a2727e912dfe}">
       <Declaration><![CDATA[PROPERTY P_Finished : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f6ec5dc3-e29a-46be-94b5-c4717c14f8d4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{d4f0c874-60ab-44ff-b287-3e5c50ec6755}">
+      <Declaration><![CDATA[PROPERTY P_State : INT]]></Declaration>
       <Get Name="Get" Id="{8f2f7291-dc2d-4e33-80a7-4abdfeb82956}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

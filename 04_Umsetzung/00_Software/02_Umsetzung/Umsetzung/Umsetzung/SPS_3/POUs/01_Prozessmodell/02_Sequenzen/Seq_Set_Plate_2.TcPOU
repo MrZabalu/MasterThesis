@@ -27,7 +27,6 @@ ACT_Ablauf();
 CASE iState OF
 	0:	// BEREIT
 		IF bStart THEN
-			bStart := FALSE;
 			iState := 1;
 		END_IF
 	1:	// LAUFEND
@@ -39,6 +38,10 @@ CASE iState OF
 		IF bBeendet OR bReset THEN
 			bReset := FALSE;
 			SFCReset := FALSE;
+			iState := 0;
+		END_IF
+	2: // ABGESCHLOSSEN
+		IF SFCCurrentStep = 'Init' THEN
 			iState := 0;
 		END_IF
 END_CASE]]></ST>
@@ -3253,7 +3256,7 @@ END_CASE]]></ST>
                 </o>
                 <v>CurrentStep</v>
                 <o>
-                  <v n="Use">false</v>
+                  <v n="Use">true</v>
                   <v n="Declare">true</v>
                 </o>
                 <v>Tip</v>

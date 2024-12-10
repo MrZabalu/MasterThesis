@@ -14,6 +14,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	// Interne Sequenzen
+	Seq_Ausrichten			:Seq_Ausrichten;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,7 +26,6 @@ ACT_Ablauf();
 CASE iState OF
 	0:	// BEREIT
 		IF bStart THEN
-			bStart := FALSE;
 			iState := 1;
 		END_IF
 	1:	// LAUFEND
@@ -36,6 +37,10 @@ CASE iState OF
 		IF bBeendet OR bReset THEN
 			bReset := FALSE;
 			SFCReset := FALSE;
+			iState := 0;
+		END_IF
+	2: // ABGESCHLOSSEN
+		IF SFCCurrentStep = 'Init' THEN
 			iState := 0;
 		END_IF
 END_CASE]]></ST>
@@ -1128,7 +1133,7 @@ END_CASE]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Branch0"</v>
+                              <v n="Value">""</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">93L</v>
@@ -3304,7 +3309,7 @@ END_CASE]]></ST>
                 </o>
                 <v>CurrentStep</v>
                 <o>
-                  <v n="Use">false</v>
+                  <v n="Use">true</v>
                   <v n="Declare">true</v>
                 </o>
                 <v>Tip</v>
@@ -3352,7 +3357,7 @@ END_CASE]]></ST>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="ACT_Get_Gripper" Id="{b951f21e-a7c9-40b5-b1ca-abcd7c5e0a21}" FolderPath="01_Zuweisung\">
+    <Action Name="ACT_Get_Gripper" Id="{7c43d1d5-80ed-4978-86c1-f1210d3c12d5}" FolderPath="01_Zuweisung\">
       <Implementation>
         <ST><![CDATA[G_Move.P_SGripperParam := GripParam[0];]]></ST>
       </Implementation>
