@@ -20,6 +20,7 @@ VAR
 	// Managementvariablen 
 	bGestartet			:BOOL;
 	bGestoppt			:BOOL;
+	bSkillActiv			:BOOL;
 	
 	// Zustandsvariablen
 	bStarten			:BOOL;
@@ -61,7 +62,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 AND bSkillActiv THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -146,7 +147,8 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Reset();]]></ST>
+        <ST><![CDATA[Objekt.M_Reset();
+bSkillActiv := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{a5da1c20-9102-47a3-8436-6be73b86cd12}" FolderPath="01_Steuerungsmethoden\">
@@ -164,6 +166,7 @@ END_CASE]]></ST>
 			ELSE
 				Objekt.P_Prozessparameter := eRoboterPos;
 				Objekt.M_Start();
+				bSkillActiv := TRUE;
 			END_IF
 		END_IF
 	END_IF
@@ -174,7 +177,8 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Stop();]]></ST>
+        <ST><![CDATA[Objekt.M_Stop();
+bSkillActiv := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_RobotParam" Id="{a1b7619a-85cc-409f-8c99-f7e7fef990cf}" FolderPath="03_prozesseigenschaften\">

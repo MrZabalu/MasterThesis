@@ -21,6 +21,7 @@ VAR
 	iState				:eSkillState;									// Information über Zustand von Skill
 	bGestartet			:BOOL;
 	bGestoppt			:BOOL;
+	bSkillActiv			:BOOL;
 	
 	// Zustandsvariablen
 	bStarten			:BOOL;
@@ -35,7 +36,7 @@ VAR
 	// Prozessparameter
 	eRoboterPos		 			:sRoboterProzessVariablen;
 	sLimit						:sKraftVariablen;
-	sErreicht					:sKraftVariablen;
+	sErreicht					:sKraftVariablen;	
 	
 END_VAR
 ]]></Declaration>
@@ -65,7 +66,7 @@ END_IF
 CASE iState OF 
 0: 	// BEREIT	
 		// DO
-		IF Objekt.P_State = 3 THEN		// Objekt wurde eingeschalten
+		IF Objekt.P_State = 3 AND bSkillActiv THEN		// Objekt wurde eingeschalten
 			bStarten := TRUE;
 		END_IF
 		
@@ -126,6 +127,8 @@ CASE iState OF
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
 		// DO
+		M_Reset();
+		
 		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
 			bSkillFertig := TRUE;									
 		END_IF
@@ -247,7 +250,19 @@ END_IF
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Reset();]]></ST>
+        <ST><![CDATA[Objekt.M_Reset();
+bSkillActiv := FALSE;
+
+eRoboterPos.q1 := 0;
+eRoboterPos.q2 := 0;
+eRoboterPos.q3 := 0;
+eRoboterPos.q4 := 0;
+eRoboterPos.q5 := 0;
+eRoboterPos.q6 := 0;
+eRoboterPos.v := 0;
+eRoboterPos.a := 0;
+eRoboterPos.MoveTyp := 0;
+eRoboterPos.PosTyp := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{bcb53f09-8eee-41d0-920b-9b5bddfe5634}" FolderPath="01_Steuerungsmethoden\">
@@ -259,10 +274,11 @@ END_IF
 	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
-			// Prüfen auf Fehler (Muss ergänzt werden)
-			
+			IF eRoboterPos.a <> 0 AND eRoboterPos.v <> 0 THEN
 				Objekt.P_Prozessparameter := eRoboterPos;
-				Objekt.M_Start();	
+				Objekt.M_Start();
+				bSkillActiv := TRUE;	
+			END_IF
 		END_IF
 	END_IF
 	]]></ST>
@@ -272,7 +288,19 @@ END_IF
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Stop();]]></ST>
+        <ST><![CDATA[Objekt.M_Stop();
+bSkillActiv := FALSE;
+
+eRoboterPos.q1 := 0;
+eRoboterPos.q2 := 0;
+eRoboterPos.q3 := 0;
+eRoboterPos.q4 := 0;
+eRoboterPos.q5 := 0;
+eRoboterPos.q6 := 0;
+eRoboterPos.v := 0;
+eRoboterPos.a := 0;
+eRoboterPos.MoveTyp := 0;
+eRoboterPos.PosTyp := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Erreicht" Id="{65ff26fd-bd5b-4448-b176-bea996d64888}" FolderPath="04_Prozesseigenschaften\">

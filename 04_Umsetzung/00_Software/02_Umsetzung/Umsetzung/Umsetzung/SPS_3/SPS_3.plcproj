@@ -131,31 +131,31 @@
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\00_Basis\FB_Basis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Ausrichten.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Ausrichten.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Ausrichten_MPlate.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Ausrichten_MPlate.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Ausrichten_Plates.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Ausrichten_Plates.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Get_Part.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Get_Part.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_MPlate.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Set_MPlate.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_Plate_1.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Set_Plate_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\Seq_Set_Plate_2.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Set_Plate_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_1.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\02_Version_2\SEQ_Teile_Hohlen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_1_1.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_V1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\SkillSet.TcPOU">
@@ -223,6 +223,8 @@
     <Folder Include="POUs\01_Prozessmodell\01_Skills\02_Greifer" />
     <Folder Include="POUs\01_Prozessmodell\02_Sequenzen" />
     <Folder Include="POUs\01_Prozessmodell\02_Sequenzen\00_Basis" />
+    <Folder Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1" />
+    <Folder Include="POUs\01_Prozessmodell\02_Sequenzen\02_Version_2" />
     <Folder Include="POUs\01_Prozessmodell\03_Arbeitsplan" />
     <Folder Include="POUs\02_Anlagenmodell" />
     <Folder Include="POUs\02_Anlagenmodell\01_Objektklassen" />
@@ -232,11 +234,6 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="CmpDynamicText">
-      <DefaultResolution>CmpDynamicText</DefaultResolution>
-      <Namespace>CmpDynamicText</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-    </PlaceholderReference>
     <PlaceholderReference Include="Standard">
       <DefaultResolution>Standard</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>

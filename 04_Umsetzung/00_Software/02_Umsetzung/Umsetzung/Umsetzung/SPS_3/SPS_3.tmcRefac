@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="3a8a7c03-4d29-456d-873b-3b80c55e380a">AP_1</Type>
+      <From>AP_1</From>
+      <To>AP_V1</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

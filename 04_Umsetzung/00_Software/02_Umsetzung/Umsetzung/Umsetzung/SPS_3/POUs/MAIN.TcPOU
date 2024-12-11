@@ -18,7 +18,7 @@ Zustandshandling();
 PunkteZuweisung_Temp();
 
 // Aufrufen von Testablauf
-AP_1();]]></ST>
+AP_V1();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

@@ -70,7 +70,7 @@ VAR
 	Anschlag			:BYTE;
 	Prozessvariablen 	:sSmartGreiferProzessVariablen;
 
-	
+	TestCheck			:BOOL;
 	
 	
 END_VAR
@@ -235,9 +235,10 @@ CASE iState OF
 						
 						// Greifer ist in Hinderniss gefahren
 						IF 	DataRead[0] = 0 		AND
-							DataRead[1] = 185 		AND
+							//DataRead[1] = 185 		AND
 							DataRead[2] = iPos 		AND
-							DataRead[3] = 0 		THEN
+							DataRead[3] = 0 		AND
+							DataRead[4] <> 0 		THEN
 							
 							Anschlag := DataRead[5];
 							CheckTimer(IN := FALSE);
@@ -260,6 +261,7 @@ CASE iState OF
 			IF bObjektFertig THEN
 				bObjektFertig := FALSE;
 				iState := 4;
+				TestCheck := TRUE;
 			END_IF
 			
 			IF bSkillFertig THEN
@@ -275,7 +277,7 @@ CASE iState OF
 	//____________________________________________________________________________________________
 	4: // ABGESCHLOSSEN_INTERN
 		// DO
-		
+		TestCheck := FALSE;
 		// TRANSITION
 			IF bResettenSkill THEN																	// Objekt resetten
 				bResettenSkill := FALSE;		

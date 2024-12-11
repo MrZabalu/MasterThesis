@@ -82,7 +82,7 @@ END_VAR
 		// Lagerposition von Platte 1
 		PGetPlate1.q1 := 0.070;
 		PGetPlate1.q2 := 0.582;
-		PGetPlate1.q3 := 0.306;
+		PGetPlate1.q3 := 0.236;
 		PGetPlate1.q4 := 0;
 		PGetPlate1.q5 := -180;
 		PGetPlate1.q6 := 0;
@@ -94,7 +94,7 @@ END_VAR
 		// Lagerposition von Platte 2
 		PGetPlate2.q1 := 0.166;
 		PGetPlate2.q2 := 0.582;
-		PGetPlate2.q3 := 0.306;
+		PGetPlate2.q3 := 0.236;
 		PGetPlate2.q4 := 0;
 		PGetPlate2.q5 := -180;
 		PGetPlate2.q6 := 0;
@@ -106,43 +106,43 @@ END_VAR
 		// Startposition für Platzierung von Platte 1
 		PStartSetPlate1.q1 := 0.070;
 		PStartSetPlate1.q2 := 0.490;
-		PStartSetPlate1.q3 := 0.306;
+		PStartSetPlate1.q3 := 0.236;
 		PStartSetPlate1.q4 := 0;
 		PStartSetPlate1.q5 := -180;
 		PStartSetPlate1.q6 := 0;
-		PStartSetPlate1.v := 0.5;
-		PStartSetPlate1.a := 0.5;
+		PStartSetPlate1.v := 1;
+		PStartSetPlate1.a := 1;
 		PStartSetPlate1.MoveTyp := 3;
 		PStartSetPlate1.PosTyp := 0;
 		
 		// Startposition für Platzierung von Platte 2
 		PStartSetPlate2.q1 := 0.165;
 		PStartSetPlate2.q2 := 0.471;
-		PStartSetPlate2.q3 := 0.306;
+		PStartSetPlate2.q3 := 0.236;
 		PStartSetPlate2.q4 := 0;
 		PStartSetPlate2.q5 := -180;
 		PStartSetPlate2.q6 := 0;
-		PStartSetPlate2.v := 0.5;
-		PStartSetPlate2.a := 0.5;
+		PStartSetPlate2.v := 1;
+		PStartSetPlate2.a := 1;
 		PStartSetPlate2.MoveTyp := 3;
 		PStartSetPlate2.PosTyp := 0;
 		
 		// Startposition für Ausrichtung von Platten
 		PStartAPlate.q1 := 0.175;
 		PStartAPlate.q2 := 0.471;
-		PStartAPlate.q3 := 0.306;
+		PStartAPlate.q3 := 0.236;
 		PStartAPlate.q4 := 0;
 		PStartAPlate.q5 := -180;
 		PStartAPlate.q6 := 0;
-		PStartAPlate.v := 0.5;
-		PStartAPlate.a := 0.5;
+		PStartAPlate.v := 1;
+		PStartAPlate.a := 1;
 		PStartAPlate.MoveTyp := 3;
 		PStartAPlate.PosTyp := 0;
 		
 		// Lagerposition von Fixierungsplatte
 		PGetFixPlate.q1 := 0.240;
 		PGetFixPlate.q2 := 0.5266;
-		PGetFixPlate.q3 := 0.311;
+		PGetFixPlate.q3 := 0.243;
 		PGetFixPlate.q4 := 3;
 		PGetFixPlate.q5 := -180;
 		PGetFixPlate.q6 := 0;
@@ -152,38 +152,38 @@ END_VAR
 		PGetFixPlate.PosTyp := 0;
 		
 		// Startposition für Platzierung von MontagePlatte
-		PStartSetFixPlate.q1 := 0.0937;
+		PStartSetFixPlate.q1 := 0.092;
 		PStartSetFixPlate.q2 := 0.473;
-		PStartSetFixPlate.q3 := 0.316;
-		PStartSetFixPlate.q4 := 0;
+		PStartSetFixPlate.q3 := 0.246;
+		PStartSetFixPlate.q4 := 3;
 		PStartSetFixPlate.q5 := -180;
 		PStartSetFixPlate.q6 := 0;
-		PStartSetFixPlate.v := 0.5;
-		PStartSetFixPlate.a := 0.5;
+		PStartSetFixPlate.v := 1;
+		PStartSetFixPlate.a := 1;
 		PStartSetFixPlate.MoveTyp := 3;
 		PStartSetFixPlate.PosTyp := 0;
 		
 		// Startposition für Ausrichtung von Fixierplatte in X-Richtung
 		PStartAXFixPlate.q1 := 0.211;
 		PStartAXFixPlate.q2 := 0.527;
-		PStartAXFixPlate.q3 := 0.311;
+		PStartAXFixPlate.q3 := 0.244;
 		PStartAXFixPlate.q4 := 3;
 		PStartAXFixPlate.q5 := -180;
 		PStartAXFixPlate.q6 := 0;
-		PStartAXFixPlate.v := 0.5;
-		PStartAXFixPlate.a := 0.5;
+		PStartAXFixPlate.v := 1;
+		PStartAXFixPlate.a := 1;
 		PStartAXFixPlate.MoveTyp := 3;
 		PStartAXFixPlate.PosTyp := 0;
 		
 		// Startposition für Ausrichtung von Fixierplatte in Y-Richtung
 		PStartAYFixPlate.q1 := 0.2397;
 		PStartAYFixPlate.q2 := 0.5037;
-		PStartAYFixPlate.q3 := 0.3116;
+		PStartAYFixPlate.q3 := 0.241;
 		PStartAYFixPlate.q4 := 3;
 		PStartAYFixPlate.q5 := -180;
 		PStartAYFixPlate.q6 := 0;
-		PStartAYFixPlate.v := 0.5;
-		PStartAYFixPlate.a := 0.5;
+		PStartAYFixPlate.v := 1;
+		PStartAYFixPlate.a := 1;
 		PStartAYFixPlate.MoveTyp := 3;
 		PStartAYFixPlate.PosTyp := 0;
 		
@@ -228,24 +228,24 @@ END_VAR
 		// Z-Richtung (negativ)
 		POffsetnZ.q1 := 0;
 		POffsetnZ.q2 := 0;
-		POffsetnZ.q3 := -0.1;
+		POffsetnZ.q3 := -0.03;
 		POffsetnZ.q4 := 0;
 		POffsetnZ.q5 := 0;
 		POffsetnZ.q6 := 0;
-		POffsetnZ.v := 0.05;
-		POffsetnZ.a := 0.05;
+		POffsetnZ.v := 0.1;
+		POffsetnZ.a := 0.1;
 		POffsetnZ.MoveTyp := 0;
 		POffsetnZ.PosTyp := 1;
 		
 		// Z-Richtung (positiv)
 		POffsetZ.q1 := 0;
 		POffsetZ.q2 := 0;
-		POffsetZ.q3 := 0.1;
+		POffsetZ.q3 := 0.03;
 		POffsetZ.q4 := 0;
 		POffsetZ.q5 := 0;
 		POffsetZ.q6 := 0;
-		POffsetZ.v := 0.05;
-		POffsetZ.a := 0.05;
+		POffsetZ.v := 0.1;
+		POffsetZ.a := 0.1;
 		POffsetZ.MoveTyp := 0;
 		POffsetZ.PosTyp := 1;
 		
@@ -257,8 +257,8 @@ END_VAR
 		POffsetAX.q4 := 0;
 		POffsetAX.q5 := 0;
 		POffsetAX.q6 := 0;
-		POffsetAX.v := 0.02;
-		POffsetAX.a := 0.02;
+		POffsetAX.v := 0.05;
+		POffsetAX.a := 0.05;
 		POffsetAX.MoveTyp := 0;
 		POffsetAX.PosTyp := 1;
 		
@@ -269,8 +269,8 @@ END_VAR
 		POffsetAnX.q4 := 0;
 		POffsetAnX.q5 := 0;
 		POffsetAnX.q6 := 0;
-		POffsetAnX.v := 0.02;
-		POffsetAnX.a := 0.02;
+		POffsetAnX.v := 0.05;
+		POffsetAnX.a := 0.05;
 		POffsetAnX.MoveTyp := 0;
 		POffsetAnX.PosTyp := 1;
 		
@@ -281,8 +281,8 @@ END_VAR
 		POffsetAY.q4 := 0;
 		POffsetAY.q5 := 0;
 		POffsetAY.q6 := 0;
-		POffsetAY.v := 0.02;
-		POffsetAY.a := 0.02;
+		POffsetAY.v := 0.05;
+		POffsetAY.a := 0.05;
 		POffsetAY.MoveTyp := 0;
 		POffsetAY.PosTyp := 1;
 
@@ -293,8 +293,8 @@ END_VAR
 		POffsetAnY.q4 := 0;
 		POffsetAnY.q5 := 0;
 		POffsetAnY.q6 := 0;
-		POffsetAnY.v := 0.02;
-		POffsetAnY.a := 0.02;
+		POffsetAnY.v := 0.01;
+		POffsetAnY.a := 0.01;
 		POffsetAnY.MoveTyp := 0;
 		POffsetAnY.PosTyp := 1;
 		
@@ -328,13 +328,13 @@ END_VAR
 	
 	// Fixierungsplatte zu
 	FixPlate_Closed.Pos := 25;
-	FixPlate_Closed.F := 60;
+	FixPlate_Closed.F := 80;
 	FixPlate_Closed.Geschw := 20;
 	
 	// Greifer geschlossen
-	GripperClossed.Pos := 1;
+	GripperClossed.Pos := 0;
 	GripperClossed.F := 60;
-	GripperClossed.Geschw := 20;
+	GripperClossed.Geschw := 100;
 
 // Kraftvariablen
 	// X-Richtung (Bewegungsrichtung: negativ)

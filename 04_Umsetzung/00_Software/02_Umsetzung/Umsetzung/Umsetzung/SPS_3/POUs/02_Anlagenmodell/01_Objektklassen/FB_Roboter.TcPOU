@@ -106,8 +106,7 @@ VAR
 	bSetValues				:BOOL;							// Definiert ob Targetposition noch ermittelt werden muss
 	Prozessvariablen		:sRoboterProzessVariablen;
 	
-	TestArray				:ARRAY[0..50] OF sRoboterProzessVariablen;
-	Counter					:INT;
+	Stateset				:BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -147,7 +146,6 @@ END_VAR
 							nErrId => iErrorID);
 	
 	Delay_1(IN := Execute_TON1, PT := T#3MS);
-
 //____________________________________________________________________________________________
 // Input-Command-Verwaltung
 	// System
@@ -316,12 +314,12 @@ CASE iState OF
 		// DO
 			IF bStarten THEN
 				bAmStarten := M_BewegungZuPosition();
-				bStarten := FALSE;
 			END_IF
 			
 			IF bAmStarten  THEN
+				bStarten := FALSE;
 				bAmStarten := FALSE;
-				Execute_TON1 := TRUE;		 
+				Execute_TON1 := TRUE;	 
 			END_IF
 			
 			IF Delay_1.Q THEN
@@ -332,9 +330,7 @@ CASE iState OF
 		// TRANSITION
 			IF bAusgeschalten THEN																	// Verbindung wird getrennt
 				iState := 0;
-			END_IF
-			
-																									// Manuell-Modus wird eingeschalten
+			END_IF																									// Manuell-Modus wird eingeschalten
 													
 			 IF bGestartet THEN																		// Objekt führt Prozessdurch
 				 bGestartet := FALSE;
@@ -404,7 +400,7 @@ CASE iState OF
 					bQ3 := TRUE;
 				END_IF
 				
-				IF ABS(ABS(TargetPosition.q4) - ABS(ToolPosition.q4)) < 1 THEN
+				IF ABS(ABS(TargetPosition.q4) - ABS(ToolPosition.q4)) < 2 THEN
 					bQ4 := TRUE;
 				END_IF
 				
@@ -419,27 +415,27 @@ CASE iState OF
 			
 			// Gelenkwinkel
 			IF Prozessvariablen.MoveTyp = 1 THEN
-				IF ABS(TargetPosition.q1) - ABS(JointPositions.q1) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q1) - ABS(JointPositions.q1)) < 1 THEN
 					bQ1 := TRUE;
 				END_IF
 				
-				IF ABS(TargetPosition.q2) - ABS(JointPositions.q2) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q2) - ABS(JointPositions.q2)) < 1 THEN
 					bQ2 := TRUE;
 				END_IF
 				
-				IF ABS(TargetPosition.q3) - ABS(JointPositions.q3) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q3) - ABS(JointPositions.q3)) < 1 THEN
 					bQ3 := TRUE;
 				END_IF
 				
-				IF ABS(TargetPosition.q4) - ABS(JointPositions.q4) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q4) - ABS(JointPositions.q4)) < 1 THEN
 					bQ4 := TRUE;
 				END_IF
 				
-				IF ABS(TargetPosition.q5) - ABS(JointPositions.q5) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q5) - ABS(JointPositions.q5)) < 1 THEN
 					bQ5 := TRUE;
 				END_IF
 				
-				IF ABS(TargetPosition.q6) - ABS(JointPositions.q6) < 0.1 THEN
+				IF ABS(ABS(TargetPosition.q6) - ABS(JointPositions.q6)) < 1 THEN
 					bQ6 := TRUE;
 				END_IF
 			END_IF
@@ -453,7 +449,6 @@ CASE iState OF
 				bQ4 := FALSE;
 				bQ5 := FALSE;
 				bQ6 := FALSE;
-				
 				bObjektFertig := TRUE;
 			END_IF
 			
@@ -769,10 +764,6 @@ END_VAR
 		Send_START(bExecute := FALSE);
 		M_BewegungZuPosition := TRUE;
 	END_IF
-	
-	TestArray[Counter] := Prozessvariablen;
-	Counter := Counter + 1;
-	
 	
 						]]></ST>
       </Implementation>

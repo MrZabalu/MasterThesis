@@ -16,6 +16,7 @@ END_VAR
 VAR
 	// Managementvariablen
 	iState				:eSkillState;									// Information über Zustand von Skill
+	SendDelay			:TON;
 	
 	// Managementvariablen 
 	bGestartet			:BOOL;
@@ -33,11 +34,17 @@ VAR
 	
 	// Prozessparameter
 	eGreiferParam	 			:sSmartGreiferProzessVariablen;
-	
+	eGreiferParamReset			:sSmartGreiferProzessVariablen;
+
+	ParamArray					:ARRAY[0..10] OF sSmartGreiferProzessVariablen;
+	Counter						:INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Fehlerüberwachung
+      <ST><![CDATA[// Instanzierung
+SendDelay(PT := T#2ms);
+
+// Fehlerüberwachung
 IF bFehler THEN
 	iState := 3;
 END_IF
@@ -138,7 +145,8 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Reset();]]></ST>
+        <ST><![CDATA[Objekt.M_Reset();
+eGreiferParam := eGreiferParamReset;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{adfcfbf0-fd5e-42b6-8ae7-e20aed73ac37}" FolderPath="01_Steuerungsmethoden\">
@@ -151,8 +159,18 @@ END_CASE]]></ST>
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
-				Objekt.P_Prozessparameter := eGreiferParam;
-				Objekt.M_Start();
+				SendDelay(IN := TRUE);
+					
+				IF SendDelay.Q THEN
+					Objekt.P_Prozessparameter := eGreiferParam;
+					Objekt.M_Start();
+					SendDelay(IN := FALSE);
+					
+					
+					ParamArray[Counter] := eGreiferParam;
+					Counter := Counter + 1;
+				END_IF
+					
 		END_IF
 	END_IF
 ]]></ST>
@@ -162,7 +180,8 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Stop();]]></ST>
+        <ST><![CDATA[Objekt.M_Stop();
+eGreiferParam := eGreiferParamReset;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_SGripperParam" Id="{24a56df2-d061-4605-a850-faa49bdd332b}" FolderPath="03_Prozesseigenschaften\">
