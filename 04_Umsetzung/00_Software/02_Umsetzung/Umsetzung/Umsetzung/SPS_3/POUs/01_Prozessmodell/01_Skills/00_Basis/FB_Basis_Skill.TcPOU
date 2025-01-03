@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Basis_Skill" Id="{dd7354f9-9e43-46e9-8916-595337ad0a4b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Basis_Skill
+VAR_INPUT
+	// Betriebsvariablen 
+	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
+	eSysState					:eSystemState;							// Momentaner Zustand des Systems
+END_VAR
+VAR_OUTPUT
+	iErrorID					:INT;									// Fehlercode für System
+END_VAR
+VAR
+	// Managementvariablen
+	iState						:eSkillState;							// Information über Zustand von Skill
+	
+	bGestartet					:BOOL;									// Skill wurde gestartet
+	bGestoppt					:BOOL;									// Skill wurde gestoppt
+	bSkillActiv					:BOOL;									// Skill ist im Moment aktiv
+	
+	// Zustandsvariablen (Transitions)
+	bStarten					:BOOL;									
+	bStoppen					:BOOL;
+	bObjektFertig				:BOOL;
+	bWertErreicht				:BOOL;				
+	bLimitErreicht				:BOOL;				
+	bSkillFertig				:BOOL;
+	bFehler						:BOOL;
+	bResetten					:BOOL;
+	bErreicht					:BOOL;				
+	bLimit						:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

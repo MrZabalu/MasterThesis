@@ -1,38 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Position_anfahren_erweitert" Id="{20d2290a-8794-4965-a133-9ad0acf7b5f9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert	IMPLEMENTS I_Skill_RoboterErweitert
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren_erweitert EXTENDS FB_Basis_Skill IMPLEMENTS I_Skill_RoboterErweitert
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
-	
 	sMessdaten					:Kraftvariablen; 
-	
-	// Betriebsvariablen
-	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
-	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	
 END_VAR
 VAR_OUTPUT
-	iErrorID					:INT;									// Fehlercode für System
 END_VAR
 VAR
-	// Managementvariablen
-	iState				:eSkillState;									// Information über Zustand von Skill
-	bGestartet			:BOOL;
-	bGestoppt			:BOOL;
-	bSkillActiv			:BOOL;
-	
-	// Zustandsvariablen
-	bStarten			:BOOL;
-	bStoppen			:BOOL;
-	bObjektFertig		:BOOL;
-	bErreicht			:BOOL;				
-	bLimit				:BOOL;				
-	bSkillFertig		:BOOL;
-	bFehler				:BOOL;
-	bResetten			:BOOL;
-	
 	// Prozessparameter
 	eRoboterPos		 			:sRoboterProzessVariablen;
 	sLimit						:sKraftVariablen;
@@ -47,7 +24,7 @@ IF bFehler THEN
 END_IF
 
 //_______________________________________________________________
-// Reaktion auf Input-Variablen:
+// Reaktion auf SystemCommandVariable:
 	// Stoppen
 	IF eSysCommand = 3 THEN
 		bStoppen := M_Stop();
@@ -75,8 +52,6 @@ CASE iState OF
 			bStarten := FALSE;
 			iState := 1;	
 		END_IF
-		
-		
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
 		// DO		

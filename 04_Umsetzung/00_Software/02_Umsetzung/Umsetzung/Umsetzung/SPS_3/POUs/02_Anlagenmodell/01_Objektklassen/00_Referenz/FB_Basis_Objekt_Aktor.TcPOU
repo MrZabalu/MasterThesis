@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Basis_Objekt_Aktor" Id="{a061eba5-03b7-48de-909d-d5d54ed05c8d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Basis_Objekt_Aktor
+VAR_INPUT
+	// Betriebsvariablen
+	eSysState				:eSystemState;			// Information über Stand von System
+	eSysCommand		  		:eSystemCommand;		// Steuerungsvariabel von System
+	iMode					:INT;					// Information über aktuellen Betriebsmodi 
+END_VAR
+VAR_OUTPUT
+	iErrorID				:UDINT;					// Information um welchen Fehler es sich handelt	
+END_VAR
+VAR
+	// Managementvariablen
+	iState					:eObjectAktorState;		// Information über Zustand von Objekt
+	
+	// Zustandsvariablen
+	bEinschalten			:BOOL;				// Objekt einschalten
+	bAusschalten			:BOOL;				// Objekt ausschalten
+ 	bStarten				:BOOL;				// Objekt starten
+	bObjektFertig			:BOOL;				// Objekt hat Prozess abgeschlossen
+	bSkillFertig			:BOOL;				// Skill hat Prozess abgeschlossen
+	bStoppen				:BOOL;				// Objekt wurde gestoppt
+	bResettenSkill			:BOOL;				// Das Objekt wird durch den Skill resettet
+	bResettenSystem			:BOOL;				// Das Objekt wird durch das System resettet 
+	bFehler					:BOOL;				// Das Objket hat einen Fehler
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

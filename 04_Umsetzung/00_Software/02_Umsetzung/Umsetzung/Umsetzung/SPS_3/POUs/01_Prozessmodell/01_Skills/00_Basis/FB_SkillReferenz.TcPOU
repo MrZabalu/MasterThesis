@@ -1,40 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_SkillReferenz" Id="{49177925-01bb-437e-a9bc-56984c504ca6}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillReferenz	IMPLEMENTS I_Skill 
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillReferenz EXTENDS FB_Basis_Skill IMPLEMENTS I_Skill 
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
 	
-	// Prozessparameter
-
-	// Betriebsvariablen 
-	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
-	eSysState					:eSystemState;							// Momentaner Zustand des Systems
-	
-	bLimit						:BOOL;
-	bErreicht					:BOOL;
+	// Prozessrelevante Inputs
+	sMessdaten					:Kraftvariablen; 
 END_VAR
 VAR_OUTPUT
 	iErrorID					:INT;									// Fehlercode für System
 END_VAR
 VAR
-	iState				:eSkillState;									// Information über Zustand von Skill
-	
-	// Managementvariablen 
-	bGestartet			:BOOL;
-	bGestoppt			:BOOL;
-	
-	// Zustandsvariablen
-	bStarten			:BOOL;
-	bStoppen			:BOOL;
-	bObjektFertig		:BOOL;
-	bWertErreicht		:BOOL;				
-	bLimitErreicht		:BOOL;				
-	bSkillFertig		:BOOL;
-	bFehler				:BOOL;
-	bResetten			:BOOL;
-	
 	// Prozessvariablen
 	eProzessvariable 	:sRoboterProzessVariablen;
 END_VAR
@@ -46,7 +24,7 @@ IF bFehler THEN
 END_IF
 
 //_______________________________________________________________
-// Reaktion auf Input-Variablen:
+// Interner Steuerungsmethodenaufruf:
 	// Stoppen
 	IF eSysCommand = 3 THEN
 		bStoppen := M_Stop();

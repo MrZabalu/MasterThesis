@@ -1,48 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Greifer_Pos_Anfahren" Id="{98210e8f-b577-460a-824e-a40bbe292bb9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren	IMPLEMENTS I_Skill_SmartGreifer
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Greifer_Pos_Anfahren EXTENDS FB_Basis_Skill IMPLEMENTS I_Skill_SmartGreifer
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_SmartGreifer;	
-	
-	// Betriebsvariablen 
-	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
-	eSysState					:eSystemState;							// Momentaner Zustand des Systems
 END_VAR
 VAR_OUTPUT
-	iErrorID					:INT;									// Fehlercode für System
 END_VAR
 VAR
 	// Managementvariablen
-	iState				:eSkillState;									// Information über Zustand von Skill
 	SendDelay			:TON;
-	
-	// Managementvariablen 
-	bGestartet			:BOOL;
-	bGestoppt			:BOOL;
-	
-	// Zustandsvariablen
-	bStarten			:BOOL;
-	bStoppen			:BOOL;
-	bObjektFertig		:BOOL;
-	bWertErreicht		:BOOL;				
-	bLimitErreicht		:BOOL;				
-	bSkillFertig		:BOOL;
-	bFehler				:BOOL;
-	bResetten			:BOOL;
 	
 	// Prozessparameter
 	eGreiferParam	 			:sSmartGreiferProzessVariablen;
 	eGreiferParamReset			:sSmartGreiferProzessVariablen;
-
-	ParamArray					:ARRAY[0..10] OF sSmartGreiferProzessVariablen;
-	Counter						:INT;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Instanzierung
-SendDelay(PT := T#2ms);
+SendDelay(PT := T#2MS);
+
+// Parameterzuweisung
+Objekt.P_Prozessparameter := eGreiferParam;
 
 // Fehlerüberwachung
 IF bFehler THEN
@@ -159,17 +140,11 @@ eGreiferParam := eGreiferParamReset;]]></ST>
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
 			// Prüfen auf Fehler (Muss ergänzt werden)
-				SendDelay(IN := TRUE);
-					
-				IF SendDelay.Q THEN
-					Objekt.P_Prozessparameter := eGreiferParam;
+				//SendDelay(IN := TRUE);
+				//IF SendDelay.Q THEN
 					Objekt.M_Start();
-					SendDelay(IN := FALSE);
-					
-					
-					ParamArray[Counter] := eGreiferParam;
-					Counter := Counter + 1;
-				END_IF
+				//	SendDelay(IN := FALSE);
+				//END_IF
 					
 		END_IF
 	END_IF

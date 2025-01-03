@@ -42,8 +42,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bBeendet := FALSE;
-bStart := TRUE;]]></ST>
+        <ST><![CDATA[// Prüfen ob sich Sequenz im korrekten Zustand befindet
+IF iState = 0 THEN
+	bBeendet := FALSE;
+	bStart := TRUE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{aeab132f-14e3-468c-af3a-a7afa26bb694}" FolderPath="01_Steuerungsmethoden\">

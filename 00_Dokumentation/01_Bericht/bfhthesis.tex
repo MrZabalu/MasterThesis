@@ -31,7 +31,7 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \makeatother
 %-----------------  Base packages     --------------------------------------
 % Include Packages
-\usepackage[french,ngerman,main=english]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
+\usepackage[french,ngerman,main=ngerman]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
 %% To disable the french list setting you can add -- see https://gitlab.ti.bfh.ch/bfh-latex/bfh-ci/-/issues/166
 %\frenchsetup{StandardLists=true}
 
@@ -48,7 +48,7 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \usepackage{caption}          % for captions of figures and tables
 \usepackage{subcaption}       % for subcaptions in subfigures
 \usepackage{cite}             % use bibtex
-\usepackage{wrapfig}
+\usepackage{lipsum, wrapfig}
 
 \usepackage{exscale}          % mathematical size corresponds to textsize
 \usepackage{multirow}         % multirow emables combining rows in tables
@@ -60,6 +60,9 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \usepackage{parskip}
 
 \usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[flushleft]{threeparttable}
 
 %---------------------------------------------------------------------------
 % Graphics paths
@@ -195,6 +198,44 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \chapter{Vorgehen} \label{Vorgehen}
 \input{content/03_Vorgehen_fuer_die_Thesis/Arbeitspakete}
 \input{content/03_Vorgehen_fuer_die_Thesis/GatePlan}
+
+\chapter{Anwendung und Aufbau} \label{Anwendung und Aufbau}
+\input{content/04_Anwendung_und_Aufbau/Anwendung}
+\input{content/04_Anwendung_und_Aufbau/Komponentendefinition}
+\input{content/04_Anwendung_und_Aufbau/Mechanik}
+
+\chapter{Struktur der Software} \label{Struktur der Software}
+\input{content/05_Softwarestruktur/Einfuehrung}
+\input{content/05_Softwarestruktur/Schnittstellen}
+\input{content/05_Softwarestruktur/Interaktionen}
+
+\chapter{Entwicklung der Skills} \label{Entwicklung der Skills}
+\input{content/06_Skillentwicklung/Einfuehrung}
+\input{content/06_Skillentwicklung/Kompetenzen}
+\input{content/06_Skillentwicklung/Anwendungsskills}
+\input{content/06_Skillentwicklung/Skillstruktur}
+\input{content/06_Skillentwicklung/Konfiguration}
+\input{content/06_Skillentwicklung/Interaktion}
+\input{content/06_Skillentwicklung/Umsetzung}
+
+\chapter{Entwicklung des Anlagenmodells} \label{Entwicklung des Anlagenmodells}
+\input{content/07_Anlagenmodell/Einfuehrung}
+\input{content/07_Anlagenmodell/Objektstruktur}
+\input{content/07_Anlagenmodell/Umsetzung}
+
+\chapter{Entwicklung des Prozessmodells} \label{Entwicklung des Prozessmodells}
+\input{content/08_Prozessmodell/Einfuehrung}
+\input{content/08_Prozessmodell/Modellstruktur}
+\input{content/08_Prozessmodell/Umsetzung}
+
+\chapter{Auswertung} \label{Auswertung}
+\input{content/09_Auswertung/Aktueller_Stand}
+\input{content/09_Auswertung/Vergleich_Anforderungen}
+\input{content/09_Auswertung/Weiterfuehrend}
+
+\chapter{Schlussfolgerung / Fazit} \label{Fazit}
+
+\chapter{Anhang} \label{Anhang}
 
 \chapter{Referenzseite für Latex-Funktionen} 
 \input{content/expl_fragments}

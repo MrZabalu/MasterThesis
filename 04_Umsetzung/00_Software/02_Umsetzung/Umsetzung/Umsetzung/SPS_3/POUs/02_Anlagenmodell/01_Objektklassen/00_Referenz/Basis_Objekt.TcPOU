@@ -8,7 +8,7 @@ VAR_INPUT
 	iMode				:INT;				// Information über aktuellen Betriebsmodi 
 END_VAR
 VAR_OUTPUT
-	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
+	iErrorID			:INT;				// Information um welchen Fehler es sich handelt	
 END_VAR
 VAR
 	iState				:eObjectAktorState;		// Information über Zustand von Skill
@@ -164,26 +164,29 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD M_Reset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bResettenSkill := TRUE;
+        <ST><![CDATA[
+bResettenSkill := TRUE;
 
 IF bResettenSkill THEN
 	M_Reset := TRUE;
 ELSE
 	M_Reset := FALSE;
-END_IF]]></ST>
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{d046405e-a213-48d4-a6a9-9e2b7d0ce361}">
       <Declaration><![CDATA[METHOD M_Start : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Prüfen von Bedingungen
+        <ST><![CDATA[
+// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
 	IF eSysState = 1 THEN
 		// Ist das Objekt im korrekten Status 
 		IF iState = 0 THEN
-			// Prüfen auf Fehler (Muss ergänzt werden)
-				bStarten := TRUE;
+			bStarten := TRUE;
 		END_IF
 	END_IF
 
@@ -191,23 +194,27 @@ IF bStarten THEN
 	M_Start := TRUE;
 ELSE
 	M_Start := FALSE;
-END_IF]]></ST>
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{9131df50-82ef-440e-bda2-7fb191ef9669}">
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Ist das Objekt im korrekten Status 
-	IF iState = 3 THEN
-		bStoppen := TRUE;
-	END_IF
+        <ST><![CDATA[
+// Ist das Objekt im korrekten Status 
+IF iState = 3 THEN
+	bStoppen := TRUE;
+END_IF
 
 IF bStoppen THEN
 	M_Stop := TRUE;
 ELSE
 	M_Stop := FALSE;
 END_IF
+
 ]]></ST>
       </Implementation>
     </Method>

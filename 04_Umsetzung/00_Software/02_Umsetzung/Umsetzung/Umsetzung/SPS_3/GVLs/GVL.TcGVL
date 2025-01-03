@@ -24,6 +24,20 @@ VAR_GLOBAL
 		Robot_State								:eObjectAktorState;
 		Greifer_State							:eObjectAktorState;
 		Sensor_State							:eObjectSensorState;
+		
+		// Testvariablen
+		CountSkillStart							:INT;
+		CountSkill								:INT;
+		CountObjectStart						:INT;
+		CountObject								:INT;
+		TriggerCount							:INT;
+		TestCount								:INT;
+		MethodeState							:INT;
+		SkillArray								:ARRAY[0..10] OF sRoboterProzessVariablen;
+		ObjectArray								:ARRAY[0..10] OF STRING;
+		skillInfo 								:ARRAY[0..50] OF SkillInfo;
+		InfoCountSkill							:INT;
+		PulseNrArray							:Array[0..10] OF INT;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

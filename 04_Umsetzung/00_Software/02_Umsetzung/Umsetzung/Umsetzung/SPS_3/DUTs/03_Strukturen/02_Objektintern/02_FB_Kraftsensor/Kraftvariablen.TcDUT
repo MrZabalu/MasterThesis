@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="Kraftvariablen" Id="{6e257c84-e896-4652-b15f-fbce84fdcc0e}">
-    <Declaration><![CDATA[TYPE Kraftvariablen :
+    <Declaration><![CDATA[
+TYPE Kraftvariablen :
 STRUCT
 	Fx					:LREAL;							// Kraft in X-Richtung 
 	Fy					:LREAL;							// Kraft in Y-Richtung 

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="sRoboterProzessVariablen" Id="{32caf61d-e4e9-4da6-833d-f8e7ddb3e1d6}">
-    <Declaration><![CDATA[TYPE sRoboterProzessVariablen :
+    <Declaration><![CDATA[
+TYPE sRoboterProzessVariablen :
 STRUCT
 	q1					:LREAL;				// X-Koordinate oder Gelenkwinkel 1
 	q2					:LREAL;				// Y-Koordinate oder Gelenkwinkel 2
@@ -15,6 +16,7 @@ STRUCT
 	MoveTyp				:eRobMoveType;		// Bewegungsart definieren (Linear / Circular etc.)
 END_STRUCT
 END_TYPE
+
 ]]></Declaration>
   </DUT>
 </TcPlcObject>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="SkillInfo" Id="{e2d52af1-8f57-4ea1-a84c-4fd36eddd5f2}">
+    <Declaration><![CDATA[TYPE SkillInfo :
+STRUCT
+	iState			:eSkillState;
+	Data			:sRoboterProzessVariablen;
+	iStateObj		:eObjectAktorState;
+	DataObj			:sRoboterProzessVariablen;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

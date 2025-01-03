@@ -33,5 +33,11 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="Test_Param" Id="{9aa13e12-84f5-4f04-8693-ab62001ced60}">
+      <Declaration><![CDATA[PROPERTY Test_Param : sRoboterProzessVariablen]]></Declaration>
+      <Get Name="Get" Id="{635cf7a6-3b6b-4234-bea1-e83af7957871}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

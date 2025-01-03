@@ -1,0 +1,68 @@
+\section{Definition von Skills für Anwendung} \label{Anwendungsskills}
+	Um die benötigten Skills für die Anwendung zu definieren, werden im ersten Schritt die allgemeinen Arbeitsschritte (\ref{tab:Arbeitsschritte}) basierend auf dem mechanischen Aufbau (siehe Verweis) festgelegt. Dabei wird von der Ausgangssituation ausgegangen, dass alle Teile in ihren Lagerpositionen abgelegt sind, der Roboter sich in der Home-Position befindet und alle Komponenten eingeschaltet sowie betriebsbereit sind.
+	
+	\begin{table}[ht]
+		\centering
+		\colorlet{BFH-table}{BFH-MediumBlue!10}
+		\colorlet{BFH-tablehead}{BFH-MediumBlue!50}
+		\begin{bfhTabular}{lll}
+			Schritt: 	& Beschreibung:				&Komponente:								
+			\\\hline
+			1			& Position von Platte 1 in Lagerung erkennen							& K
+			\\\hline
+			2			& Platte 1 mittels L-Stück ausrichten									& R, G, K
+			\\\hline
+			3 			& Position von Platte 2 in Lagerung erkennen							& K
+			\\\hline
+			4			& Platte 2 und  Platte 1 zusammenführen									& R, G, K
+			\\\hline
+			5			& Position der Befestigungslöcher in den Platten ermitteln				& K
+			\\\hline
+			6			& Position von Befestigungsblech in Lagerung erkennen		 			& K	
+			\\\hline
+			7			& Befestigungsblech an Montageposition bringen 							& R, G, K
+			\\\hline
+			8			& Position von Stift 1 in Lagerung erkennen								& K
+			\\\hline
+			9			& Stift 1 an korrekte Position bringen									& R, G
+			\\\hline
+			10			& Befestigungsblech mit Platte 1 verbinden (mit Stift) 					& R, G
+			\\\hline
+			11			& Wiederholen von Schritt 8 – 10 für Stift 2 bis 3						&
+		\end{bfhTabular}
+		\begin{tablenotes}
+			\small
+			\item (K = Kamerasystem | R = Roboter | G = Greifer)
+		\end{tablenotes}
+		\caption{Arbeitsschritte}
+		\label{tab:Arbeitsschritte}
+	\end{table}
+	
+	Eine detaillierte Auflistung der Arbeitsschritte wird im Anhang beigefügt. Aus diesem lässt sich erkennen, dass sich diverse Schritte mit kleinen Anpassungen wiederholen.  Diese sich wiederholenden Arbeitsschritte definierten die Skills. Ein entscheidender Aspekt dabei ist, dass der Roboter und der Kraftsensor als separate Komponenten betrachtet werden. Der Kraftsensor erweitert die Fähigkeiten des Roboters zwar und damit dessen Skills, jedoch kann der Roboter auch ohne Kraftsensor betrieben werden. Der Kraftsensor wird als eigene Objektklasse abgebildet, jedoch besitzt dieser keinen eigenen Skill. Folgende Skills wurden definiert, welche den Prozess abdecken:
+	
+	\begin{table}[ht]
+		\centering
+		\colorlet{BFH-table}{BFH-MediumBlue!10}
+		\colorlet{BFH-tablehead}{BFH-MediumBlue!50}
+		\begin{bfhTabular}{lll}
+			Komponenten: 	& Skill:								& Bemerkung:								
+			\\\hline
+			Kamerasystem			& - Bild aufnehmen				& 
+			\\\hline
+									& - Objekt erkennen				& 
+			\\\hline
+									& - Greiferposition ermitteln	& 
+			\\\hline
+			Roboter					& - Position anfahren			& 
+			\\\hline
+									& - Kontrolliert bewegen		& Bei Kraftüberschreitung wird gestoppt
+			\\\hline
+			Greifer (mit Sensor)	& - Backenposition anfahren		& 									
+		\end{bfhTabular}
+		\begin{tablenotes}
+			\small
+			\item (Kamerasystem = Kamera + Vision)
+		\end{tablenotes}
+		\caption{Definierte Skills für Anwendung}
+		\label{tab:Definierte_Skills}
+	\end{table}

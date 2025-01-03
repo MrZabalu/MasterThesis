@@ -81,7 +81,7 @@ END_VAR
 		
 		// Lagerposition von Platte 1
 		PGetPlate1.q1 := 0.070;
-		PGetPlate1.q2 := 0.582;
+		PGetPlate1.q2 := 0.583;
 		PGetPlate1.q3 := 0.236;
 		PGetPlate1.q4 := 0;
 		PGetPlate1.q5 := -180;
@@ -93,7 +93,7 @@ END_VAR
 		
 		// Lagerposition von Platte 2
 		PGetPlate2.q1 := 0.166;
-		PGetPlate2.q2 := 0.582;
+		PGetPlate2.q2 := 0.583;
 		PGetPlate2.q3 := 0.236;
 		PGetPlate2.q4 := 0;
 		PGetPlate2.q5 := -180;

@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Roboter" Id="{b1d89cdf-02d0-4c05-a2df-faff7078ad0e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Roboter IMPLEMENTS I_Objekt_Roboter
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Roboter EXTENDS FB_Basis_Objekt_Aktor IMPLEMENTS I_Objekt_Roboter
 VAR_INPUT
-	// Betriebsvariablen
-	eSysState			:eSystemState;		// Information über Stand von System
-	eSysCommand		  	:eSystemCommand;	// Steuerungsvariabel von System
-	iMode				:INT;				// Information über aktuellen Betriebsmodi 
-	
-	
 	// Kommunikationsvariablen
 	sIP						:T_IPv4Addr;
 	iPort_Prim				:UINT;
@@ -16,27 +10,9 @@ VAR_INPUT
 END_VAR
 
 VAR_OUTPUT
-	iErrorID			:UDINT;				// Information um welchen Fehler es sich handelt	
 END_VAR
 
 VAR
-	
-	iState				:eObjectAktorState;		// Information über Zustand von Objekt
-	
-	
-	// Zustandsvariablen
-	bEinschalten			:BOOL;			// Objekt einschalten
-	bAusschalten			:BOOL;			// Objekt ausschalten
- 	bStarten				:BOOL;			// Objekt starten
-	bObjektFertig			:BOOL;			// Objekt hat Prozess abgeschlossen
-	bSkillFertig			:BOOL;			// Skill hat Prozess abgeschlossen
-	bStoppen				:BOOL;			// Objekt wurde gestoppt
-	bResettenSkill			:BOOL;			// Das Objekt wird durch den Skill resettet
-	bResettenSystem			:BOOL;			// Das Objekt wird durch das System resettet 
-	bFehler					:BOOL;			// Das Objket hat einen Fehler
-	
-	iFehlerID				:UDINT;
-
 	// Instanziierung von Kommunikationsbausteine
 	Connect					:FB_SocketConnect;
 	Disconnect				:FB_SocketCloseALL;
@@ -317,8 +293,8 @@ CASE iState OF
 			END_IF
 			
 			IF bAmStarten  THEN
+				bAmStarten := FALSE;	
 				bStarten := FALSE;
-				bAmStarten := FALSE;
 				Execute_TON1 := TRUE;	 
 			END_IF
 			
@@ -332,9 +308,9 @@ CASE iState OF
 				iState := 0;
 			END_IF																									// Manuell-Modus wird eingeschalten
 													
-			 IF bGestartet THEN																		// Objekt führt Prozessdurch
-				 bGestartet := FALSE;
-				 iState := 3;
+			 IF bGestartet THEN																	// Objekt führt Prozessdurch
+				bGestartet := FALSE;
+				iState := 3;
 			 END_IF			
 	//____________________________________________________________________________________________
 	2: // MANUELL
@@ -759,6 +735,9 @@ END_VAR
 	Send_START(cbLen := LEN(CommandArray.sValue),
 			pSrc := ADR(CommandArray.arrByte),
 			bExecute := TRUE);
+	GVL.ObjectArray[GVL.CountObject] := CommandArray.sValue;
+			
+	GVL.CountObject := GVL.CountObject + 1;
 			
 	IF NOT Send_START.bBusy THEN
 		Send_START(bExecute := FALSE);
@@ -785,14 +764,15 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD M_Start : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Prüfen von Bedingungen
+        <ST><![CDATA[GVL.CountObjectStart := GVL.CountObjectStart + 1;
+
+// Prüfen von Bedingungen
 	// Ist das  System im korrekten Status
 	IF eSysState = 1 OR eSysState = 2 THEN
 		// Ist das Objekt im korrekten Status 
 		IF iState = 1 THEN
-			// Prüfen auf Fehler (Muss ergänzt werden)
-				bResettenSkill := FALSE;
-				bStarten := TRUE;
+			bResettenSkill := FALSE;
+			bStarten := TRUE;
 		END_IF
 	END_IF
 
@@ -883,6 +863,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Test_Param" Id="{f13589c9-713d-4c95-885a-795056b570b0}" FolderPath="04_Prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY Test_Param : sRoboterProzessVariablen]]></Declaration>
+      <Get Name="Get" Id="{f432e070-03d5-40a6-ba0b-4603eedbddc3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Test_Param := Prozessvariablen;]]></ST>
         </Implementation>
       </Get>
     </Property>

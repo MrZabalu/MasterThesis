@@ -1,43 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Skill_Position_anfahren" Id="{cf3b1eba-086e-44a5-acab-9f86e78909b4}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren	IMPLEMENTS I_Skill_Roboter
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren EXTENDS FB_Basis_Skill IMPLEMENTS I_Skill_Roboter
 VAR_INPUT
 	// Zu verwendetes Objekt
 	Objekt						:I_Objekt_Roboter;	
-	
-	// Betriebsvariablen 
-	eSysCommand					:eSystemCommand; 						// Systembefehl an Skill
-	eSysState					:eSystemState;							// Momentaner Zustand des Systems
 END_VAR
 VAR_OUTPUT
-	iErrorID					:INT;									// Fehlercode für System
 END_VAR
 VAR
-	// Managementvariablen
-	iState				:eSkillState;									// Information über Zustand von Skill
-	
-	// Managementvariablen 
-	bGestartet			:BOOL;
-	bGestoppt			:BOOL;
-	bSkillActiv			:BOOL;
-	
-	// Zustandsvariablen
-	bStarten			:BOOL;
-	bStoppen			:BOOL;
-	bObjektFertig		:BOOL;
-	bWertErreicht		:BOOL;				
-	bLimitErreicht		:BOOL;				
-	bSkillFertig		:BOOL;
-	bFehler				:BOOL;
-	bResetten			:BOOL;
-	
 	// Prozessparameter
 	eRoboterPos		 			:sRoboterProzessVariablen;
+	
+	// Test
+	bPulseNr					:INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Fehlerüberwachung
+      <ST><![CDATA[// Parameterzuweisung
+Objekt.P_Prozessparameter := eRoboterPos;
+
+// Fehlerüberwachung
 IF bFehler THEN
 	iState := 3;
 END_IF
@@ -71,8 +54,6 @@ CASE iState OF
 			bStarten := FALSE;
 			iState := 1;	
 		END_IF
-		
-		
 // _________________________________________________________________________________________________________________________
 1: 	// LAUFEND
 		// DO			
@@ -103,8 +84,7 @@ CASE iState OF
 		
 		IF bWertErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT
 			iState := 5;
-		END_IF
-			
+		END_IF			
 // _________________________________________________________________________________________________________________________			
 2: 	// ABGESCHLOSSEN
 		// DO
@@ -119,7 +99,6 @@ CASE iState OF
 			bSkillFertig := FALSE;																																											// Resetten von Objekt
 			iState := 0;
 		END_IF
-		
 // _________________________________________________________________________________________________________________________
 3: 	// FEHLER
 		// DO 	
@@ -137,7 +116,19 @@ CASE iState OF
 			iState := 0;
 		END_IF
 		
-END_CASE]]></ST>
+END_CASE
+
+IF GVL.skillInfo[GVL.InfoCountSkill].iState <> iState THEN
+	GVL.InfoCountSkill := GVL.InfoCountSkill + 1;
+	GVL.skillInfo[GVL.InfoCountSkill].iState := iState;
+	GVL.skillInfo[GVL.InfoCountSkill].iStateObj := Objekt.P_State;
+	GVL.skillInfo[GVL.InfoCountSkill].Data := eRoboterPos;
+	GVL.skillInfo[GVL.InfoCountSkill].DataObj := Objekt.Test_Param;
+END_IF 
+
+GVL.TestCount := GVL.TestCount + 1;
+
+]]></ST>
     </Implementation>
     <Folder Name="00_Error" Id="{1e671027-5eff-41b6-b8ce-a9f6fce139bf}" />
     <Folder Name="01_Steuerungsmethoden" Id="{e3df1077-d0b9-4dd1-bde0-ac62b919365f}" />
@@ -148,37 +139,50 @@ END_CASE]]></ST>
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Objekt.M_Reset();
-bSkillActiv := FALSE;]]></ST>
+bSkillActiv := FALSE;
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Start" Id="{a5da1c20-9102-47a3-8436-6be73b86cd12}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Start : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Prüfen von Bedingungen
+        <ST><![CDATA[GVL.CountSkillStart := GVL.CountSkillStart + 1;
+// Ausführen von Funktion
+GVL.MethodeState := 0;
+IF NOT bSkillActiv THEN
+	GVL.MethodeState := 1;
 	// Ist das  System im korrekten Status
 	IF eSysState = 1 OR eSysState = 2 THEN
+		GVL.MethodeState := 2;
 		// Ist der Skill im korrekten Status 
 		IF iState = 0 THEN
+			GVL.MethodeState := 3;
 			// Prüfen auf Fehler
 			IF ParameterError OR PositionError THEN
 				bFehler := TRUE;
 			ELSE
-				Objekt.P_Prozessparameter := eRoboterPos;
+				GVL.MethodeState := 4;
 				Objekt.M_Start();
 				bSkillActiv := TRUE;
+				GVL.SkillArray[GVL.CountSkill] := eRoboterPos;
+				GVL.CountSkill := GVL.CountSkill + 1;
 			END_IF
 		END_IF
 	END_IF
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{90eca483-aa75-4c84-a067-9cf6e95855b2}" FolderPath="01_Steuerungsmethoden\">
       <Declaration><![CDATA[METHOD M_Stop : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Objekt.M_Stop();
-bSkillActiv := FALSE;]]></ST>
+        <ST><![CDATA[
+Objekt.M_Stop();
+bSkillActiv := FALSE;
+
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_RobotParam" Id="{a1b7619a-85cc-409f-8c99-f7e7fef990cf}" FolderPath="03_prozesseigenschaften\">

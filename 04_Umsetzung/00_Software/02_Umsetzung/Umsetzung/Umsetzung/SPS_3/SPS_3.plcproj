@@ -94,6 +94,9 @@
     <Compile Include="DUTs\03_Strukturen\02_Objektintern\02_FB_Kraftsensor\Response_Values.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\03_Strukturen\SkillInfo.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\04_Union\Array2_Int.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -114,6 +117,12 @@
       <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\00_Funktionsbausteine\FB_PulseTrigger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\00_Basis\FB_Basis_Skill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\01_Skills\00_Basis\FB_SkillReferenz.TcPOU">
@@ -152,16 +161,25 @@
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1\Seq_Set_Plate_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\02_Version_2\SEQ_Teile_Hohlen.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\02_Version_2\Seq_Teile_Hohlen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_V1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_V2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\SkillSet.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\00_Referenz\Basis_Objekt.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\00_Referenz\FB_Basis_Objekt_Aktor.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\00_Referenz\FB_Basis_Objekt_Sensor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\02_Anlagenmodell\01_Objektklassen\FB_Kraftsensor_V2.TcPOU">
@@ -230,6 +248,7 @@
     <Folder Include="POUs\02_Anlagenmodell\01_Objektklassen" />
     <Folder Include="POUs\02_Anlagenmodell\01_Objektklassen\00_Referenz" />
     <Folder Include="POUs\03_Systemmodell" />
+    <Folder Include="POUs\00_Funktionsbausteine" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

@@ -62,19 +62,12 @@
 			</Settings>
 			<Licenses>
 				<Target>
-					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
-					<Name>PlcTask</Name>
-				</Task>
 				<Task Id="4" Priority="30" CycleTime="2000000" AmsPort="351" DisableFpExceptions="true" AdtTasks="true">
 					<Name>VISU_TASK</Name>
-				</Task>
-				<Task Id="5" Priority="21" CycleTime="100000" AmsPort="352" AdtTasks="true">
-					<Name>PlcTask1</Name>
 				</Task>
 				<Task Id="6" Priority="22" CycleTime="100000" AmsPort="353" AdtTasks="true">
 					<Name>PlcTask2</Name>
@@ -82,104 +75,8 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project GUID="{CC25F818-B997-4B5A-8046-D637D41920AB}" Name="SPS_1" PrjFilePath="SPS_1\SPS_1.plcproj" TmcFilePath="SPS_1\SPS_1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9EAA643B-A3C8-B5DF-0137-2E1AFB76B4E9}" TmcPath="SPS_1\SPS_1.tmc">
-					<Name>SPS_1 Instance</Name>
-					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Vars VarGrpType="2" AreaNo="1">
-						<Name>PlcTask Outputs</Name>
-						<Var>
-							<Name>Anlage.Gripper.Communication.OutData</Name>
-							<Type GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU">MB_KL6outData22B</Type>
-						</Var>
-					</Vars>
-					<Vars VarGrpType="1">
-						<Name>PlcTask Inputs</Name>
-						<Var>
-							<Name>Anlage.Gripper.Communication.InData</Name>
-							<Type GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}" Namespace="Tc2_ModbusRTU">MB_KL6inData22B</Type>
-						</Var>
-						<Var>
-							<Name>Anlage.Gripper.Communication.WcState</Name>
-							<Type>BOOL</Type>
-						</Var>
-					</Vars>
-					<Contexts>
-						<Context>
-							<Id>0</Id>
-							<Name>PlcTask</Name>
-							<ManualConfig>
-								<OTCID>#x02010030</OTCID>
-							</ManualConfig>
-							<Priority>20</Priority>
-							<CycleTime>10000000</CycleTime>
-						</Context>
-						<Context>
-							<Id>1</Id>
-							<Name>VISU_TASK</Name>
-							<ManualConfig>
-								<OTCID>#x02010040</OTCID>
-							</ManualConfig>
-							<Priority>30</Priority>
-							<CycleTime>200000000</CycleTime>
-						</Context>
-					</Contexts>
-					<TaskPouOids>
-						<TaskPouOid Prio="20" OTCID="#x08502001"/>
-						<TaskPouOid Prio="30" OTCID="#x08502002"/>
-					</TaskPouOids>
-				</Instance>
-			</Project>
-			<Project GUID="{74ECB8D7-F7AC-4642-BC7C-DD15FFD0067B}" Name="SPS_2" PrjFilePath="SPS_2\SPS_2.plcproj" TmcFilePath="SPS_2\SPS_2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{75C79FFB-F682-CA04-CB29-92FED931002E}" TmcPath="SPS_2\SPS_2.tmc">
-					<Name>SPS_2 Instance</Name>
-					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Vars VarGrpType="2" AreaNo="1">
-						<Name>PlcTask Outputs</Name>
-						<Var>
-							<Name>Anlage.Gripper.Communication.OutData</Name>
-							<Type GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU">MB_KL6outData22B</Type>
-						</Var>
-					</Vars>
-					<Vars VarGrpType="1">
-						<Name>PlcTask Inputs</Name>
-						<Var>
-							<Name>Anlage.Gripper.Communication.InData</Name>
-							<Type GUID="{F852D9F7-9DB9-AE77-EE6D-D9BA52CDE308}" Namespace="Tc2_ModbusRTU">MB_KL6inData22B</Type>
-						</Var>
-						<Var>
-							<Name>Anlage.Gripper.Communication.WcState</Name>
-							<Type>BOOL</Type>
-						</Var>
-					</Vars>
-					<Contexts>
-						<Context>
-							<Id>0</Id>
-							<Name>PlcTask</Name>
-							<ManualConfig>
-								<OTCID>#x02010050</OTCID>
-							</ManualConfig>
-							<Priority>21</Priority>
-							<CycleTime>10000000</CycleTime>
-						</Context>
-						<Context>
-							<Id>1</Id>
-							<Name>VISU_TASK</Name>
-							<ManualConfig>
-								<OTCID>#x02010040</OTCID>
-							</ManualConfig>
-							<Priority>30</Priority>
-							<CycleTime>200000000</CycleTime>
-						</Context>
-					</Contexts>
-					<TaskPouOids>
-						<TaskPouOid Prio="21" OTCID="#x08502041"/>
-						<TaskPouOid Prio="30" OTCID="#x08502042"/>
-					</TaskPouOids>
-				</Instance>
-			</Project>
 			<Project GUID="{FC7F9661-0FB6-4129-8235-1F9901372C7B}" Name="SPS_3" PrjFilePath="SPS_3\SPS_3.plcproj" TmcFilePath="SPS_3\SPS_3.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{CC5076A0-82FD-57B6-467B-37FFBE8C389B}" TmcPath="SPS_3\SPS_3.tmc">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{0B166BDC-DFD9-C68C-0B7E-4623120D80D3}" TmcPath="SPS_3\SPS_3.tmc">
 					<Name>SPS_3 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

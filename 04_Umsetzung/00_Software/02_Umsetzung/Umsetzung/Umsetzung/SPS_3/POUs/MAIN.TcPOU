@@ -8,8 +8,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// Aufrufen der Objekte
 Anlage();
-// Aufrufen der Skills
-SkillSet();
+// Aufrufen der Skills (Im Moment nur für V1 verwendet)
+//SkillSet();
 // Aufrufen der Systenparameterzuweisung 
 Systemparameter();
 // Aufrunfen des Zustandshandlings
@@ -18,7 +18,7 @@ Zustandshandling();
 PunkteZuweisung_Temp();
 
 // Aufrufen von Testablauf
-AP_V1();]]></ST>
+AP_V2();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

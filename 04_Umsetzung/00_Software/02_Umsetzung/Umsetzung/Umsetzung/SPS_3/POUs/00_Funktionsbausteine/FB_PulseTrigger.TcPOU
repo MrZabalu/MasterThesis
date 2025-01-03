@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_PulseTrigger" Id="{73d4e208-0771-458b-8770-c4ce372e40a9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PulseTrigger
+VAR_INPUT
+	Pulse			:BOOL;
+END_VAR
+VAR_OUTPUT
+	Q				:BOOL;
+END_VAR
+VAR
+	Trigger			:R_Trig; 
+	Counter			:INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Pulse THEN
+	Trigger(CLK := TRUE);
+ELSE
+	Trigger(CLK := FALSE);
+END_IF
+
+IF Trigger.Q THEN
+	Counter := Counter + 1;
+END_IF
+
+IF Counter = 1 THEN
+	Q := TRUE;
+END_IF
+IF Counter = 2 THEN
+	Q := FALSE;
+	Counter := 0;
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

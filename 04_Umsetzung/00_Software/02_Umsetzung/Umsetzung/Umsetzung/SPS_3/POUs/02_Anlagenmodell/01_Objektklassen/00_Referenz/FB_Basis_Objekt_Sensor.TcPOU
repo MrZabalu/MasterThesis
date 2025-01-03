@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Basis_Objekt_Sensor" Id="{6644944f-8e65-458a-9a73-3fb96675b87b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Basis_Objekt_Sensor
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
