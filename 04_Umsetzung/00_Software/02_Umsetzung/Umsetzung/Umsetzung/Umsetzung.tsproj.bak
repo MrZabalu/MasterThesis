@@ -76,7 +76,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{FC7F9661-0FB6-4129-8235-1F9901372C7B}" Name="SPS_3" PrjFilePath="SPS_3\SPS_3.plcproj" TmcFilePath="SPS_3\SPS_3.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{0B166BDC-DFD9-C68C-0B7E-4623120D80D3}" TmcPath="SPS_3\SPS_3.tmc">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{3595B1C9-1E53-2A88-0D5D-B0A75E326E8F}" TmcPath="SPS_3\SPS_3.tmc">
 					<Name>SPS_3 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -134,7 +134,7 @@
 						<DeviceData>144fd7c71f38</DeviceData>
 					</Pnp>
 				</AddressInfo>
-				<Image Id="1" AddrType="9" ImageType="3">
+				<Image Id="1" ImageFlags="#x00000010" AddrType="9" ImageType="3">
 					<Name>Prozessabbild</Name>
 				</Image>
 				<Box Id="1" BoxType="9081" AmsPort="28928">

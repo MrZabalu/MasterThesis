@@ -122,19 +122,25 @@
     <Compile Include="POUs\00_Funktionsbausteine\FB_PulseTrigger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\00_Basis\FB_Basis_Skill.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_V1\00_Basis\FB_Basis_Skill.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\00_Basis\FB_SkillReferenz.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_V1\00_Basis\FB_SkillReferenz.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_Roboter\Skill_Position_anfahren.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_V1\01_Roboter\Skill_Position_anfahren.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_Roboter\Skill_Position_anfahren_erweitert.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_V1\01_Roboter\Skill_Position_anfahren_erweitert.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_Greifer\Skill_Greifer_Pos_Anfahren.TcPOU">
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\01_V1\02_Greifer\Skill_Greifer_Pos_Anfahren.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_V2\01_Roboter\FB_SkillBasis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\01_Skills\02_V2\01_Roboter\Skill_R_P2P.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\02_Sequenzen\00_Basis\FB_Basis.TcPOU">
@@ -168,6 +174,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_V2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\01_Prozessmodell\03_Arbeitsplan\AP_V2_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\01_Prozessmodell\SkillSet.TcPOU">
@@ -236,9 +245,12 @@
     <Folder Include="GVLs" />
     <Folder Include="POUs\01_Prozessmodell" />
     <Folder Include="POUs\01_Prozessmodell\01_Skills" />
-    <Folder Include="POUs\01_Prozessmodell\01_Skills\00_Basis" />
-    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_Roboter" />
-    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_Greifer" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_V1\00_Basis" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_V1\01_Roboter" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_V1\02_Greifer" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\01_V1" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_V2" />
+    <Folder Include="POUs\01_Prozessmodell\01_Skills\02_V2\01_Roboter" />
     <Folder Include="POUs\01_Prozessmodell\02_Sequenzen" />
     <Folder Include="POUs\01_Prozessmodell\02_Sequenzen\00_Basis" />
     <Folder Include="POUs\01_Prozessmodell\02_Sequenzen\01_Version_1" />
@@ -340,8 +352,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -416,14 +428,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

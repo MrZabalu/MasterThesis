@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Seq_Teile_Hohlen" Id="{3ab1661f-bca8-48a2-ae3c-ae654f4f2e0c}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Seq_Teile_Hohlen EXTENDS FB_Basis IMPLEMENTS I_Sequenz
+    <Declaration><![CDATA[
+FUNCTION_BLOCK Seq_Teile_Hohlen EXTENDS FB_Basis
 VAR_INPUT
 	// Prozessparameter		
 	Param_StartPos				:sRoboterProzessVariablen;
@@ -10,10 +11,8 @@ VAR_INPUT
 	// Objekt-Schnittstellen
 	I_Roboter					:I_Objekt_Roboter;
 	I_Greifer					:I_Objekt_SmartGreifer;	
-	
 END_VAR
 VAR_OUTPUT
-	
 END_VAR
 VAR
 	// Skill-Instanziierung
@@ -24,11 +23,11 @@ VAR
 	LRobotVar				:sRoboterProzessVariablen;
 	LGreiferVar				:sSmartGreiferProzessVariablen;
 	LOffsetVar				:LREAL;
-	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Ablauf
+      <ST><![CDATA[
+// Ablauf
 ACT_Ablauf();
 
 // Zustandshandling
@@ -777,7 +776,7 @@ END_CASE]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Branch0_ACT_Ablauf"</v>
+                              <v n="Value">""</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">414L</v>
@@ -815,14 +814,14 @@ END_CASE]]></ST>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Start_Pos__to__Home_Pos"</v>
+                        <v n="VariableName">"Start_Pos__to__Offset_nZ"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Skill_R_P2P.P_State = 0 AND Skill_G_P2P.P_State = 0 AND Start_Pos.t &gt; T#10s"</v>
+                              <v n="Value">"Skill_R_P2P.P_State = 0 AND Skill_G_P2P.P_State = 0 AND Start_Pos.t &gt; T#0.2s"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">453L</v>
@@ -879,296 +878,6 @@ END_CASE]]></ST>
                           </o>
                         </l2>
                         <v n="Id">452L</v>
-                        <v n="IdParent">2L</v>
-                      </o>
-                      <o t="SFCStep">
-                        <n n="EmbeddedMainAction" />
-                        <n n="EmbeddedEntryAction" />
-                        <n n="EmbeddedExitAction" />
-                        <l2 n="EmbeddedMainActionProperties" />
-                        <l2 n="EmbeddedEntryActionProperties" />
-                        <l2 n="EmbeddedExitActionProperties" />
-                        <o n="ElementList" t="SFCElementList">
-                          <l2 n="InnerList" cet="SFCActionAssociation">
-                            <o>
-                              <l2 n="Attributes" cet="SFCAttribute">
-                                <o>
-                                  <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">"Z_Home_Position_"</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">88L</v>
-                                  <v n="IdParent">87L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">""</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">89L</v>
-                                  <v n="IdParent">87L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
-                                  <o n="Value" t="BoolValue">
-                                    <v n="Value">"FALSE"</v>
-                                    <v n="DefaultValue">"FALSE"</v>
-                                  </o>
-                                  <v n="Id">633L</v>
-                                  <v n="IdParent">87L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
-                                  <o n="Value" t="EnumValue">
-                                    <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
-                                    <n n="BaseType" />
-                                    <v n="Value">"0"</v>
-                                    <v n="DefaultValue">"0"</v>
-                                  </o>
-                                  <v n="Id">634L</v>
-                                  <v n="IdParent">87L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{e174fc0d-80b0-4a9e-a530-ca239c249a50}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">"N"</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">635L</v>
-                                  <v n="IdParent">87L</v>
-                                </o>
-                              </l2>
-                              <v n="Id">87L</v>
-                              <v n="IdParent">614L</v>
-                            </o>
-                            <o>
-                              <l2 n="Attributes" cet="SFCAttribute">
-                                <o>
-                                  <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">"Skill_R_P2P.M_Start"</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">637L</v>
-                                  <v n="IdParent">636L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">""</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">638L</v>
-                                  <v n="IdParent">636L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
-                                  <o n="Value" t="BoolValue">
-                                    <v n="Value">"FALSE"</v>
-                                    <v n="DefaultValue">"FALSE"</v>
-                                  </o>
-                                  <v n="Id">639L</v>
-                                  <v n="IdParent">636L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
-                                  <o n="Value" t="EnumValue">
-                                    <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
-                                    <n n="BaseType" />
-                                    <v n="Value">"0"</v>
-                                    <v n="DefaultValue">"0"</v>
-                                  </o>
-                                  <v n="Id">640L</v>
-                                  <v n="IdParent">636L</v>
-                                </o>
-                                <o>
-                                  <v n="AttributeId">{e174fc0d-80b0-4a9e-a530-ca239c249a50}</v>
-                                  <o n="Value" t="StringValue">
-                                    <v n="Value">"P"</v>
-                                    <v n="DefaultValue">""</v>
-                                  </o>
-                                  <v n="Id">641L</v>
-                                  <v n="IdParent">636L</v>
-                                </o>
-                              </l2>
-                              <v n="Id">636L</v>
-                              <v n="IdParent">614L</v>
-                            </o>
-                          </l2>
-                        </o>
-                        <l2 n="Attributes" cet="SFCAttribute">
-                          <o>
-                            <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">"Home_Pos"</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">615L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">"Skill"</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">616L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
-                            <o n="Value" t="BoolValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">"FALSE"</v>
-                            </o>
-                            <v n="Id">617L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
-                            <o n="Value" t="EnumValue">
-                              <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
-                              <n n="BaseType" />
-                              <v n="Value">"0"</v>
-                              <v n="DefaultValue">"0"</v>
-                            </o>
-                            <v n="Id">618L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{6844a48e-46c2-4cc8-a185-a478f3b99cc0}</v>
-                            <o n="Value" t="BoolValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">"FALSE"</v>
-                            </o>
-                            <v n="Id">619L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{62e1754b-7629-4e63-9cec-10ae0c536f1f}</v>
-                            <o n="Value" t="BoolValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">"FALSE"</v>
-                            </o>
-                            <v n="Id">620L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{cacf1a68-236e-47c2-b7b1-1cf9199718cb}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">621L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{b693554c-1b01-4a8d-afde-9e3a46f7465d}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">622L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">623L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">624L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{a2621e18-7de3-4ea6-ae6d-89e9e0b7befd}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">625L</v>
-                            <v n="IdParent">614L</v>
-                          </o>
-                        </l2>
-                        <v n="Id">614L</v>
-                        <v n="IdParent">2L</v>
-                      </o>
-                      <o t="SFCTransition">
-                        <v n="VariableName">"Home_Pos__to__Offset_nZ"</v>
-                        <n n="EmbeddedTransition" />
-                        <l2 n="EmbeddedTransitionProperties" />
-                        <l2 n="Attributes" cet="SFCAttribute">
-                          <o>
-                            <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">627L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
-                            <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
-                              <v n="DefaultValue">""</v>
-                            </o>
-                            <v n="Id">628L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
-                            <o n="Value" t="BoolValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">"FALSE"</v>
-                            </o>
-                            <v n="Id">629L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
-                            <o n="Value" t="EnumValue">
-                              <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
-                              <n n="BaseType" />
-                              <v n="Value">"0"</v>
-                              <v n="DefaultValue">"0"</v>
-                            </o>
-                            <v n="Id">630L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{62e1754b-7629-4e63-9cec-10ae0c536f1f}</v>
-                            <o n="Value" t="BoolValue">
-                              <v n="Value">"FALSE"</v>
-                              <v n="DefaultValue">"FALSE"</v>
-                            </o>
-                            <v n="Id">631L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                          <o>
-                            <v n="AttributeId">{8294df19-5962-4dee-a874-1051dabb0e3e}</v>
-                            <o n="Value" t="EnumValue">
-                              <v n="TemplateGuid">{6ecff51c-9b8f-4338-aab0-67c2b31b07e9}</v>
-                              <n n="BaseType" />
-                              <v n="Value">"0"</v>
-                              <v n="DefaultValue">"0"</v>
-                            </o>
-                            <v n="Id">632L</v>
-                            <v n="IdParent">626L</v>
-                          </o>
-                        </l2>
-                        <v n="Id">626L</v>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCStep">
@@ -2864,7 +2573,8 @@ Skill_R_P2P.P_RobotParam := LRobotVar;]]></ST>
     </Action>
     <Action Name="Z_Start_Pos" Id="{60a67d5d-5211-40e2-bdcc-18dbb6c3cfcb}" FolderPath="01_Zuweisung\">
       <Implementation>
-        <ST><![CDATA[// Skillaufruf
+        <ST><![CDATA[
+// Skillaufruf
 Skill_R_P2P(eSysCommand := GVL.SystemCommand,
 			eSysState := GVL.SystemState,
 			Objekt := I_Roboter,
@@ -2874,7 +2584,11 @@ Skill_R_P2P(eSysCommand := GVL.SystemCommand,
 LRobotVar := Param_StartPos;
 		
 // Parameterzuweisung	
-Skill_R_P2P.P_RobotParam := LRobotVar;]]></ST>
+Skill_R_P2P.P_RobotParam := LRobotVar;
+
+
+
+]]></ST>
       </Implementation>
     </Action>
   </POU>

@@ -30,7 +30,6 @@ VAR_GLOBAL
 		CountSkill								:INT;
 		CountObjectStart						:INT;
 		CountObject								:INT;
-		TriggerCount							:INT;
 		TestCount								:INT;
 		MethodeState							:INT;
 		SkillArray								:ARRAY[0..10] OF sRoboterProzessVariablen;

@@ -1,6 +1,6 @@
 \section{Schnittstellen innerhalb der Software} \label{Softwareschnittstellen}
 
-	Die Software besteht aus den drei Hauptelementen: Bedienung und Beobachtung (HMI), Prozessmodell und Anlagenmodell. Um die Schnittstellen zwischen diesen Elementen zu definieren, müssen die Kompetenzen klar definiert werden. Wer ist für was verantwortlich und welche Informationen werden dafür benötigt. 
+	Die Software besteht aus den drei Hauptelementen: Bedienung und Beobachtung (HMI), Prozessmodell und Anlagenmodell (Abb. \ref{fig:Strukturübersicht}). Um die Schnittstellen zwischen diesen Elementen zu definieren, müssen die Kompetenzen klar definiert werden. Wer ist für was verantwortlich und welche Informationen werden dafür benötigt. 
 	
 	\textbf{Bedienung und Beobachtung:}
 	\vspace{2mm} 
@@ -24,10 +24,10 @@
 		\centering
 		\includegraphics[width=0.3\textwidth]{05_Softwarestruktur/Systemstruktur}
 		\captionsetup{justification=centering}
-		\caption{Kraftsensor}
+		\caption{Systemstruktur}
 		\label{fig:Systemstruktur}
 	\end{wrapfigure} \par
-	Die drei Hauptelemente müssen voneinander abgegrenzt werden (\ref{fig:Systemstruktur}). Der modellbasierte Ansatz der Softwarestruktur bietet dabei mehrere Vorteile (siehe EVA-Referenz). Dank klarer Struktur und Übersichtlichkeit lassen sich die Prozesse und Abläufe leicht nachvollziehen. Dies erleichtert die Kommunikation, da durch die einheitliche Verwendung von Begriffen alle dieselbe "Sprache" sprechen. Darüber hinaus können Risiken früher und einfacher erkannt werden.
+	Die drei Hauptelemente müssen voneinander abgegrenzt werden (Abb. \ref{fig:Systemstruktur}). Der modellbasierte Ansatz der Softwarestruktur bietet dabei mehrere Vorteile (siehe EVA-Referenz). Dank klarer Struktur und Übersichtlichkeit lassen sich die Prozesse und Abläufe leicht nachvollziehen. Dies erleichtert die Kommunikation, da durch die einheitliche Verwendung von Begriffen alle dieselbe «Sprache» sprechen. Darüber hinaus können Risiken früher und einfacher erkannt werden.
 	\\
 	Die Abgrenzung der Hauptelemente geschieht über die Schnittstellen zwischen diesen. Die Schnittstellen werden durch die verschiedenen Parameter definiert. Der Begriff Parameter ist dabei ein Sammelbegriff für alle definierten Variablen, welche zwischen den Elementen ausgetauscht werden.
 	
@@ -39,17 +39,17 @@
 	\textbf{Ablaufparameter:}
 	\vspace{2mm} 
 	\\
-	Ablaufparameter werden durch die Skills definiert und definieren relevante Parameter für den Ablauf. Die Informationen sind jedoch nicht konkret auf die Komponenten im System ausgelegt. Die Ablaufparameter sind noch Anlagenunabhängig und hängen z.B. nicht vom Typ des Roboters ab, welcher im System eingesetzt wird. Die genauen Parameter werden während der Erarbeitung des Prozessmodells definiert.
+	Ablaufparameter werden durch die Skills definiert und legen relevante Parameter für den Ablauf fest. Die Informationen sind jedoch nicht konkret auf die Komponenten im System ausgelegt. Die Ablaufparameter sind noch anlagenunabhängig und hängen z.B. nicht vom Typ des Roboters ab, welcher im System eingesetzt wird. Die genauen Parameter werden während der Erarbeitung des Prozessmodells definiert.
 	
 	\textbf{Anlagenparameter:}
 	\vspace{2mm} 
 	\\
-	Die Parameter, welche von den instanziierten Objekten im Anlagemodell vorbereitet werden, dienen als Schnittstelle zur realen Anlage und somit nun anlagenspezifisch. Diese Art dieser Parameter hängt von den eingesetzten Komponenten im System ab. Die genauen Parameter werden während der Erarbeitung des Anlagenmodells definiert.
+	Die Parameter, welche von den instanziierten Objekten im Anlagemodell vorbereitet werden, dienen als Schnittstelle zur realen Anlage und sind anlagenspezifisch. Die Art dieser Parameter hängt von den eingesetzten Komponenten im System ab. Die genauen Parameter werden während der Erarbeitung des Anlagenmodells definiert.
 	
 	\textbf{Zustandsparameter:}
 	\vspace{2mm} 
 	\\
-	Die durch die instanziierten Objekte ausgewerteten und verarbeiteten Anlageparameter werden als Zustandsparameter an das Prozessmodell zurückgegeben. Auf diese Parameter reagiert der Skill wie auch das System. Die genauen Parameter werden während der Erarbeitung des Anlagenmodells definiert.
+	Die durch die instanziierten Objekte ausgewerteten und verarbeiteten Anlagenparameter werden als Zustandsparameter an das Prozessmodell zurückgegeben. Auf diese Parameter reagiert der Skill wie auch das System. Die genauen Parameter werden während der Erarbeitung des Anlagenmodells definiert.
 	
 	\textbf{Systemparameter:}
 	\vspace{2mm} 

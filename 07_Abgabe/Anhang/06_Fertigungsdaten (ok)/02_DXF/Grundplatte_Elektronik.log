@@ -1,0 +1,54 @@
+﻿
+Unigraphics NX2206.4020 / 2D Exchange
+
+Reading part: C:\Users\yanni\OneDrive\03_Studium\Master\Semester 5\02_Thesis\04_Umsetzung\03_Arbeistpaket_3\02_Konstruktion\Grundplatte_Elektronik.prt
+
+
+Writing part: C:\Users\yanni\AppData\Local\Temp\yann4D34B2205m0t.prt
+
+Elapsed time   :    0 minutes,  0 seconds
+Actual CPU Time:    0 minutes,  0 seconds
+
+INFO-
+INFO-		Unigraphics Version NX2206.4020 to AutoCAD 2004
+INFO-		
+INFO-
+INFO-		Running UGTODXF Translator .....
+INFO-
+INFO-		Start of Translation: Mon Nov 18 19:28:27 2024
+INFO-
+STATUS-		Converting C:\Users\yanni\AppData\Local\Temp\yann4D34B2205m0t.prt
+STATUS-
+SUMMARY-
+SUMMARY-	Summary of Unigraphics Input Entities
+SUMMARY-	For Unigraphics File: C:\Users\yanni\AppData\Local\Temp\yann4D34B2205m0t.prt
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Entity Type					Count
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Line .....................................:	4
+SUMMARY-	Point ....................................:	1
+SUMMARY-	Arc ......................................:	4
+SUMMARY-	Circle ...................................:	20
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Total ....................................:	29
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-
+STATUS-
+INFO-
+INFO-		Writing File: C:\Users\yanni\OneDrive\03_Studium\Master\Semester 5\02_Thesis\04_Umsetzung\03_Arbeistpaket_3\02_Konstruktion\03_Fertigungsdaten\02_DXF\Grundplatte_Elektronik.dxf
+SUMMARY-	Summary of AutoCAD Output Entities
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Entity Type					Count
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Arc ......................................:	4
+SUMMARY-	Circle ...................................:	20
+SUMMARY-	Point ....................................:	1
+SUMMARY-	Line .....................................:	4
+SUMMARY-	Layout ...................................:	6
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-	Total ....................................:	35
+SUMMARY-	------------------------------------------------------------------
+SUMMARY-
+INFO-
+INFO-		End of Translation: Mon Nov 18 19:28:28 2024
+INFO-		Translation CPU time: 0 m, 1 sINFO-

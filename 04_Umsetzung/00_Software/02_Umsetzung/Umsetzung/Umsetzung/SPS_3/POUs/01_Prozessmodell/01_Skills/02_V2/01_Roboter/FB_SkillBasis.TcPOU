@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SkillBasis" Id="{f9e67a08-8c82-42a7-bd97-06b217ca57b3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SkillBasis
+VAR_INPUT
+	
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Interne Variablen
+	bStart					:BOOL;
+	bStop					:BOOL;
+	
+	// SFC-Flags
+	SFCReset				:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Reset" Id="{20f226ac-830d-4f12-9db0-d8115b45c003}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bStart := FALSE;
+bStop := FALSE; 
+SFCReset := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{0a0d5daf-819b-444a-a481-e231b0a4e151}">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SFCReset := FALSE;
+bStop := FALSE;
+bStart := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{fa44c262-cbc9-425f-a719-318e4bb27629}">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bStart := FALSE; 
+bStop := TRUE; 
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Finished" Id="{7064e54d-7363-4993-b3da-29f36e7f79fb}">
+      <Declaration><![CDATA[PROPERTY P_Finished : BOOL]]></Declaration>
+      <Get Name="Get" Id="{39d70dfe-e51c-4fd8-8d9f-2e82f9b63d0b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Finished := bStop; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

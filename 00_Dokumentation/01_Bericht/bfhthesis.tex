@@ -165,13 +165,12 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \department{Technik und Informatik}
 \institute{Automation und Mechatronik}
 \version{1.0}
-\titlegraphic*{\includegraphics{somePicture}}
-\advisor{Prof. Borer Melchiort}
-\expert{Prof. Dr. Norman Urs Baier}
+\titlegraphic*{\includegraphics{Titelbild}}
+\advisor{Prof. Borer Melchior}
+\expert{Stucki Simon}
 \degreeprogram{Master of Science in Engineering}
 \setupSignature{
-	A. Muster={\includegraphics[width=.5\linewidth]{sig_muster}},
-	C. Example={\includegraphics[width=.5\linewidth]{sig_example}}
+	Yannick Spatz={\includegraphics[width=.7\linewidth]{Unterschrift}}
 }
 
 
@@ -234,11 +233,13 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \input{content/09_Auswertung/Weiterfuehrend}
 
 \chapter{Schlussfolgerung / Fazit} \label{Fazit}
+\input{content/10_Fazit/Fazit}
 
 \chapter{Anhang} \label{Anhang}
+\input{content/11_Anhang/Anhang}
 
-\chapter{Referenzseite für Latex-Funktionen} 
-\input{content/expl_fragments}
+%\chapter{Referenzseite für Latex-Funktionen} 
+%\input{content/expl_fragments}
 
 %------------ Authorship declaration translated to main language ------------
 \declarationOfAuthorship
@@ -255,7 +256,7 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \listoftables
  
 %------------ List of Listings -----------
-\lstlistoflistings 
+%\lstlistoflistings 
  
 %------------ Glossary -------------------
 \printglossary
@@ -264,7 +265,7 @@ footskip=10mm % Abstand des Fußzeilentextes vom Haupttext
 \clearpage
 \printindex
 %------------ Appendix ----------------	
-\appendix
-\chapter{First Appendix Chapter}
+%\appendix
+%\chapter{First Appendix Chapter}
 
 \end{document}

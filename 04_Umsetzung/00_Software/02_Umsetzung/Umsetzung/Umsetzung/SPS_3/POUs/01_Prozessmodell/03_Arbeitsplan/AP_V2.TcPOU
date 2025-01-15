@@ -443,8 +443,8 @@ END_VAR
                             <v n="Value">"Skill_R_P2P.P_State = 0 AND Home_Position.t &gt; T#10s "</v>
                             <v n="DefaultValue">""</v>
                           </o>
-                          <v n="Id">178L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">185L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                         <o>
                           <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
@@ -452,8 +452,8 @@ END_VAR
                             <v n="Value">""</v>
                             <v n="DefaultValue">""</v>
                           </o>
-                          <v n="Id">179L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">186L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                         <o>
                           <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
@@ -461,8 +461,8 @@ END_VAR
                             <v n="Value">"FALSE"</v>
                             <v n="DefaultValue">"FALSE"</v>
                           </o>
-                          <v n="Id">180L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">187L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                         <o>
                           <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
@@ -472,8 +472,8 @@ END_VAR
                             <v n="Value">"0"</v>
                             <v n="DefaultValue">"0"</v>
                           </o>
-                          <v n="Id">181L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">188L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                         <o>
                           <v n="AttributeId">{62e1754b-7629-4e63-9cec-10ae0c536f1f}</v>
@@ -481,8 +481,8 @@ END_VAR
                             <v n="Value">"FALSE"</v>
                             <v n="DefaultValue">"FALSE"</v>
                           </o>
-                          <v n="Id">182L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">189L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                         <o>
                           <v n="AttributeId">{8294df19-5962-4dee-a874-1051dabb0e3e}</v>
@@ -492,11 +492,11 @@ END_VAR
                             <v n="Value">"0"</v>
                             <v n="DefaultValue">"0"</v>
                           </o>
-                          <v n="Id">183L</v>
-                          <v n="IdParent">177L</v>
+                          <v n="Id">190L</v>
+                          <v n="IdParent">184L</v>
                         </o>
                       </l2>
-                      <v n="Id">177L</v>
+                      <v n="Id">184L</v>
                       <v n="IdParent">6L</v>
                     </o>
                     <o t="SFCStep">
@@ -1805,6 +1805,19 @@ END_VAR
 			iErrorID => GVL.ErrorID);
 
 Skill_R_P2P.P_RobotParam := PunkteZuweisung_Temp.PHome;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Z_Start_Pos" Id="{7bfdcb5a-449e-4abb-8b01-af39ade7c030}" FolderPath="01_Zuweisung\">
+      <Implementation>
+        <ST><![CDATA[// Skillaufruf
+Skill_R_P2P(eSysCommand := GVL.SystemCommand,
+			eSysState := GVL.SystemState,
+			Objekt := Anlage.UR5,
+			iErrorID => GVL.ErrorID);
+
+		
+// Parameterzuweisung	
+Skill_R_P2P.P_RobotParam := PunkteZuweisung_Temp.PGetPlate1;]]></ST>
       </Implementation>
     </Action>
     <ObjectProperties>

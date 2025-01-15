@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Skill_Position_anfahren" Id="{e07321ad-4119-4f77-8dad-d2d4a1067e9a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Skill_Position_anfahren EXTENDS FB_Basis_Skill IMPLEMENTS I_Skill_Roboter
+VAR_INPUT
+	// Zu verwendetes Objekt
+	Objekt						:I_Objekt_Roboter;	
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Prozessparameter
+	eRoboterPos		 			:sRoboterProzessVariablen;
+	
+	// Test
+	bPulseNr					:INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Parameterzuweisung
+Objekt.P_Prozessparameter := eRoboterPos;
+
+// Fehlerüberwachung
+IF bFehler THEN
+	iState := 3;
+END_IF
+
+//_______________________________________________________________
+// Reaktion auf Input-Variablen:
+	// Stoppen
+	IF eSysCommand = 3 THEN
+		bStoppen := M_Stop();
+	ELSE 
+		bStoppen := FALSE;
+	END_IF
+
+	// Resetten 
+	IF eSysCommand = 4 THEN
+		bResetten := M_Reset();
+	ELSE
+		bResetten := FALSE;
+	END_IF
+//_______________________________________________________________
+// Zustandsmanagement
+CASE iState OF 
+0: 	// BEREIT	
+		// DO
+		IF Objekt.P_State = 3 AND bSkillActiv THEN		// Objekt wurde eingeschalten
+			bStarten := TRUE;
+		END_IF
+		
+		// TRANSITION
+		IF bStarten	 THEN		
+			bStarten := FALSE;
+			iState := 1;	
+		END_IF
+// _________________________________________________________________________________________________________________________
+1: 	// LAUFEND
+		// DO			
+			// Stoppen durch Sysezm
+			IF bStoppen THEN																								// Transition wenn System das Orbjekt stoppt
+				bGestoppt := TRUE;
+			END_IF
+			
+			// Objekt hat sich selber gestoppt
+			IF Objekt.P_State = 4 THEN																							// Objekt hat Prozess abgeschlossen
+				bObjektFertig := TRUE;																							// Objekt ist fertig und wieder bereit
+			END_IF
+			
+		// TRANSITION 
+		IF bGestoppt THEN																								// Transition zu BEREIT
+			bGestoppt := FALSE;																					
+			iState := 0;
+		END_IF
+		
+		IF bObjektFertig THEN																							// Transition zu ABGESCHLOSSEN
+			bObjektFertig := FALSE;																							// Skill wird nicht mehr ausgeführt
+			iState := 2;																									// Objekt ist fertig und wieder bereit
+		END_IF
+		
+		IF bLimitErreicht AND Objekt.P_State = 5 THEN																							// Transition zu LIMIT
+			iState := 4;
+		END_IF
+		
+		IF bWertErreicht AND Objekt.P_State = 5 THEN																							// Transition zu ERREICHT
+			iState := 5;
+		END_IF			
+// _________________________________________________________________________________________________________________________			
+2: 	// ABGESCHLOSSEN
+		// DO
+		M_Reset();
+		
+		IF Objekt.P_State = 1 THEN																							// Objekt wurde geresettet
+			bSkillFertig := TRUE;									
+		END_IF
+			
+		//  TRANSITION
+		IF bSkillFertig THEN
+			bSkillFertig := FALSE;																																											// Resetten von Objekt
+			iState := 0;
+		END_IF
+// _________________________________________________________________________________________________________________________
+3: 	// FEHLER
+		// DO 	
+		IF ParameterError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		IF PositionError THEN
+			// Setzen von ErrorID
+		END_IF
+		
+		// TRANSITION
+		IF bResetten THEN
+			bFehler := FALSE;
+			iState := 0;
+		END_IF
+		
+END_CASE
+
+IF GVL.skillInfo[GVL.InfoCountSkill].iState <> iState THEN
+	GVL.InfoCountSkill := GVL.InfoCountSkill + 1;
+	GVL.skillInfo[GVL.InfoCountSkill].iState := iState;
+	GVL.skillInfo[GVL.InfoCountSkill].iStateObj := Objekt.P_State;
+	GVL.skillInfo[GVL.InfoCountSkill].Data := eRoboterPos;
+	GVL.skillInfo[GVL.InfoCountSkill].DataObj := Objekt.Test_Param;
+END_IF 
+
+GVL.TestCount := GVL.TestCount + 1;
+
+]]></ST>
+    </Implementation>
+    <Folder Name="00_Error" Id="{2c608203-c88f-454b-9773-04c1173be8f3}" />
+    <Folder Name="01_Steuerungsmethoden" Id="{ebdb34a9-cdb5-476b-b426-5c43a4eb3dff}" />
+    <Folder Name="02_Steuerungseigenschaften" Id="{0b325c13-a5a4-4f2d-86eb-d0190cfde497}" />
+    <Folder Name="03_prozesseigenschaften" Id="{3dc6bb31-6e69-4c05-b15f-0338d33faf24}" />
+    <Method Name="M_Reset" Id="{521c1511-b8cd-4e0d-8db5-ad5c8ecebb8b}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Objekt.M_Reset();
+bSkillActiv := FALSE;
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{5373e280-5f85-4047-9247-1d2af57360e3}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Start : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GVL.CountSkillStart := GVL.CountSkillStart + 1;
+// Ausführen von Funktion
+GVL.MethodeState := 0;
+IF NOT bSkillActiv THEN
+	GVL.MethodeState := 1;
+	// Ist das  System im korrekten Status
+	IF eSysState = 1 OR eSysState = 2 THEN
+		GVL.MethodeState := 2;
+		// Ist der Skill im korrekten Status 
+		IF iState = 0 THEN
+			GVL.MethodeState := 3;
+			// Prüfen auf Fehler
+			IF ParameterError OR PositionError THEN
+				bFehler := TRUE;
+			ELSE
+				GVL.MethodeState := 4;
+				Objekt.M_Start();
+				bSkillActiv := TRUE;
+				GVL.SkillArray[GVL.CountSkill] := eRoboterPos;
+				GVL.CountSkill := GVL.CountSkill + 1;
+			END_IF
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{9519b8be-821f-4a49-a8b6-1f97eb5321dd}" FolderPath="01_Steuerungsmethoden\">
+      <Declaration><![CDATA[METHOD M_Stop : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+Objekt.M_Stop();
+bSkillActiv := FALSE;
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_RobotParam" Id="{41208786-c9ea-465d-999f-a66af4499c32}" FolderPath="03_prozesseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_RobotParam : sRoboterProzessVariablen]]></Declaration>
+      <Set Name="Set" Id="{9224ee7a-ccc1-4df4-8d5e-e65841ce3b26}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eRoboterPos := P_RobotParam;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_State" Id="{6d4e60ec-4674-4376-b306-364ea07fc555}" FolderPath="02_Steuerungseigenschaften\">
+      <Declaration><![CDATA[PROPERTY P_State : eSkillState]]></Declaration>
+      <Get Name="Get" Id="{eeab6eb6-6b82-4e66-b835-a77509308416}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State := iState; ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Transition Name="ParameterError" Id="{05019f6d-1d88-4bc5-bc98-c9bec8e07bee}" FolderPath="00_Error\">
+      <Implementation>
+        <ST><![CDATA[IF eRoboterPos.a = 0 OR eRoboterPos.v = 0 THEN
+	ParameterError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+    <Transition Name="PositionError" Id="{70511cfc-1a3d-49e8-8eb8-a5a1bbce1567}" FolderPath="00_Error\">
+      <Implementation>
+        <ST><![CDATA[IF eRoboterPos.q1 = 0 AND eRoboterPos.q2 = 0 AND eRoboterPos.q3 = 0 AND eRoboterPos.q4 = 0 AND eRoboterPos.q5 = 0 AND eRoboterPos.q6 = 0 THEN
+	PositionError := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Transition>
+  </POU>
+</TcPlcObject>
